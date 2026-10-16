@@ -135,7 +135,7 @@ export default function Demo() {
         <div className="rise lg:pt-6">
           <h1 className="text-4xl font-semibold leading-[1.05] tracking-tightest md:text-6xl">Request a demo.</h1>
           <p className="prose-body mt-6 max-w-[40ch]">
-            You'll talk to someone who knows how residential programs run. Brandon or Carlos reads every message. No sales drip.
+            You'll talk to someone who knows how residential programs run. Brandon reads every message. No sales drip.
           </p>
           <img
             src={asset("images/heroes/homepage.jpg")}

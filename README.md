@@ -1,9 +1,11 @@
-# behavioral-website
+# Bluestep Behavioral Website
 
-The BlueStep Behavioral marketing site: an AI-first rebuild around the builder strategy
+The official BlueStep Behavioral marketing site, BlueStep-branded. It was forked from
+`bpayneBluestep/behavioral-website` at `e0022c9`, the last commit before that repo was
+rebranded to Attune Health; the brand test continues there. This site is an AI-first rebuild around the builder strategy
 (Blueprint, Slate, Full-service, and a curated behavioral health marketplace).
 
-Static SPA deployed as a BlueStep GitSite at `https://behavioralweb.bluestep.net/`.
+Static SPA deployed as a BlueStep GitSite at `https://bluestepbehavioral.bluestep.net/`.
 Vite + React 18 + React Router + Tailwind 3. Same layout as `cobalt-gitsite`:
 source lives in `app/`, and the **committed build output at the repo root** (`index.html`,
 `assets/`, `images/`, `favicon.png`) is what GitSite serves. There is no server-side build.
