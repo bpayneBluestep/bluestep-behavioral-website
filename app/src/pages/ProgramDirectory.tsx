@@ -12,7 +12,7 @@ import {
   UsersThree,
 } from '@phosphor-icons/react'
 import { DIRECTORY_URL } from '../site'
-import { Button, ClosingCTA, Container, Heading, OnAccentButton, PageHero, Reveal, useTitle } from '../ui'
+import { Button, ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
 
 // The Program Directory lives at programdirectory.bluestep.net (gitsites/program-directory).
 // Listings are free for programs, always. Referring professionals see them inside the
@@ -51,18 +51,33 @@ export default function ProgramDirectory() {
   useTitle('Program Directory')
   return (
     <>
-      <PageHero
-        kicker="Program Directory · Free for every program"
-        title="Be found by the professionals who refer families."
-        sub="The BlueStep Program Directory is where referring professionals look up programs. Claim your free listing and make sure what they see is accurate."
-      >
-        <Button to={DIRECTORY_URL} arrow>
-          Claim your free listing
-        </Button>
-        <Button to="#how" variant="ghost">
-          How it works
-        </Button>
-      </PageHero>
+      <section className="border-b border-line">
+        <Container className="grid items-center gap-12 pb-16 pt-12 md:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:pb-24">
+          <div className="rise">
+            <p className="kicker mb-5">Program Directory · Free for every program</p>
+            <h1 className="text-4xl font-semibold leading-[1.05] tracking-tightest md:text-[3.4rem]">
+              Be found by the professionals who refer families.
+            </h1>
+            <p className="prose-body mt-6 max-w-[52ch]">
+              The BlueStep Program Directory is where referring professionals look up programs. Claim your free listing
+              and make sure what they see is accurate.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Button to={DIRECTORY_URL} arrow>
+                Claim your free listing
+              </Button>
+              <Button to="#how" variant="ghost">
+                How it works
+              </Button>
+            </div>
+          </div>
+          <img
+            src={asset('images/heroes/for-admissions.jpg')}
+            alt="An admissions director taking a call from a referring professional"
+            className="rise aspect-[4/3] w-full rounded-2xl object-cover [animation-delay:120ms]"
+          />
+        </Container>
+      </section>
 
       <section className="py-24 md:py-32">
         <Container>
@@ -95,7 +110,7 @@ export default function ProgramDirectory() {
               from what's in your listing.
             </p>
             <p className="prose-body mt-4 max-w-[52ch]">
-              If OCD is one of your specialties, you show up. If it isn't listed, you don't, even if you treat it.
+              If adoption and attachment work is one of your specialties, you show up. If it isn't listed, you don't, even if it's work you do every day.
             </p>
             <div className="mt-8">
               <Button to="/for-referring-professionals" variant="ghost" arrow>
@@ -112,7 +127,7 @@ export default function ProgramDirectory() {
                   <UsersThree size={18} />
                 </span>
                 <p className="rounded-2xl rounded-tl-sm bg-raised px-4 py-3 text-sm">
-                  Which programs treat OCD in teens?
+                  Which programs work with adopted teens and attachment issues?
                 </p>
               </div>
               <div className="mt-5 flex items-center gap-2 text-sm text-muted">
@@ -124,17 +139,17 @@ export default function ProgramDirectory() {
                     <Buildings size={18} className="text-accent" /> Your program
                     <SealCheck size={16} weight="fill" className="text-accent" aria-label="Verified" />
                   </span>
-                  <span className="text-right text-xs text-muted">OCD · anxiety · ages 13–17</span>
+                  <span className="text-right text-xs text-muted">Adoption · attachment · ages 12–17</span>
                 </li>
                 <li className="flex items-center justify-between gap-3 rounded-xl border border-line px-4 py-3">
                   <span className="flex items-center gap-2 font-medium">
                     <Buildings size={18} className="text-muted" /> Another listed program
                   </span>
-                  <span className="text-right text-xs text-muted">OCD · trauma · ages 14–18</span>
+                  <span className="text-right text-xs text-muted">Attachment · trauma · ages 13–18</span>
                 </li>
                 <li className="flex items-center justify-between gap-3 rounded-xl border border-dashed border-line px-4 py-3 opacity-50">
                   <span className="flex items-center gap-2">
-                    <Buildings size={18} /> A program that never listed OCD
+                    <Buildings size={18} /> A program that never listed adoption
                   </span>
                   <span className="text-right text-xs">Not shown</span>
                 </li>
