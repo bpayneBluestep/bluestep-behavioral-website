@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { CaretDown, List, X } from '@phosphor-icons/react'
+import { CaretDown, Gift, List, X } from '@phosphor-icons/react'
 import { BRAND, CTA, NAV, isGroup, type NavGroup } from './site'
 import { Container, Logo } from './ui'
 import ThemeToggle from './components/ThemeToggle'
@@ -34,7 +34,7 @@ function Dropdown({ group }: { group: NavGroup }) {
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition-colors ${
+        className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-sm transition-colors ${
           active ? 'bg-raised text-ink' : 'text-muted hover:text-ink'
         }`}
       >
@@ -105,7 +105,7 @@ function Header() {
                 key={n.href}
                 to={n.href}
                 className={({ isActive }) =>
-                  `rounded-full px-3 py-1.5 text-sm transition-colors ${
+                  `whitespace-nowrap rounded-full px-3 py-1.5 text-sm transition-colors ${
                     isActive ? 'bg-raised text-ink' : 'text-muted hover:text-ink'
                   }`
                 }
@@ -118,7 +118,15 @@ function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link to={CTA.demo.href} className="btn-primary hidden px-4 py-2 sm:inline-flex">
+          <Link
+            to={CTA.directory.href}
+            className="btn hidden gap-1.5 whitespace-nowrap border border-accent/30 bg-accent-soft px-4 py-2 text-accent hover:border-accent md:inline-flex"
+          >
+            <Gift size={16} weight="bold" />
+            <span className="xl:hidden">Free listing</span>
+            <span className="hidden xl:inline">{CTA.directory.label}</span>
+          </Link>
+          <Link to={CTA.demo.href} className="btn-primary hidden whitespace-nowrap px-4 py-2 sm:inline-flex">
             {CTA.demo.label}
           </Link>
           <button
@@ -171,6 +179,13 @@ function Header() {
             )}
             <ThemeToggle withLabel className="mt-6 -ml-2" />
             <div className="mt-6 flex flex-col gap-3">
+              <Link
+                to={CTA.directory.href}
+                className="btn gap-2 border border-accent/30 bg-accent-soft py-3 text-base text-accent"
+              >
+                <Gift size={18} weight="bold" />
+                {CTA.directory.label}
+              </Link>
               <Link to={CTA.demo.href} className="btn-primary py-3 text-base">
                 {CTA.demo.label}
               </Link>

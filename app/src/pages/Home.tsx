@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Check, Code, Lifebuoy, ShieldCheck, Stack, Timer } from '@phosphor-icons/react'
+import { ArrowRight, Check, Code, Gift, Lifebuoy, SealCheck, ShieldCheck, Sparkle, Stack, Timer } from '@phosphor-icons/react'
+import DirectoryExample from '../components/DirectoryExample'
 import { PLANS, usd } from '../data/pricing'
-import { CTA } from '../site'
+import { CTA, DIRECTORY_URL } from '../site'
 import { ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
 
 // The homepage is a fork: two ways to run the same EHR. Each panel leads into its
@@ -34,6 +35,15 @@ function Fork() {
       />
       <Container className="relative pb-20 pt-12 md:pt-16">
         <div className="rise mx-auto max-w-4xl text-center">
+          <Link
+            to={CTA.directory.href}
+            className="group mb-8 inline-flex max-w-full items-center gap-2 rounded-full border border-accent/30 bg-accent-soft py-1.5 pl-1.5 pr-4 text-sm text-ink transition-colors hover:border-accent"
+          >
+            <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-accent-ink">Free</span>
+            <span className="truncate sm:hidden">List your program in our directory</span>
+            <span className="hidden truncate sm:inline">List your program in the BlueStep Program Directory</span>
+            <ArrowRight size={14} weight="bold" className="shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />
+          </Link>
           <h1 className="text-balance text-[2.6rem] font-semibold leading-[1.03] tracking-tightest sm:text-6xl lg:text-[4.2rem]">
             One EHR. Two ways to run it.
           </h1>
@@ -140,6 +150,55 @@ function Clients() {
   )
 }
 
+function Directory() {
+  const points = [
+    { icon: Gift, t: 'Free, always', b: 'No cost to list, and no other BlueStep software required.' },
+    { icon: Sparkle, t: 'Found by BlueIQ', b: 'Consultants ask our AI which programs fit. It answers from your listing.' },
+    { icon: SealCheck, t: 'Verified by your team', b: 'Sign in and save an update, and your listing carries a verified badge.' },
+  ]
+  return (
+    <section className="py-24 md:py-32" data-track-section="home-directory">
+      <Container>
+        <Reveal className="grid items-center gap-12 rounded-2xl border border-accent/25 bg-accent-soft p-6 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:p-14">
+          <div className="min-w-0">
+            <p className="kicker mb-5">Free resource for programs</p>
+            <h2 className="text-3xl font-semibold leading-[1.1] tracking-tightest md:text-5xl">
+              Get in front of the professionals who refer families.
+            </h2>
+            <p className="prose-body mt-6 max-w-[52ch]">
+              The BlueStep Program Directory is where educational and therapeutic consultants look up programs. Claim
+              your free listing and keep it current, so what they see is accurate.
+            </p>
+            <ul className="mt-8 grid gap-5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              {points.map((p) => (
+                <li key={p.t} className="min-w-0">
+                  <p className="flex items-center gap-2 font-semibold">
+                    <p.icon size={18} weight="bold" className="shrink-0 text-accent" />
+                    {p.t}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{p.b}</p>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <a href={DIRECTORY_URL} className="btn-primary group">
+                Claim your free listing
+                <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <Link to={CTA.directory.href} className="btn-ghost">
+                How it works
+              </Link>
+            </div>
+          </div>
+          <div className="card min-w-0 rounded-2xl p-6 md:p-8">
+            <DirectoryExample />
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  )
+}
+
 function Compare() {
   return (
     <section className="py-24 md:py-32">
@@ -237,6 +296,7 @@ export default function Home() {
     <>
       <Fork />
       <Clients />
+      <Directory />
       <Compare />
       <EitherWay />
       <Origin />
