@@ -39,7 +39,7 @@ function Fork() {
             to={CTA.directory.href}
             className="group mb-8 inline-flex max-w-full items-center gap-2 rounded-full border border-accent/30 bg-accent-soft py-1.5 pl-1.5 pr-4 text-sm text-ink transition-colors hover:border-accent"
           >
-            <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-accent-ink">Free</span>
+            <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-accent-ink">Get free referrals</span>
             <span className="truncate sm:hidden">List your program in our directory</span>
             <span className="hidden truncate sm:inline">List your program in the BlueStep Program Directory</span>
             <ArrowRight size={14} weight="bold" className="shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />

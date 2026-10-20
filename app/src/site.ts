@@ -85,5 +85,5 @@ export const CTA = {
   how: { href: '/build', label: 'Explore building' },
   market: { href: '/marketplace', label: 'Browse the marketplace' },
   pricing: { href: '/pricing', label: 'See pricing' },
-  directory: { href: '/program-directory', label: 'Free program listing' },
+  directory: { href: '/program-directory', label: 'Get free referrals' },
 } as const
