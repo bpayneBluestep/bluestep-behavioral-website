@@ -12,6 +12,9 @@ export const BRAND = {
   email: 'bpayne@bluestep.net',
 }
 
+// Program Directory sign-up (gitsites/program-directory). Free listings for programs.
+export const DIRECTORY_URL = 'https://programdirectory.bluestep.net/'
+
 export interface NavLinkItem {
   href: string
   label: string
@@ -39,6 +42,7 @@ export const NAV: (NavGroup | NavLinkItem)[] = [
           { href: '/products/crm', label: 'CRM', hint: 'Referrals, census, and intake' },
           { href: '/products/outcomes', label: 'Outcomes', hint: 'Surveys and outcome analytics' },
           { href: '/products/blueiq', label: 'BlueIQ', hint: 'AI inside every module' },
+          { href: '/program-directory', label: 'Program Directory', hint: 'Free listings for every program' },
         ],
       },
       {

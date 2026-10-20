@@ -198,15 +198,18 @@ export function OnAccentButton({
   children: ReactNode
   solid?: boolean
 }) {
+  const cls = solid
+    ? 'btn bg-white text-[#1263a8] hover:bg-white/90'
+    : 'btn border border-white/40 text-white hover:bg-white/10'
+  if (!to.startsWith('/')) {
+    return (
+      <a href={to} className={cls}>
+        {children}
+      </a>
+    )
+  }
   return (
-    <Link
-      to={to}
-      className={
-        solid
-          ? 'btn bg-white text-[#1263a8] hover:bg-white/90'
-          : 'btn border border-white/40 text-white hover:bg-white/10'
-      }
-    >
+    <Link to={to} className={cls}>
       {children}
     </Link>
   )
