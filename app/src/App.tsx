@@ -14,6 +14,7 @@ import Demo from './pages/Demo'
 import ProgramDirectory from './pages/ProgramDirectory'
 import Privacy from './pages/Privacy'
 import NotFound from './pages/NotFound'
+import Admin from './pages/Admin'
 
 // Short or retired URLs, kept alive so links and bookmarks still land.
 const REDIRECTS: Record<string, string> = {
@@ -38,6 +39,8 @@ const REDIRECTS: Record<string, string> = {
 export default function App() {
   return (
     <Routes>
+      {/* Hidden super-user admin, outside the public layout. */}
+      <Route path="admin/*" element={<Admin />} />
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="full-service" element={<FullService />} />
