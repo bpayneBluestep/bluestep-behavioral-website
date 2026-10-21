@@ -274,6 +274,15 @@ function LeadsCard() {
           </dd>
         </div>
         <div>
+          <dt className="font-medium">CRM sign-ups</dt>
+          <dd className="mt-1 text-muted">
+            <Link to="/signup" className="text-accent">/signup</Link> takes payment through Stripe (/b/crmCheckout). Each
+            completed payment emails you from /b/stripeWebhook. Keys live in Stripe Settings on the Internal BlueStep
+            Organization record.{' '}
+            <a href="https://dashboard.stripe.com/subscriptions" target="_blank" rel="noopener noreferrer" className="text-accent">Stripe subscriptions</a>
+          </dd>
+        </div>
+        <div>
           <dt className="font-medium">Analytics</dt>
           <dd className="mt-1 text-muted">
             {analyticsEnabled
@@ -300,6 +309,7 @@ function PagesCard() {
   }
   ROLES.forEach((r) => add(r.nav, `/${r.slug}`))
   add('Request a demo', '/demo')
+  add('CRM sign-up', '/signup')
   add('Privacy', '/privacy')
   return (
     <Card icon={<ArrowSquareOut size={20} />} title={`Pages (${pages.length})`}>
@@ -340,6 +350,8 @@ const GROUPS: { heading: string; tools: { label: string; href: string; note?: st
     heading: 'This site',
     tools: [
       { label: 'Site Admin API', href: editScript('363769__FID_siteAdminApi'), note: '/b/siteAdmin' },
+      { label: 'CRM Checkout API', href: editScript('363769__FID_crmCheckoutApi'), note: '/b/crmCheckout' },
+      { label: 'Stripe Webhook', href: editScript('363769__FID_stripeWebhook'), note: '/b/stripeWebhook' },
       { label: 'GitSite repo', href: `https://github.com/${REPO}`, note: 'GitHub' },
       { label: 'Program Directory admin', href: 'https://programdirectory.bluestep.net/admin' },
     ],

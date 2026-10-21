@@ -15,6 +15,7 @@ import ProgramDirectory from './pages/ProgramDirectory'
 import Privacy from './pages/Privacy'
 import NotFound from './pages/NotFound'
 import Admin from './pages/Admin'
+import Signup, { SignupSuccess } from './pages/Signup'
 
 // Short or retired URLs, kept alive so links and bookmarks still land.
 const REDIRECTS: Record<string, string> = {
@@ -55,6 +56,8 @@ export default function App() {
         <Route path="about" element={<About />} />
         <Route path="program-directory" element={<ProgramDirectory />} />
         <Route path="demo" element={<Demo />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="signup/success" element={<SignupSuccess />} />
         <Route path="privacy" element={<Privacy />} />
         {Object.entries(REDIRECTS).map(([from, to]) => (
           <Route key={from} path={from} element={<Navigate to={to} replace />} />

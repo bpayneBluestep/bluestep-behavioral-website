@@ -22,11 +22,11 @@ export default function RolePage() {
             <h1 className="text-4xl font-semibold leading-[1.05] tracking-tightest md:text-[3.4rem]">{role.headline}</h1>
             <p className="prose-body mt-6 max-w-[52ch]">{role.sub}</p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Button to={CTA.demo.href} arrow>
-                {CTA.demo.label}
+              <Button to={isPartner ? '/signup' : CTA.demo.href} arrow>
+                {isPartner ? 'Sign up now' : CTA.demo.label}
               </Button>
-              <Button to={isPartner ? '/pricing#referring-professionals' : CTA.pricing.href} variant="ghost">
-                {CTA.pricing.label}
+              <Button to={isPartner ? CTA.demo.href : CTA.pricing.href} variant="ghost">
+                {isPartner ? CTA.demo.label : CTA.pricing.label}
               </Button>
             </div>
           </div>
@@ -115,10 +115,10 @@ export default function RolePage() {
       </section>
 
       <ClosingCTA title={role.closing.headline} sub={role.closing.body}>
-        <OnAccentButton to={CTA.demo.href} solid>
-          {CTA.demo.label}
+        <OnAccentButton to={isPartner ? '/signup' : CTA.demo.href} solid>
+          {isPartner ? 'Sign up now' : CTA.demo.label}
         </OnAccentButton>
-        <OnAccentButton to={CTA.pricing.href}>{CTA.pricing.label}</OnAccentButton>
+        <OnAccentButton to={isPartner ? CTA.demo.href : CTA.pricing.href}>{isPartner ? CTA.demo.label : CTA.pricing.label}</OnAccentButton>
       </ClosingCTA>
     </>
   )

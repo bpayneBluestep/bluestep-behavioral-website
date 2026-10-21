@@ -233,9 +233,14 @@ function Extras() {
             For consultants and placement teams. Add BlueIQ document intelligence and dictation for $
             {REFERRAL.blueIqPerSeat} per user.
           </p>
-          <Link to={CTA.demo.href} className="mt-6 inline-block text-sm font-medium text-accent">
-            {CTA.demo.label}
-          </Link>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link to="/signup" className="btn-primary px-4 py-2 text-sm">
+              Sign up now
+            </Link>
+            <Link to={CTA.demo.href} className="text-sm font-medium text-accent">
+              {CTA.demo.label}
+            </Link>
+          </div>
         </Reveal>
       </Container>
     </section>
