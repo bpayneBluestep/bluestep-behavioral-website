@@ -41,7 +41,7 @@ const FAQ = [
   { q: 'Is it really free?', a: 'Yes. Program listings are free, and BlueStep plans to keep them that way.' },
   { q: 'Do we have to use BlueStep software?', a: 'No. Any program can claim and manage a listing.' },
   { q: 'Who sees our listing?', a: 'Referring professionals, like educational and therapeutic consultants, who use BlueStep to manage their families and placements.' },
-  { q: "What if our program isn't listed?", a: "Email bpayne@bluestep.net and we'll add it." },
+  { q: "What if our program isn't listed?", a: "Use the Add your program form on the directory and we'll review it, usually within a business day." },
   { q: 'Can one person manage several programs?', a: 'Yes. Claim each one with the same email and they all show up when you sign in.' },
 ]
 
