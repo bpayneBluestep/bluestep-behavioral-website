@@ -6,6 +6,7 @@ import {
   ChartLine,
   CheckCircle,
   EnvelopeSimple,
+  CreditCard,
   GitBranch,
   Lock,
   SignOut,
@@ -137,6 +138,7 @@ export default function Admin() {
         <h1 className="text-3xl font-semibold tracking-tightest md:text-4xl">Website admin</h1>
         <p className="mt-2 text-muted">bluestepbehavioral.bluestep.net</p>
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
+          <StripeCard />
           <DeployCard />
           <DirectoryCard />
           <LeadsCard />
@@ -144,6 +146,134 @@ export default function Admin() {
         </div>
       </Container>
     </Shell>
+  )
+}
+
+/* ---------- Stripe settings ---------- */
+
+interface StripeStatus {
+  secretKey: { set: boolean; mode: '' | 'test' | 'live'; last4: string }
+  webhookSecret: { set: boolean; last4: string }
+  notifyEmail: string
+  siteUrl: string
+}
+
+async function stripeCall(action: 'stripe' | 'stripeSave', body?: object): Promise<StripeStatus> {
+  const res = await fetch(`/b/siteAdmin?action=${action}`, {
+    method: body ? 'POST' : 'GET',
+    credentials: 'same-origin',
+    cache: 'no-store',
+    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    body: body ? JSON.stringify(body) : undefined,
+  })
+  const json = await res.json().catch(() => null)
+  if (!json) throw new Error(`Stripe settings answered HTTP ${res.status}.`)
+  if (!json.ok) throw new Error(json.error || 'Stripe settings failed.')
+  return json.data as StripeStatus
+}
+
+// Keys are write-only: the endpoint returns set / mode / last 4, never the key.
+function StripeCard() {
+  const [status, setStatus] = useState<StripeStatus | null>(null)
+  const [draft, setDraft] = useState({ secretKey: '', webhookSecret: '', notifyEmail: '' })
+  const [busy, setBusy] = useState(false)
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
+
+  useEffect(() => {
+    stripeCall('stripe')
+      .then((s) => {
+        setStatus(s)
+        setDraft((d) => ({ ...d, notifyEmail: s.notifyEmail }))
+      })
+      .catch((err) => setMessage({ ok: false, text: err.message }))
+  }, [])
+
+  async function save(e: React.FormEvent) {
+    e.preventDefault()
+    const body: Record<string, string> = {}
+    if (draft.secretKey.trim()) body.secretKey = draft.secretKey.trim()
+    if (draft.webhookSecret.trim()) body.webhookSecret = draft.webhookSecret.trim()
+    if (draft.notifyEmail.trim() && draft.notifyEmail.trim() !== status?.notifyEmail) body.notifyEmail = draft.notifyEmail.trim()
+    if (!Object.keys(body).length) return setMessage({ ok: false, text: 'Nothing to save. Paste a key or change the email first.' })
+    setBusy(true)
+    setMessage(null)
+    try {
+      const s = await stripeCall('stripeSave', body)
+      setStatus(s)
+      setDraft({ secretKey: '', webhookSecret: '', notifyEmail: s.notifyEmail })
+      setMessage({ ok: true, text: 'Saved.' })
+    } catch (err) {
+      setMessage({ ok: false, text: err instanceof Error ? err.message : 'Save failed.' })
+    }
+    setBusy(false)
+  }
+
+  const ready = !!status?.secretKey.set && !!status?.webhookSecret.set
+  const input = 'mt-1.5 w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 font-mono text-sm text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30'
+
+  return (
+    <Card icon={<CreditCard size={20} />} title="Stripe (CRM sign-up)">
+      {status && (
+        <p className={`flex items-start gap-2 text-sm font-medium ${ready ? 'text-[#1f8a4c] dark:text-[#5fd08f]' : 'text-[#b25e09] dark:text-[#f0a64b]'}`}>
+          {ready ? <CheckCircle size={18} weight="fill" className="shrink-0" /> : <Warning size={18} weight="fill" className="shrink-0" />}
+          {ready
+            ? `Sign-up is open in ${status.secretKey.mode} mode.`
+            : 'Sign-up is closed until both keys are saved. Visitors are asked to email you instead.'}
+        </p>
+      )}
+      <dl className="mt-5 grid gap-3 text-sm">
+        <KeyRow label="Secret key" set={!!status?.secretKey.set} detail={status?.secretKey.set ? `${status.secretKey.mode} · ends ${status.secretKey.last4}` : ''} />
+        <KeyRow label="Webhook signing secret" set={!!status?.webhookSecret.set} detail={status?.webhookSecret.set ? `ends ${status.webhookSecret.last4}` : ''} />
+      </dl>
+
+      <form onSubmit={save} className="mt-6 grid gap-4 border-t border-line pt-5" autoComplete="off">
+        <div>
+          <label htmlFor="st-sk" className="text-sm font-medium">{status?.secretKey.set ? 'Replace secret key' : 'Secret key'}</label>
+          <input id="st-sk" type="password" placeholder="sk_test_… or sk_live_…" value={draft.secretKey} onChange={(e) => setDraft({ ...draft, secretKey: e.target.value })} className={input} />
+          <p className="mt-1 text-xs text-muted">Stripe Dashboard → Developers → API keys.</p>
+        </div>
+        <div>
+          <label htmlFor="st-wh" className="text-sm font-medium">{status?.webhookSecret.set ? 'Replace webhook signing secret' : 'Webhook signing secret'}</label>
+          <input id="st-wh" type="password" placeholder="whsec_…" value={draft.webhookSecret} onChange={(e) => setDraft({ ...draft, webhookSecret: e.target.value })} className={input} />
+          <p className="mt-1 text-xs text-muted">
+            From the Stripe webhook for <span className="font-mono">{(status?.siteUrl || window.location.origin) + '/b/stripeWebhook'}</span>, event
+            checkout.session.completed.
+          </p>
+        </div>
+        <div>
+          <label htmlFor="st-email" className="text-sm font-medium">Email me sign-ups at</label>
+          <input id="st-email" type="email" value={draft.notifyEmail} onChange={(e) => setDraft({ ...draft, notifyEmail: e.target.value })} className={input.replace('font-mono ', '')} />
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <button type="submit" disabled={busy || !status} className="btn-primary px-5 py-2 text-sm disabled:opacity-60">
+            {busy ? 'Saving…' : 'Save'}
+          </button>
+          {message && (
+            <span role="status" className={`text-sm ${message.ok ? 'text-[#1f8a4c] dark:text-[#5fd08f]' : 'text-red-600 dark:text-red-400'}`}>
+              {message.text}
+            </span>
+          )}
+        </div>
+      </form>
+      <CardLinks
+        links={[
+          ['Stripe dashboard', 'https://dashboard.stripe.com'],
+          ['Sign-up page', '/signup'],
+        ]}
+      />
+    </Card>
+  )
+}
+
+function KeyRow({ label, set, detail }: { label: string; set: boolean; detail: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <dt className="text-muted">{label}</dt>
+      <dd className={`flex items-center gap-1.5 ${set ? 'text-ink' : 'text-faint'}`}>
+        {set ? <CheckCircle size={16} weight="fill" className="text-[#1f8a4c] dark:text-[#5fd08f]" /> : null}
+        {set ? detail : 'Not set'}
+      </dd>
+    </div>
   )
 }
 

@@ -123,7 +123,7 @@ function Header() {
             className="btn hidden gap-1.5 whitespace-nowrap border border-accent/30 bg-accent-soft px-4 py-2 text-accent hover:border-accent md:inline-flex"
           >
             <Gift size={16} weight="bold" />
-            <span className="xl:hidden">Free referrals</span>
+            <span className="xl:hidden">Free listing</span>
             <span className="hidden xl:inline">{CTA.directory.label}</span>
           </Link>
           <Link to={CTA.demo.href} className="btn-primary hidden whitespace-nowrap px-4 py-2 sm:inline-flex">
