@@ -6,7 +6,7 @@ import { track } from '../analytics'
 import { Container, useTitle } from '../ui'
 
 // Self-serve sign-up for the Educational Consultant CRM. The form posts to
-// /b/crmCheckout (U141648, "CRM Checkout API"), which answers with Stripe's hosted
+// /b/crmCheckout (Cobalt org U142140, "CRM Checkout API"), which answers with Stripe's hosted
 // checkout URL. Stripe takes the card; /b/stripeWebhook emails Brandon on payment.
 // Prices here are display only: the endpoint sets the real amounts.
 

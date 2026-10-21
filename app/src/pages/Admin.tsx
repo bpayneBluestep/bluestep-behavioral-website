@@ -19,7 +19,7 @@ import { CTA, DIRECTORY_URL, NAV, isGroup } from '../site'
 import { Container, Logo } from '../ui'
 
 // /admin: hidden, for BlueStep global super users only. Not linked from any public
-// page. The gate is /b/siteAdmin (U141648, "Site Admin API"), which answers on this
+// page. The gate is /b/siteAdmin (Cobalt org U142140, "Site Admin API"), which answers on this
 // site's own host because the GitSite lives in that org. Signed out → Microsoft
 // sign-in first, then the other global options, returning here.
 
@@ -136,7 +136,7 @@ export default function Admin() {
     >
       <Container className="py-12 md:py-16">
         <h1 className="text-3xl font-semibold tracking-tightest md:text-4xl">Website admin</h1>
-        <p className="mt-2 text-muted">bluestepbehavioral.bluestep.net</p>
+        <p className="mt-2 text-muted">behavioralbluestep.bluestep.net</p>
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
           <StripeCard />
           <DeployCard />
@@ -407,7 +407,7 @@ function LeadsCard() {
           <dt className="font-medium">CRM sign-ups</dt>
           <dd className="mt-1 text-muted">
             <Link to="/signup" className="text-accent">/signup</Link> takes payment through Stripe (/b/crmCheckout). Each
-            completed payment emails you from /b/stripeWebhook. Keys live in Stripe Settings on the Internal BlueStep
+            completed payment emails you from /b/stripeWebhook. Keys live in Stripe Settings on the Cobalt
             Organization record.{' '}
             <a href="https://dashboard.stripe.com/subscriptions" target="_blank" rel="noopener noreferrer" className="text-accent">Stripe subscriptions</a>
           </dd>
