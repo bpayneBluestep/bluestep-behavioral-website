@@ -81,7 +81,7 @@ export default function ProgramDirectory() {
         <Container>
           <Heading
             title="One directory, kept current by the programs in it."
-            sub="Most directories are a snapshot someone scraped once. This one is maintained by the people who actually run each program."
+            sub="Listings start from public information. After that, each program keeps its own listing current."
           />
           <div className="mt-14 grid gap-4 md:grid-cols-3">
             {WHAT_IT_IS.map((k, i) => (

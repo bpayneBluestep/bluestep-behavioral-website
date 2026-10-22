@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, Buildings, ChatsCircle, ShieldCheck, Timer } from '@phosphor-icons/react'
+import { ArrowRight, ArrowUpRight, Buildings, CurrencyDollar, ShieldCheck, Stack } from '@phosphor-icons/react'
 import PathSwitch from '../components/PathSwitch'
 import { CONCIERGE, usd } from '../data/pricing'
 import { PRODUCTS } from '../data/products'
@@ -8,10 +8,10 @@ import { CTA } from '../site'
 import { Button, ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
 
 const WHY = [
-  { icon: Buildings, t: 'People who have worked in programs', b: 'Members of our team started in residential treatment, in direct care and program leadership. That perspective shapes what we build.' },
-  { icon: Timer, t: '15 years of clinical workflow depth', b: 'Our team includes former direct care staff and program leaders. We know the documentation, the audits, and the shift-change handoffs.' },
-  { icon: ChatsCircle, t: 'You reach a person, not a ticket queue', b: 'Call with a question and you reach someone who knows your program by name. There is no tier-1 support layer.' },
-  { icon: ShieldCheck, t: 'Built for compliance, not workarounds', b: 'Behavioral health compliance is its own thing. BlueStep is built around the documentation, incidents, and outcomes you actually face.' },
+  { icon: Buildings, t: 'People who have worked in programs', b: 'Members of our team started in residential treatment, in direct care and program leadership. We know the documentation, the audits, and the shift-change handoffs.' },
+  { icon: ShieldCheck, t: 'Compliance built into the record', b: 'Notes lock when they are signed. Unlocks need a logged reason. Cosignatures route by licensure. A surveyor can see all of it.' },
+  { icon: Stack, t: 'One record for the whole stay', b: 'Admissions, clinical, nursing, and outcomes share one database. On admission day, the chart already has the history.' },
+  { icon: CurrencyDollar, t: 'Prices on the website', b: 'Every plan is priced on our pricing page. Your quote confirms it, and your whole staff is covered.' },
 ]
 
 const INCLUDED = [
@@ -24,7 +24,7 @@ const INCLUDED = [
 // Concierge: the top of the "we do the work" side. A system of the program's own, so no
 // automatic updates, but our team makes every change and stands behind it.
 const CONCIERGE_POINTS = [
-  { t: 'A system of your own', b: 'Built around how your program runs, not around a standard everyone shares.' },
+  { t: 'A system of your own', b: 'Built around how your program runs: your forms, your workflows, your reports.' },
   { t: 'A dedicated engineer', b: `Someone who knows treatment programs and knows yours, with ${CONCIERGE.hours} hours of build work every month.` },
   { t: 'We stand behind all of it', b: 'We make every change, so if anything breaks, we fix it.' },
   { t: 'New features, brought to you', b: 'When we ship something new, we show it to you first and install it on your system.' },
@@ -105,7 +105,7 @@ export default function FullService() {
 
       <section className="py-24 md:py-32">
         <Container>
-          <Heading title="Software that fits how your team works." />
+          <Heading title="Built for each role on your team." />
           <div className="mt-12 grid gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {ROLES.slice(0, 4).map((r, i) => (
               <Reveal key={r.slug} delay={i * 60}>

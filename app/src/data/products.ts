@@ -74,7 +74,7 @@ export const PRODUCTS: Product[] = [
         heading: 'Permissions by person, form, and feature',
         pain: 'A nurse documents med passes but never edits therapy notes. An admissions coordinator reads the record but writes nothing. Role buckets can\'t capture that.',
         bullets: [
-          'Per-user permissions, not role buckets that force compromises',
+          'Permissions set per person, so nobody gets more access than the job needs',
           'Reader, author, editor, or no access on every form and feature',
         ],
       },
@@ -93,7 +93,7 @@ export const PRODUCTS: Product[] = [
     sections: [
       {
         heading: 'Referral network',
-        pain: "Referral relationships live in a liaison's memory. A partner sends three patients, then stops, and nobody can say why.",
+        pain: "Referral relationships live in a liaison's memory. A partner sends three residents, then stops, and nobody can say why.",
         bullets: [
           'Referral source on every lead and admission, so you know who actually converts',
           'Liaison visits and calls scheduled, logged, and surfaced before they slip',
@@ -146,7 +146,7 @@ export const PRODUCTS: Product[] = [
     icon: ChartLineUp,
     price: '$250 per program / month',
     card: 'Survey scheduling, multi-channel delivery, and analytics.',
-    headline: 'Payers want outcomes. Now you have them.',
+    headline: 'Payers want outcomes. Show them yours.',
     sub: 'Reimbursement is moving toward measurable outcomes, and most programs measure by anecdote. Outcomes turns surveys into data tied to the clinical record.',
     image: 'images/heroes/for-executives.jpg',
     alt: 'Leaders reviewing outcome charts',
@@ -154,12 +154,12 @@ export const PRODUCTS: Product[] = [
       {
         heading: 'Survey scheduling',
         pain: "Tracking who is due for which survey usually lives in one person's spreadsheet.",
-        bullets: ['Set the schedule once: intake, mid-treatment, discharge, follow-up', 'Surveys go out on time for every patient, automatically'],
+        bullets: ['Set the schedule once: intake, mid-treatment, discharge, follow-up', 'Surveys go out on time for every resident, automatically'],
       },
       {
         heading: 'Multi-channel delivery',
         pain: "Families and former residents don't all answer the same way, and response rates collapse after discharge.",
-        bullets: ['Surveys reach people through the channel they actually use', 'Reminders follow up so response rates hold after discharge'],
+        bullets: ['Each survey goes out through the channel that person answers', 'Reminders follow up so response rates hold after discharge'],
       },
       {
         heading: 'Analytics',
@@ -173,7 +173,7 @@ export const PRODUCTS: Product[] = [
     name: 'BlueIQ',
     icon: Brain,
     price: 'Usage-based credits',
-    card: 'AI inside every module. Not a chatbot bolted on top.',
+    card: 'Drafts from the record. Your staff reviews and signs.',
     headline: 'The record already knows. BlueIQ puts it to work.',
     sub: 'BlueIQ drafts from what your team already documented. Your staff reviews and signs. Nothing goes out without a human decision.',
     image: 'images/heroes/about.jpg',
@@ -182,7 +182,7 @@ export const PRODUCTS: Product[] = [
       {
         heading: 'Utilization review',
         pain: 'Insurers want a narrative for every continued stay. Clinicians write each one from scratch.',
-        bullets: ['BlueIQ reads the chart and drafts the clinical picture, progress, and medical necessity', 'Your clinician edits and submits. Hours per patient become minutes.'],
+        bullets: ['BlueIQ reads the chart and drafts the clinical picture, progress, and medical necessity', 'Your clinician edits and submits instead of writing from scratch'],
       },
       {
         heading: 'Dictation and document intelligence',

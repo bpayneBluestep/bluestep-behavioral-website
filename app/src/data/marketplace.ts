@@ -12,7 +12,7 @@ export interface Listing {
   publisher: string
   price: 'Free' | string
   /** Which starting point the listing was built on. Your AI adapts it to either. */
-  builtOn: 'EHR template' | 'Slate'
+  builtOn: 'Blueprint' | 'Slate'
   uses: string[]
 }
 
@@ -26,7 +26,7 @@ export const LISTINGS: Listing[] = [
     category: 'Admissions',
     publisher: 'BlueStep',
     price: 'Included with CRM',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Signature placement', 'Signed PDF filed automatically', 'Full audit trail'],
   },
   {
@@ -36,7 +36,7 @@ export const LISTINGS: Listing[] = [
     category: 'Nursing',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Tablet-friendly rounds', 'Per-unit roster', 'Missed-check visibility'],
   },
   {
@@ -46,7 +46,7 @@ export const LISTINGS: Listing[] = [
     category: 'Clinical',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Dictation', 'Draft for review', 'Signed and locked'],
   },
   {
@@ -56,7 +56,7 @@ export const LISTINGS: Listing[] = [
     category: 'Compliance',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Live counts', 'Trend by unit', 'Drill to the report'],
   },
   {
@@ -66,7 +66,7 @@ export const LISTINGS: Listing[] = [
     category: 'Nursing',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Grouped readings', 'Metabolic tracking', 'Chart history'],
   },
   {
@@ -76,7 +76,7 @@ export const LISTINGS: Listing[] = [
     category: 'Clinical',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Chart data by date', 'Structured sections', 'Co-sign'],
   },
   {
@@ -106,7 +106,7 @@ export const LISTINGS: Listing[] = [
     category: 'Admissions',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Follow-up queue', 'Referral source tracking', 'Census view'],
   },
   {
@@ -116,7 +116,7 @@ export const LISTINGS: Listing[] = [
     category: 'Compliance',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Lock on sign', 'Audited unlock', 'Role-based control'],
   },
   {
@@ -126,7 +126,7 @@ export const LISTINGS: Listing[] = [
     category: 'Admissions',
     publisher: 'BlueStep',
     price: 'Free',
-    builtOn: 'EHR template',
+    builtOn: 'Blueprint',
     uses: ['Referral screening', 'Tiered permissions', 'Flows into intake'],
   },
   {

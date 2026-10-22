@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Check, Code, Lifebuoy, ShieldCheck, Stack, Timer } from '@phosphor-icons/react'
 import { PLANS, usd } from '../data/pricing'
 import { CTA } from '../site'
-import { ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
+import { Button, ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
 
-// The homepage is a fork: two ways to run the same EHR. Each panel leads into its
-// own hub (/full-service and /build), where the detail lives.
+// The homepage leads with the reader's world (one record across the stay), then forks
+// into two ways to run it. Each panel leads into its own hub (/full-service and /build).
 
 const CLIENTS = [
   { name: 'Alpine Academy', file: 'alpine-academy.svg' },
@@ -34,37 +34,78 @@ const COMPARE: [string, string, string][] = [
   ['Support', 'Clinical, training, and technical', 'Technical. Build help is hourly.'],
   ['New features', 'Built and rolled out by us', 'Take them from the marketplace'],
   ['Updates', 'Automatic', 'You choose what to install'],
-  ['Starting price', `${price('full-service')} per program / month`, `${price('blank-slate')} / month, flat`],
+  ['Starting price', `${price('full-service')} per program / month`, `Blueprint ${price('builder')} per program / month, or Slate ${price('blank-slate')} flat`],
 ]
 
-function Fork() {
+function Hero() {
   return (
-    <section className="relative overflow-hidden" data-track-section="home-fork">
+    <section className="relative overflow-hidden" data-track-section="home-hero">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(50%_60%_at_50%_0%,rgb(var(--accent)/0.10),transparent_70%)]"
       />
-      <Container className="relative pb-20 pt-12 md:pt-16">
+      <Container className="relative pb-20 pt-16 md:pb-24 md:pt-24">
         <div className="rise mx-auto max-w-4xl text-center">
-          <Link
-            to={CTA.directory.href}
-            className="group mb-8 inline-flex max-w-full items-center gap-2 rounded-full border border-accent/30 bg-accent-soft py-1.5 pl-1.5 pr-4 text-sm text-ink transition-colors hover:border-accent"
-          >
-            <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-accent-ink">Free</span>
-            <span className="truncate sm:hidden">List your program in our directory</span>
-            <span className="hidden truncate sm:inline">List your program in the BlueStep Program Directory</span>
-            <ArrowRight size={14} weight="bold" className="shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />
-          </Link>
           <h1 className="text-balance text-[2.6rem] font-semibold leading-[1.03] tracking-tightest sm:text-6xl lg:text-[4.2rem]">
-            One EHR. Two ways to run it.
+            Software for residential treatment, from a team that knows how programs run.
           </h1>
-          <p className="prose-body mx-auto mt-6 max-w-[52ch]">
-            Built for behavioral health. Let our team run it for you, or build on it yourself with the AI tools
-            you already use.
+          <p className="prose-body mx-auto mt-6 max-w-[54ch]">
+            BlueStep is the EHR and CRM for residential behavioral health. Our team sets it up and supports it, or
+            your team builds on it with its own AI tools.
           </p>
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <Button to={CTA.demo.href} arrow>
+              See it with your workflows
+            </Button>
+            <Button to={CTA.pricing.href} variant="ghost">
+              {CTA.pricing.label}
+            </Button>
+          </div>
         </div>
+      </Container>
+    </section>
+  )
+}
 
-        <div className="mt-14 grid gap-4 lg:grid-cols-2">
+// One stay, four roles. Each card is a scene from that role's page and links to it.
+const STAY = [
+  { role: 'Admissions', href: '/for-admissions', pain: 'A family calls back Thursday.', change: 'Whoever answers sees every call, the stage, and who owns the next step.' },
+  { role: 'Clinical', href: '/for-clinicians', pain: 'The same picture gets written three times a week.', change: 'The session note feeds the weekly summary and the utilization review.' },
+  { role: 'Nursing', href: '/for-nurses', pain: 'A med pass, a PRN, and an incident in one hour.', change: 'All three go in the same record, from the same screen.' },
+  { role: 'Leadership', href: '/for-executives', pain: 'How many beds are open tonight?', change: 'Census, pipeline, and outcomes are on one live screen.' },
+]
+
+function Stay() {
+  return (
+    <section className="py-24 md:py-32">
+      <Container>
+        <Heading
+          title="Every part of the stay, in one record."
+          sub="Admissions, clinical, nursing, and leadership work from the same database. Nothing gets entered twice."
+        />
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {STAY.map((s, i) => (
+            <Reveal key={s.role} delay={i * 60}>
+              <Link to={s.href} className="card group flex h-full flex-col p-7 transition-colors hover:border-faint">
+                <p className="text-sm font-medium text-accent">{s.role}</p>
+                <h3 className="mt-6 text-lg font-semibold leading-snug tracking-tight">{s.pain}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{s.change}</p>
+                <ArrowRight size={16} weight="bold" className="mt-auto pt-6 text-faint transition group-hover:text-accent" />
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+function Paths() {
+  return (
+    <section className="border-y border-line bg-surface py-24 md:py-32" data-track-section="home-fork">
+      <Container>
+        <Heading title="Two ways to run it." sub="Our team runs it for you, or your team builds on it. Same record either way." />
+        <div className="mt-12 grid gap-4 lg:grid-cols-2">
           <Reveal>
             <article className="card flex h-full flex-col overflow-hidden">
               <img
@@ -140,7 +181,9 @@ function Fork() {
                     {CTA.how.label}
                     <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
                   </Link>
-                  <span className="text-sm opacity-70">From {price('blank-slate')} / month</span>
+                  <span className="text-sm opacity-70">
+                    Blueprint {price('builder')} per program / month. Slate {price('blank-slate')} flat.
+                  </span>
                 </div>
               </div>
             </article>
@@ -153,10 +196,13 @@ function Fork() {
 
 function Clients() {
   return (
-    <section aria-label="Programs running on BlueStep" className="border-y border-line bg-surface">
+    <section aria-labelledby="clients-label" className="border-y border-line bg-surface pt-8">
+      <p id="clients-label" className="text-center text-sm font-medium text-muted">
+        Programs running on BlueStep
+      </p>
       {/* Too many logos for one row, so they scroll. The list renders twice so the loop is
           seamless; the copy is hidden from screen readers. */}
-      <div className="marquee py-10">
+      <div className="marquee pb-10 pt-6">
         <div className="marquee-track">
           {[0, 1].map((copy) => (
             <ul key={copy} aria-hidden={copy === 1 || undefined} className="flex shrink-0 items-center gap-x-14 pr-14">
@@ -216,9 +262,9 @@ function Compare() {
 
 function EitherWay() {
   const items = [
-    { icon: Timer, t: '15 years in behavioral health', b: 'Our team includes people who worked in residential treatment, in direct care and program leadership.' },
-    { icon: Stack, t: 'One record', b: 'EHR, CRM, Outcomes, and BlueIQ share one database. Nothing gets entered twice.' },
-    { icon: ShieldCheck, t: 'HIPAA hosting and a BAA', b: 'Every plan, every path. Every change is logged and every push is a restorable snapshot.' },
+    { icon: Timer, t: '15 years in behavioral health', b: 'BlueStep has run residential programs for 15 years: the documentation, the audits, and the shift handoffs.' },
+    { icon: Stack, t: 'One record', b: 'EHR, CRM, Outcomes, and BlueIQ share one database. Admissions data is in the chart on day one.' },
+    { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'On every plan. Every change is logged, and any earlier version can be restored.' },
   ]
   return (
     <section className="border-y border-line bg-surface py-24 md:py-32">
@@ -268,8 +314,10 @@ export default function Home() {
   useTitle()
   return (
     <>
-      <Fork />
+      <Hero />
       <Clients />
+      <Stay />
+      <Paths />
       <Compare />
       <EitherWay />
       <Origin />

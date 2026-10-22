@@ -59,7 +59,7 @@ const KIT = [
 
 // The trust section. Framed as what helps a builder succeed, not what stops them.
 const GUARDRAILS = [
-  { icon: ShieldCheck, t: 'HIPAA-compliant from the start', b: 'Everything you build runs on HIPAA-compliant hosting under a signed BAA, with the same permissions as the rest of your EHR.' },
+  { icon: ShieldCheck, t: 'HIPAA-ready from the start', b: 'Everything you build runs on HIPAA-ready hosting under a signed BAA, with the same permissions as the rest of your EHR.' },
   { icon: FileLock, t: 'A complete audit trail', b: 'Every change is logged with who made it and when, whether a person or their AI made it.' },
   { icon: ClockCounterClockwise, t: 'Every version saved', b: 'Each change is a snapshot. If something is not right, restore the last good version.' },
   { icon: Trash, t: 'Deletes take a person', b: 'Your AI can build and change anything. Removing a field, form, or record waits for someone on your team.' },
@@ -201,7 +201,7 @@ export default function Build() {
             />
             <dl className="mt-10 space-y-6">
               {[
-                ['Who builds', 'Someone on your team who likes to build. An IT lead, an ops director, a clinician who tinkers. Not necessarily a developer.'],
+                ['Who builds', 'Someone on your team who likes to build. An IT lead, an ops director, a clinician who tinkers. You do not need a developer.'],
                 ['How long', 'Small changes take minutes. A marketplace feature is usually an afternoon. Our e-signature feature took 20 minutes on a program set up nothing like ours.'],
                 ['What it costs', 'Building is included in your plan. There is no per-change fee.'],
               ].map(([t, d]) => (

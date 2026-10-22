@@ -26,7 +26,7 @@ const IDEAS = [
 ]
 
 const IN_THE_BOX = [
-  { icon: ShieldCheck, t: 'HIPAA hosting and a BAA', b: 'Store anything, including PHI, from day one.' },
+  { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'Store anything, including PHI, from day one.' },
   { icon: PlugsConnected, t: 'An MCP connection', b: 'Point your own AI tools at it and start building.' },
   { icon: BookOpenText, t: 'The BlueStep reference', b: 'Patterns and known traps, so your AI builds it right the first time.' },
   { icon: Storefront, t: 'The marketplace', b: 'Start from a feature another program built instead of from zero.' },
@@ -82,7 +82,7 @@ export default function BlankSlate() {
               ),
             )}
           </div>
-          <p className="mt-6 text-sm text-muted">Or anything else. If you can describe it, you can build it.</p>
+          <p className="mt-6 text-sm text-muted">Or whatever your team still keeps in a spreadsheet.</p>
         </Container>
       </section>
 

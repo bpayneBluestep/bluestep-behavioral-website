@@ -84,7 +84,7 @@ const GROUPS = [
           ['Updates', 'You install what you want from the marketplace'],
           ['Who builds', 'Your team, with your AI tools'],
           ['Who fixes it', 'Your team. Platform issues are on us.'],
-          ['Included', 'A HIPAA workspace and BAA, builder tooling, and technical support'],
+          ['Included', 'A HIPAA-ready workspace and BAA, builder tooling, and technical support'],
         ],
         cta: { href: '/slate', label: 'Explore Slate' },
       },
@@ -388,8 +388,8 @@ export default function Pricing() {
   return (
     <>
       <PageHero
-        title="No per-seat math. Your whole team is covered."
-        sub="Pick who does the work: our team, or yours. Every plan covers your whole staff."
+        title="One price per program. Your whole staff is covered."
+        sub="Pick who does the work: our team, or yours."
       />
       <div className="h-12" />
       <Plans />

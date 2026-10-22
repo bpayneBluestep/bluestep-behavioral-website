@@ -76,10 +76,9 @@ export default function RolePage() {
         <section className="py-16">
           <Container>
             <Reveal>
-              <Link
-                to="/build"
-                className="group flex flex-col gap-4 rounded-2xl border border-accent/25 bg-accent-soft p-7 transition-colors hover:border-accent/50 md:flex-row md:items-center md:justify-between md:p-8"
-              >
+              {/* Both paths: most readers here are Full-service buyers, so "ask our team"
+                  comes first and building it yourself second. */}
+              <div className="flex flex-col gap-5 rounded-2xl border border-accent/25 bg-accent-soft p-7 md:flex-row md:items-center md:justify-between md:p-8">
                 <span className="flex items-start gap-4">
                   <Sparkle size={22} weight="fill" className="mt-0.5 shrink-0 text-accent" />
                   <span>
@@ -87,11 +86,18 @@ export default function RolePage() {
                     <span className="mt-1 block text-muted">{role.build}</span>
                   </span>
                 </span>
-                <span className="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-accent">
-                  {CTA.how.label}
-                  <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
+                <span className="flex shrink-0 flex-wrap items-center gap-5 text-sm font-medium text-accent">
+                  {[
+                    { to: CTA.demo.href, label: 'Ask our team' },
+                    { to: CTA.how.href, label: 'Build it yourself' },
+                  ].map((l) => (
+                    <Link key={l.label} to={l.to} className="group inline-flex items-center gap-2 hover:text-ink">
+                      {l.label}
+                      <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  ))}
                 </span>
-              </Link>
+              </div>
             </Reveal>
           </Container>
         </section>

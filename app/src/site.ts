@@ -40,7 +40,7 @@ export const NAV: (NavGroup | NavLinkItem)[] = [
           { href: '/full-service', label: 'Overview', hint: 'We run it. You run your program.' },          { href: '/products/ehr', label: 'EHR', hint: 'Clinical, nursing, and compliance' },
           { href: '/products/crm', label: 'CRM', hint: 'Referrals, census, and intake' },
           { href: '/products/outcomes', label: 'Outcomes', hint: 'Surveys and outcome analytics' },
-          { href: '/products/blueiq', label: 'BlueIQ', hint: 'AI inside every module' },
+          { href: '/products/blueiq', label: 'BlueIQ', hint: 'Drafts from the record for staff to review' },
           { href: '/program-directory', label: 'Program Directory', hint: 'Free listings for every program' },
         ],
       },

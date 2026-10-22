@@ -82,7 +82,7 @@ function Catalog() {
                     ))}
                   </ul>
                   <p className="mt-auto pt-6 text-xs text-faint">
-                    by {l.publisher}. Built on {l.builtOn === 'Slate' ? 'Slate' : 'the EHR template'}.
+                    by {l.publisher}. Built on {l.builtOn === 'Slate' ? 'Slate' : 'Blueprint'}.
                   </p>
                 </article>
               </Reveal>
@@ -97,7 +97,7 @@ function Catalog() {
                     <Plus size={20} weight="bold" />
                   </span>
                   <p className="mt-4 font-medium">Your feature here</p>
-                  <p className="mt-1 max-w-[24ch] text-sm text-muted">Built something good? Publish it.</p>
+                  <p className="mt-1 max-w-[24ch] text-sm text-muted">Publish what your team built.</p>
                 </Link>
               </li>
             )}
@@ -140,7 +140,7 @@ export default function Marketplace() {
       <section className="py-24 md:py-32">
         <Container className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
           <Heading
-            title="Built something good? Sell it."
+            title="Sell what you build."
             sub="Builders can publish to the marketplace and set their own price. The next program gets a head start. You get paid for the work you already did."
           />
           <div className="space-y-5">
@@ -148,7 +148,7 @@ export default function Marketplace() {
               ['You set the price', 'Free, or whatever your work is worth. Paid listings are licensed per program.'],
               ['We review every listing', 'Before anything is published, we check what it touches: outside connections, data access, and permission changes.'],
               ['Clinical logic is labeled', 'Anything that touches medications or risk is marked for clinical review before use.'],
-              ['Behavioral health only', 'This marketplace is curated for residential and outpatient behavioral health. Nothing else gets in.'],
+              ['Behavioral health only', 'This marketplace is curated for residential and outpatient behavioral health only.'],
             ].map(([t, b], i) => (
               <Reveal key={t} delay={i * 60} className="border-b border-line pb-5 last:border-0">
                 <h3 className="font-semibold">{t}</h3>
@@ -160,7 +160,7 @@ export default function Marketplace() {
       </section>
 
       <ClosingCTA
-        title="Every program that builds makes the next one faster."
+        title="Take a feature, or publish one."
         sub="Start with what is here. Publish what you build."
       >
         <OnAccentButton to={CTA.build.href} solid>

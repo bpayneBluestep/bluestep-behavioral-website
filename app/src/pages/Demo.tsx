@@ -12,7 +12,7 @@ const FORM_ENDPOINT = 'https://formsubmit.co/ajax/633006af458489a48ebf5f7491a3c3
 const ENDPOINT_READY = !FORM_ENDPOINT.startsWith('REPLACE_ME')
 
 const PATHS = [
-  { id: 'full-service', label: 'A demo', hint: 'See the EHR, CRM, and outcomes', icon: UsersThree },
+  { id: 'full-service', label: 'Full-service', hint: 'See the EHR, CRM, and Outcomes, run by our team', icon: UsersThree },
   { id: 'concierge', label: 'Concierge', hint: 'Your own system, built by our team', icon: Handshake },
   { id: 'builder', label: 'Blueprint', hint: 'The full suite, yours to build on', icon: Hammer },
   { id: 'blank-slate', label: 'Slate', hint: 'A blank slate to build anything', icon: SquaresFour },
@@ -253,7 +253,7 @@ export default function Demo() {
               )}
 
               <button type="submit" disabled={status === 'sending'} className="btn-primary mt-8 w-full py-3.5 text-base disabled:opacity-60">
-                {status === 'sending' ? 'Sending' : 'Send'}
+                {status === 'sending' ? 'Sending' : 'Send my request'}
               </button>
             </form>
           )}
