@@ -57,6 +57,23 @@ const KIT = [
   },
 ]
 
+// The trust section. Framed as what helps a builder succeed, not what stops them.
+const GUARDRAILS = [
+  { icon: ShieldCheck, t: 'HIPAA-compliant from the start', b: 'Everything you build runs on HIPAA-compliant hosting under a signed BAA, with the same permissions as the rest of your EHR.' },
+  { icon: FileLock, t: 'A complete audit trail', b: 'Every change is logged with who made it and when, whether a person or their AI made it.' },
+  { icon: ClockCounterClockwise, t: 'Every version saved', b: 'Each change is a snapshot. If something is not right, restore the last good version.' },
+  { icon: Trash, t: 'Deletes take a person', b: 'Your AI can build and change anything. Removing a field, form, or record waits for someone on your team.' },
+]
+
+// Sample change history for the illustration. Names and items are made up.
+const AUDIT = [
+  { v: 'v48', what: 'Created form "Agreement" with 9 fields', who: 'Sam R. with AI', when: '2:14 PM' },
+  { v: 'v47', what: 'Gave Admissions edit access to Agreement', who: 'Sam R. with AI', when: '2:12 PM' },
+  { v: '—', what: 'Delete field "Old notes"', who: 'Requested by AI', when: '', blocked: true },
+  { v: 'v46', what: 'Restored v44', who: 'Jordan M.', when: 'Yesterday' },
+  { v: 'v45', what: 'Added "Discharge plan" section to Treatment Plan', who: 'Jordan M. with AI', when: 'Yesterday' },
+]
+
 const STARTS = [
   {
     to: '/pricing',
@@ -219,25 +236,60 @@ export default function Build() {
       </section>
 
       <section id="trust" className="scroll-mt-20 border-y border-line bg-surface py-24 md:py-32">
-        <Container>
-          <Heading
-            title="Freedom to build. Not freedom to break."
-            sub="Builder access is real access. These protections hold no matter who, or what, is building."
-          />
-          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: Trash, t: 'AI can’t delete', b: 'Removing a field, form, or record always takes a person, on purpose.' },
-              { icon: ClockCounterClockwise, t: 'Snapshots', b: 'Every push is saved as a version you can restore.' },
-              { icon: FileLock, t: 'Audit trail', b: 'Every change is logged with who made it and when.' },
-              { icon: ShieldCheck, t: 'HIPAA and a BAA', b: 'Healthcare hosting and a signed BAA on every plan.' },
-            ].map((g) => (
-              <div key={g.t} className="bg-surface p-7">
-                <g.icon size={26} className="text-accent" />
-                <h3 className="mt-8 font-semibold">{g.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{g.b}</p>
-              </div>
-            ))}
+        <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+          <div className="min-w-0">
+            <Heading
+              title="Guardrails that help your AI get it right."
+              sub="Your AI builds inside the same guardrails our engineers use. Every change is saved, logged, and covered by HIPAA from the start."
+            />
+            <ul className="mt-10 space-y-6">
+              {GUARDRAILS.map((g) => (
+                <li key={g.t} className="flex gap-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                    <g.icon size={20} />
+                  </span>
+                  <div>
+                    <h3 className="font-semibold">{g.t}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{g.b}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
+          <Reveal className="card min-w-0 overflow-hidden rounded-2xl">
+            <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
+              <p className="flex items-center gap-2 text-sm font-medium">
+                <FileLock size={16} className="text-accent" />
+                Change history
+              </p>
+              <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-xs font-medium text-accent">HIPAA · BAA</span>
+            </div>
+            <ol className="divide-y divide-line text-sm">
+              {AUDIT.map((e) => (
+                <li key={e.v} className="grid grid-cols-[auto_1fr_auto] items-start gap-x-4 px-5 py-4">
+                  <span className="font-mono text-xs text-faint">{e.v}</span>
+                  <div className="min-w-0">
+                    <p className={e.blocked ? 'text-ink' : ''}>{e.what}</p>
+                    <p className="mt-0.5 text-xs text-muted">{e.who}</p>
+                  </div>
+                  <span className="whitespace-nowrap text-xs text-muted">
+                    {e.blocked ? (
+                      <span className="rounded-full bg-raised px-2 py-0.5 font-medium text-ink">Needs a person</span>
+                    ) : (
+                      e.when
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <div className="flex items-center justify-between border-t border-line bg-raised/60 px-5 py-3 text-xs text-muted">
+              <span className="flex items-center gap-1.5">
+                <ClockCounterClockwise size={14} />
+                Restore any version
+              </span>
+              <span>Illustration</span>
+            </div>
+          </Reveal>
         </Container>
       </section>
 
