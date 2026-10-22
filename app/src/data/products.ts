@@ -145,7 +145,7 @@ export const PRODUCTS: Product[] = [
     name: 'Outcomes',
     icon: ChartLineUp,
     price: '$250 per program / month',
-    card: 'Survey scheduling, multi-channel delivery, and analytics.',
+    card: 'Survey scheduling, email delivery, and analytics.',
     headline: 'Payers want outcomes. Show them yours.',
     sub: 'Reimbursement is moving toward measurable outcomes, and most programs measure by anecdote. Outcomes turns surveys into data tied to the clinical record.',
     image: 'images/heroes/for-executives.jpg',
@@ -157,9 +157,9 @@ export const PRODUCTS: Product[] = [
         bullets: ['Set the schedule once: intake, mid-treatment, discharge, follow-up', 'Surveys go out on time for every resident, automatically'],
       },
       {
-        heading: 'Multi-channel delivery',
+        heading: 'Delivery and reminders',
         pain: "Families and former residents don't all answer the same way, and response rates collapse after discharge.",
-        bullets: ['Each survey goes out through the channel that person answers', 'Reminders follow up so response rates hold after discharge'],
+        bullets: ['Surveys go out by email today. Text delivery is coming next.', 'Reminders follow up so response rates hold after discharge'],
       },
       {
         heading: 'Analytics',

@@ -202,7 +202,7 @@ export default function Build() {
             <dl className="mt-10 space-y-6">
               {[
                 ['Who builds', 'Someone on your team who likes to build. An IT lead, an ops director, a clinician who tinkers. You do not need a developer.'],
-                ['How long', 'Small changes take minutes. A marketplace feature is usually an afternoon. Our e-signature feature took 20 minutes on a program set up nothing like ours.'],
+                ['How long', 'Small changes take minutes. Marketplace features are fast too, because each one comes with a spec and checks your AI follows. We added E-Signature Agreements to a program set up very differently from ours in 20 minutes.'],
                 ['What it costs', 'Building is included in your plan. There is no per-change fee.'],
               ].map(([t, d]) => (
                 <div key={t} className="border-l-2 border-line pl-5">
