@@ -22,7 +22,7 @@ const COMPARE: [string, string, string][] = [
   ['Getting started', 'Configured and trained by us', 'Blueprint (the full suite) or Slate (a blank slate)'],
   ['Support', 'Clinical, training, and technical', 'Technical. Build help is hourly.'],
   ['New features', 'Built and rolled out by us', 'Take them from the marketplace'],
-  ['Starting price', `${price('full-service')} per program / month`, `${price('blank-slate')} per program / month`],
+  ['Starting price', `${price('full-service')} per program / month`, `${price('blank-slate')} / month, flat`],
 ]
 
 function Fork() {
@@ -121,7 +121,7 @@ function Fork() {
                     {CTA.how.label}
                     <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
                   </Link>
-                  <span className="text-sm opacity-70">From {price('blank-slate')} per program / month</span>
+                  <span className="text-sm opacity-70">From {price('blank-slate')} / month</span>
                 </div>
               </div>
             </article>

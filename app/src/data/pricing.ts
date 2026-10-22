@@ -43,7 +43,8 @@ export const PLANS = [
     id: 'blank-slate',
     name: 'Slate',
     price: 300,
-    unit: 'per program / month',
+    // Flat, not per program: a blank slate has no program count to measure.
+    unit: 'per month, flat',
     pitch: 'A blank slate. Build anything.',
     includes: [
       'HIPAA-ready workspace and BAA',
@@ -62,7 +63,7 @@ export const BUILD_HELP_RATE = 175
 // ─── Full-service calculator (per program, per month) ───────────────────────
 export const FACILITY_PRICES = { ehr: 1000, crm: 500, outcomes: 250 } as const
 export const BUNDLES = { ehrCrm: 1350, ehrOutcomes: 1125, all: 1500 } as const
-/** 1st program full price, 2nd program -15%, 3rd and beyond -25%. Applies to every plan. */
+/** 1st program full price, 2nd program -15%, 3rd and beyond -25%. Per-program plans only (not Slate). */
 export const VOLUME_DISCOUNTS = [0, 0.15, 0.25] as const
 
 export const REFERRAL = { perSeat: 25, blueIqPerSeat: 15 } as const

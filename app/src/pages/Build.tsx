@@ -78,7 +78,7 @@ const STARTS = [
     to: '/slate',
     icon: SquaresFour,
     name: 'Slate',
-    price: `${price('blank-slate')} per program / month`,
+    price: `${price('blank-slate')} / month, flat`,
     t: 'Start from a blank canvas.',
     b: 'A HIPAA-ready workspace for dashboards, trackers, portals, anything.',
   },

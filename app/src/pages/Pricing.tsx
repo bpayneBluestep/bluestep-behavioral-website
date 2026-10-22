@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Check, Minus, Plus } from '@phosphor-icons/react'
+import { Minus, Plus } from '@phosphor-icons/react'
 import {
   BUILD_HELP_RATE,
   FACILITY_PRICES,
@@ -18,64 +18,6 @@ import { ClosingCTA, Container, Heading, OnAccentButton, PageHero, Reveal, useTi
 
 type PlanId = 'blank-slate' | 'builder' | 'full-service'
 
-function Plans() {
-  return (
-    <section className="pb-8 pt-4">
-      <Container>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {PLANS.map((p, i) => {
-            const featured = 'featured' in p && p.featured
-            return (
-              <Reveal
-                key={p.id}
-                delay={i * 70}
-                className={`flex flex-col rounded-2xl p-8 ${
-                  featured ? 'panel-dark shadow-[0_30px_60px_-30px_rgb(var(--accent)/0.6)]' : 'card'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold">{p.name}</h2>
-                  {p.pilot && (
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                        featured ? 'bg-white/15 text-white' : 'bg-accent-soft text-accent'
-                      }`}
-                    >
-                      Pilot pricing
-                    </span>
-                  )}
-                </div>
-                <p className={`mt-2 text-sm ${featured ? 'opacity-70' : 'text-muted'}`}>{p.pitch}</p>
-                <p className="mt-8 flex items-baseline gap-2">
-                  <span className="text-5xl font-semibold tracking-tightest">{usd(p.price)}</span>
-                </p>
-                <p className={`mt-1 text-sm ${featured ? 'opacity-70' : 'text-muted'}`}>{p.unit}</p>
-                <ul className="mt-8 space-y-3 text-sm">
-                  {p.includes.map((inc) => (
-                    <li key={inc} className="flex gap-2.5">
-                      <Check size={16} weight="bold" className="mt-0.5 shrink-0 text-accent" />
-                      <span className={featured ? 'opacity-90' : ''}>{inc}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to={p.cta.href}
-                  className={`mt-10 ${featured ? 'btn-primary' : 'btn-ghost'} w-full py-3`}
-                >
-                  {p.cta.label}
-                </Link>
-              </Reveal>
-            )
-          })}
-        </div>
-        <p className="mt-6 text-center text-sm text-muted">
-          Every plan: the 2nd program is 15% off, the 3rd and beyond 25% off.
-        </p>
-      </Container>
-    </section>
-  )
-}
-
 function Calculator() {
   const [plan, setPlan] = useState<PlanId>('full-service')
   const [programs, setPrograms] = useState(2)
@@ -83,7 +25,9 @@ function Calculator() {
 
   const base =
     plan === 'full-service' ? basePerProgram(sel) : PLANS.find((p) => p.id === plan)!.price
-  const monthly = monthlyTotal(base, programs)
+  // Slate is one flat fee for the workspace, so the program count doesn't apply.
+  const flat = plan === 'blank-slate'
+  const monthly = flat ? base : monthlyTotal(base, programs)
 
   const toggle = (k: keyof Selection) => setSel((s) => ({ ...s, [k]: !s[k] }))
 
@@ -100,7 +44,7 @@ function Calculator() {
       <Container className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
         <Heading
           title="Estimate your price."
-          sub="Pick a plan and the number of programs. Volume discounts apply automatically."
+          sub="Full-service and Blueprint are priced per program: the 2nd is 15% off, the 3rd and beyond 25% off. Slate is one flat monthly fee."
         />
         <Reveal className="card p-6 md:p-8">
           <div onClickCapture={touched} onChangeCapture={touched}>
@@ -146,6 +90,7 @@ function Calculator() {
             </fieldset>
           )}
 
+          {!flat && (
           <div className="mt-7">
             <p id="programs-label" className="text-sm font-medium">Programs</p>
             <div className="mt-3 flex items-center gap-3" role="group" aria-labelledby="programs-label">
@@ -170,10 +115,16 @@ function Calculator() {
               </button>
             </div>
           </div>
+          )}
 
           <div className="mt-8 rounded-xl bg-raised p-5">
             <div className="space-y-1.5 text-sm">
-              {Array.from({ length: Math.min(programs, 4) }, (_, i) => (
+              {flat ? (
+                <div className="flex justify-between text-muted">
+                  <span>Slate workspace, any number of programs</span>
+                  <span className="tabular-nums">{usd(base)}</span>
+                </div>
+              ) : Array.from({ length: Math.min(programs, 4) }, (_, i) => (
                 <div key={i} className="flex justify-between text-muted">
                   <span>
                     Program {i + 1}
@@ -182,7 +133,7 @@ function Calculator() {
                   <span className="tabular-nums">{usd(base * (1 - discountFor(i)))}</span>
                 </div>
               ))}
-              {programs > 4 && (
+              {!flat && programs > 4 && (
                 <div className="flex justify-between text-muted">
                   <span>Programs 5 to {programs} (-25%)</span>
                   <span className="tabular-nums">{usd(base * 0.75 * (programs - 4))}</span>
@@ -271,11 +222,9 @@ export default function Pricing() {
   return (
     <>
       <PageHero
-        title="Priced per program. Your whole team is covered."
-        sub="No per-seat math for treatment programs. Pick the products you need, or build on the platform yourself."
+        title="No per-seat math. Your whole team is covered."
+        sub="Full-service and Blueprint are priced per program. Slate is one flat monthly fee for a blank workspace."
       />
-      <div className="h-12" />
-      <Plans />
       <Calculator />
       <Extras />
       <section className="py-24 md:py-32">
