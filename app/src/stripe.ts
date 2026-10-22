@@ -50,7 +50,7 @@ export function stripeAppearance() {
     return alpha === undefined ? `rgb(${parts})` : `rgba(${parts}, ${alpha})`
   }
   const theme = root.dataset.theme
-  const dark = theme ? theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
+  const dark = theme === 'dark'
 
   return {
     theme: dark ? 'night' : 'stripe',

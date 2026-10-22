@@ -34,23 +34,6 @@
   color-scheme: dark;
 }
 
-/* No-JS fallback: before the theme script runs (or without JS), follow the OS. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --bg: 10 13 18;
-    --surface: 17 21 28;
-    --raised: 24 29 38;
-    --ink: 237 240 245;
-    --muted: 160 169 182;
-    --faint: 118 128 142;
-    --line: 36 42 53;
-    --accent: 96 165 235;
-    --accent-ink: 8 20 36;
-    --accent-soft: 16 35 58;
-    color-scheme: dark;
-  }
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;

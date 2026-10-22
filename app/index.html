@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#fafafb" />
     <script>
-      // Set the theme before first paint so there is no flash: saved choice, else OS.
+      // Set the theme before first paint so there is no flash: saved choice, else light.
       ;(function () {
         var t = null
         try { t = localStorage.getItem('theme') } catch (e) {}
-        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        if (t !== 'light' && t !== 'dark') t = 'light'
         document.documentElement.dataset.theme = t
         document.querySelector('meta[name=theme-color]').content = t === 'dark' ? '#0a0d12' : '#fafafb'
       })()

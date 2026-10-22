@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Moon, Sun } from '@phosphor-icons/react'
 
 // Light/dark toggle. The initial theme is set before paint by the inline script in
-// index.html (saved choice, else OS setting). Clicking saves an explicit choice;
-// until a visitor clicks, the site keeps following OS changes live.
+// index.html (saved choice, else light). Clicking saves an explicit choice.
 
 type Theme = 'light' | 'dark'
 const KEY = 'theme'
@@ -15,30 +14,8 @@ function apply(t: Theme) {
   document.querySelector<HTMLMetaElement>('meta[name=theme-color]')?.setAttribute('content', t === 'dark' ? '#0a0d12' : '#fafafb')
 }
 
-function saved(): Theme | null {
-  try {
-    const v = localStorage.getItem(KEY)
-    return v === 'light' || v === 'dark' ? v : null
-  } catch {
-    return null
-  }
-}
-
 export default function ThemeToggle({ className = '', withLabel = false }: { className?: string; withLabel?: boolean }) {
   const [theme, setTheme] = useState<Theme>(current)
-
-  // Follow the OS until the visitor makes a choice.
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = () => {
-      if (saved()) return
-      const t: Theme = mq.matches ? 'dark' : 'light'
-      apply(t)
-      setTheme(t)
-    }
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
 
   function toggle() {
     const next: Theme = theme === 'dark' ? 'light' : 'dark'
