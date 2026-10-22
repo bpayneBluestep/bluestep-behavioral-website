@@ -136,7 +136,7 @@ export default function Admin() {
     >
       <Container className="py-12 md:py-16">
         <h1 className="text-3xl font-semibold tracking-tightest md:text-4xl">Website admin</h1>
-        <p className="mt-2 text-muted">behavioralbluestep.bluestep.net</p>
+        <p className="mt-2 text-muted">{window.location.host}</p>
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
           <StripeCard />
           <DeployCard />
