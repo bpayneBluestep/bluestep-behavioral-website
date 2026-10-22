@@ -131,10 +131,6 @@ export default function FullService() {
               title="Four things a generic EHR vendor can't say."
               sub="Most of what we build starts with a problem a program brought to us."
             />
-            <Link to="/about" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent">
-              Our story
-              <ArrowRight size={16} weight="bold" />
-            </Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {WHY.map((w, i) => (

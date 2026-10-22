@@ -232,8 +232,6 @@ function Footer() {
           <h3 className="text-sm font-medium text-ink">Company</h3>
           <ul className="mt-4 space-y-2.5">
             {[
-              ['/about', 'About'],
-              ['/about#values', 'Values'],
               ['/pricing', 'Pricing'],
               ['/build#trust', 'Security'],
               ['/demo', 'Contact'],

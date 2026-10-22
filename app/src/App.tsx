@@ -9,7 +9,6 @@ import ProductPage from './pages/ProductPage'
 import RolePage from './pages/RolePage'
 import BlankSlate from './pages/BlankSlate'
 import Pricing from './pages/Pricing'
-import About from './pages/About'
 import Demo from './pages/Demo'
 import ProgramDirectory from './pages/ProgramDirectory'
 import Privacy from './pages/Privacy'
@@ -23,7 +22,9 @@ const REDIRECTS: Record<string, string> = {
   '/contact': '/demo',
   '/platform': '/build',
   '/builder': '/build',
-  '/values': '/about#values',
+  // About is hidden for now; restore its route and links to bring it back.
+  '/about': '/',
+  '/values': '/',
   '/ehr': '/products/ehr',
   '/crm': '/products/crm',
   '/outcomes': '/products/outcomes',
@@ -53,7 +54,6 @@ export default function App() {
         <Route path="marketplace" element={<Marketplace />} />
         <Route path="slate" element={<BlankSlate />} />
         <Route path="pricing" element={<Pricing />} />
-        <Route path="about" element={<About />} />
         <Route path="program-directory" element={<ProgramDirectory />} />
         <Route path="demo" element={<Demo />} />
         <Route path="signup" element={<Signup />} />

@@ -230,10 +230,6 @@ function Origin() {
             Members of our team started in residential treatment, in direct care and program leadership. Most of what
             we build starts with a problem a program brought to us.
           </p>
-          <Link to="/about" className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-accent">
-            Our story
-            <ArrowRight size={16} weight="bold" />
-          </Link>
         </Reveal>
       </Container>
     </section>

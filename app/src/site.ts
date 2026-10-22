@@ -72,7 +72,6 @@ export const NAV: (NavGroup | NavLinkItem)[] = [
     ],
   },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/about', label: 'About' },
 ]
 
 export const isGroup = (n: NavGroup | NavLinkItem): n is NavGroup => 'columns' in n
