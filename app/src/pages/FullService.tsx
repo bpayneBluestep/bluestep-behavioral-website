@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, Buildings, ChatsCircle, ShieldCheck, Sparkle, Timer, UserCircle } from '@phosphor-icons/react'
+import { ArrowRight, ArrowUpRight, Buildings, ChatsCircle, ShieldCheck, Timer } from '@phosphor-icons/react'
 import PathSwitch from '../components/PathSwitch'
 import { CONCIERGE, usd } from '../data/pricing'
 import { PRODUCTS } from '../data/products'
@@ -24,10 +24,10 @@ const INCLUDED = [
 // Concierge: the top of the "we do the work" side. A system of the program's own, so no
 // automatic updates, but our team makes every change and stands behind it.
 const CONCIERGE_POINTS = [
-  { icon: Buildings, t: 'A system of your own', b: 'Built around how your program runs, not around a standard everyone shares.' },
-  { icon: UserCircle, t: 'A dedicated engineer', b: `Someone who knows treatment programs and knows yours, with ${CONCIERGE.hours} hours of build work every month.` },
-  { icon: ShieldCheck, t: 'We stand behind all of it', b: 'We make every change, so if anything breaks, we fix it.' },
-  { icon: Sparkle, t: 'New features, brought to you', b: 'When we ship something new, we show it to you first and install it on your system.' },
+  { t: 'A system of your own', b: 'Built around how your program runs, not around a standard everyone shares.' },
+  { t: 'A dedicated engineer', b: `Someone who knows treatment programs and knows yours, with ${CONCIERGE.hours} hours of build work every month.` },
+  { t: 'We stand behind all of it', b: 'We make every change, so if anything breaks, we fix it.' },
+  { t: 'New features, brought to you', b: 'When we ship something new, we show it to you first and install it on your system.' },
 ]
 
 export default function FullService() {
@@ -134,6 +134,54 @@ export default function FullService() {
         </Container>
       </section>
 
+      <section
+        id="concierge"
+        className="scroll-mt-16 border-y border-accent/20 bg-accent-soft py-24 md:py-32"
+        data-track-section="full-service-concierge"
+      >
+        <Container className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <Reveal className="relative">
+            <img
+              src={asset('images/heroes/about.jpg')}
+              alt="Two staff members in conversation at a treatment program"
+              loading="lazy"
+              className="aspect-[4/5] w-full rounded-2xl object-cover"
+            />
+            <div className="absolute -bottom-6 left-6 right-6 rounded-xl border border-line bg-surface p-5 shadow-[0_20px_40px_-20px_rgb(0_0_0/0.35)] sm:left-auto sm:w-64">
+              <p className="text-3xl font-semibold tracking-tightest">{usd(CONCIERGE.base)}</p>
+              <p className="mt-1 text-sm text-muted">per month. Every product, {CONCIERGE.hours} build hours included.</p>
+            </div>
+          </Reveal>
+          <div className="min-w-0 pt-6 lg:pt-0">
+            <p className="kicker mb-5">Concierge</p>
+            <h2 className="text-4xl font-semibold leading-[1.04] tracking-tightest md:text-6xl">
+              Need something no one else has?
+            </h2>
+            <p className="prose-body mt-6 max-w-[50ch]">
+              Concierge gives your program a system of its own, built around how you run. Our team makes every change,
+              so we stand behind all of it.
+            </p>
+            <ol className="mt-10 grid gap-x-8 sm:grid-cols-2">
+              {CONCIERGE_POINTS.map((c, i) => (
+                <li key={c.t} className="border-t border-accent/25 py-5">
+                  <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="mt-2 font-semibold">{c.t}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{c.b}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <Button to="/demo?path=concierge" arrow>
+                Ask about Concierge
+              </Button>
+              <Link to={CTA.pricing.href} className="text-sm font-medium text-accent">
+                {usd(CONCIERGE.perAddedProgram)} per added program. Compare plans
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <section className="border-y border-line bg-surface py-24 md:py-32">
         <Container className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
@@ -151,42 +199,6 @@ export default function FullService() {
               </Reveal>
             ))}
           </div>
-        </Container>
-      </section>
-
-      <section id="concierge" className="scroll-mt-24 py-24 md:py-32" data-track-section="full-service-concierge">
-        <Container>
-          <Reveal className="panel-dark grid gap-12 rounded-2xl p-8 md:p-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:p-14">
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-[#60a5eb]">Concierge</p>
-              <h2 className="mt-4 text-3xl font-semibold leading-[1.1] tracking-tightest md:text-5xl">
-                Need something no one else has?
-              </h2>
-              <p className="mt-6 max-w-[48ch] text-lg leading-relaxed opacity-80">
-                Concierge gives your program a system of its own, built around how you run. Our team makes every
-                change, so we stand behind all of it.
-              </p>
-              <p className="mt-8 text-4xl font-semibold tracking-tightest">{usd(CONCIERGE.base)}</p>
-              <p className="mt-1 text-sm opacity-70">
-                per month, every product included. {usd(CONCIERGE.perAddedProgram)} per added program.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <OnAccentButton to="/demo?path=concierge" solid>
-                  Ask about Concierge
-                </OnAccentButton>
-                <OnAccentButton to={CTA.pricing.href}>Compare plans</OnAccentButton>
-              </div>
-            </div>
-            <div className="grid gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2">
-              {CONCIERGE_POINTS.map((c) => (
-                <div key={c.t} className="bg-[#0e1116] p-6 dark:bg-[#151a22]">
-                  <c.icon size={24} className="text-[#60a5eb]" />
-                  <h3 className="mt-6 font-semibold">{c.t}</h3>
-                  <p className="mt-2 text-sm leading-relaxed opacity-70">{c.b}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
         </Container>
       </section>
 
