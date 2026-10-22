@@ -2,10 +2,11 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Check, Code, Lifebuoy, ShieldCheck, Stack, Timer } from '@phosphor-icons/react'
 import { PLANS, usd } from '../data/pricing'
 import { CTA } from '../site'
-import { Button, ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
+import { ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
 
-// The homepage leads with the reader's world (one record across the stay), then forks
-// into two ways to run it. Each panel leads into its own hub (/full-service and /build).
+// The homepage is a fork: two ways to run the same EHR. Each panel leads into its
+// own hub (/full-service and /build), where the detail lives. Below it, one record
+// across the stay, by role.
 
 const CLIENTS = [
   { name: 'Alpine Academy', file: 'alpine-academy.svg' },
@@ -44,24 +45,17 @@ function Hero() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(50%_60%_at_50%_0%,rgb(var(--accent)/0.10),transparent_70%)]"
       />
-      <Container className="relative pb-20 pt-16 md:pb-24 md:pt-24">
+      <Container className="relative pb-20 pt-12 md:pt-16">
         <div className="rise mx-auto max-w-4xl text-center">
           <h1 className="text-balance text-[2.6rem] font-semibold leading-[1.03] tracking-tightest sm:text-6xl lg:text-[4.2rem]">
-            Software for residential treatment, from a team that knows how programs run.
+            One EHR. Two ways to run it.
           </h1>
-          <p className="prose-body mx-auto mt-6 max-w-[54ch]">
-            BlueStep is the EHR and CRM for residential behavioral health. Our team sets it up and supports it, or
-            your team builds on it with its own AI tools.
+          <p className="prose-body mx-auto mt-6 max-w-[52ch]">
+            Built for behavioral health. Let our team run it for you, or build on it yourself with the AI tools
+            you already use.
           </p>
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <Button to={CTA.demo.href} arrow>
-              See it with your workflows
-            </Button>
-            <Button to={CTA.pricing.href} variant="ghost">
-              {CTA.pricing.label}
-            </Button>
-          </div>
         </div>
+        <Paths />
       </Container>
     </section>
   )
@@ -102,10 +96,7 @@ function Stay() {
 
 function Paths() {
   return (
-    <section className="border-y border-line bg-surface py-24 md:py-32" data-track-section="home-fork">
-      <Container>
-        <Heading title="Two ways to run it." sub="Our team runs it for you, or your team builds on it. Same record either way." />
-        <div className="mt-12 grid gap-4 lg:grid-cols-2">
+        <div className="mt-14 grid gap-4 lg:grid-cols-2" data-track-section="home-fork">
           <Reveal>
             <article className="card flex h-full flex-col overflow-hidden">
               <img
@@ -189,8 +180,6 @@ function Paths() {
             </article>
           </Reveal>
         </div>
-      </Container>
-    </section>
   )
 }
 
@@ -314,7 +303,6 @@ export default function Home() {
       <Hero />
       <Clients />
       <Stay />
-      <Paths />
       <Compare />
       <EitherWay />
       <Origin />
