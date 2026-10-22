@@ -140,7 +140,7 @@ export const ROLES: Role[] = [
   },
   {
     slug: 'for-referring-professionals',
-    nav: 'Referring professionals',
+    nav: 'Referring Professionals',
     title: 'For Referring Professionals',
     headline: 'You guide families through the hardest decision of their lives.',
     sub: "Your tools should carry the whole journey: assessment, placement, and every step after. Ours hands a student's full record straight to the programs you trust.",

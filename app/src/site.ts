@@ -52,7 +52,7 @@ export const NAV: (NavGroup | NavLinkItem)[] = [
           { href: '/for-nurses', label: 'Nurses' },
           { href: '/for-admissions', label: 'Admissions' },
           { href: '/for-executives', label: 'Executives' },
-          { href: '/for-referring-professionals', label: 'Referring professionals' },
+          { href: '/for-referring-professionals', label: 'Referring Professionals' },
         ],
       },
     ],
