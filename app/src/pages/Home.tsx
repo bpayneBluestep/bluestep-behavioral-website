@@ -16,10 +16,11 @@ const CLIENTS = [
   { name: 'Engage Transitions', file: 'engage-transitions.svg' },
   { name: 'Center for Change', file: 'center-for-change.svg' },
   { name: 'Kaizen Academy', file: 'kaizen-academy.png' },
-  { name: 'CERTS', file: 'certs.png' },
   { name: 'Kolob Canyon', file: 'kolob-canyon.png' },
   { name: 'Moonridge Academy', file: 'moonridge-academy.png' },
-  { name: 'Mountain Valley Treatment Center', file: 'mountain-valley.svg' },
+  { name: 'Mountain Springs Preparatory Academy', file: 'mountain-springs-academy.png' },
+  { name: 'La Europa Academy', file: 'la-europa-academy.png' },
+  { name: 'Mountain Valley Treatment Center', file: 'mountain-valley.png' },
   { name: 'New Focus Academy', file: 'new-focus-academy.png' },
   { name: 'ScenicView Academy', file: 'scenicview-academy.png' },
 ]
