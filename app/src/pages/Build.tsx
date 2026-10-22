@@ -243,10 +243,16 @@ export default function Build() {
 
       <section className="py-24 md:py-32">
         <Container className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
-          <Heading
-            title="We support the platform. You own what you build."
-            sub="Build plans trade clinical onboarding for freedom. Here is exactly where the line sits."
-          />
+          <div>
+            <Heading
+              title="We support the platform. You own what you build."
+              sub="Build plans trade clinical onboarding for freedom. Here is exactly where the line sits."
+            />
+            <Link to="/full-service#concierge" className="mt-8 inline-flex items-center gap-1.5 text-sm text-muted hover:text-ink">
+              Rather have us build it and stand behind it? <span className="font-medium text-accent">See Concierge</span>
+              <ArrowUpRight size={14} className="text-accent" />
+            </Link>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal className="card p-7">
               <Lifebuoy size={26} className="text-accent" />

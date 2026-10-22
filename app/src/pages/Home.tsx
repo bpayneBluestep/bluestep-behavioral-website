@@ -22,6 +22,7 @@ const COMPARE: [string, string, string][] = [
   ['Getting started', 'Configured and trained by us', 'Blueprint (the full suite) or Slate (a blank slate)'],
   ['Support', 'Clinical, training, and technical', 'Technical. Build help is hourly.'],
   ['New features', 'Built and rolled out by us', 'Take them from the marketplace'],
+  ['Updates', 'Automatic', 'You choose what to install'],
   ['Starting price', `${price('full-service')} per program / month`, `${price('blank-slate')} / month, flat`],
 ]
 
@@ -83,6 +84,13 @@ function Fork() {
                   </Link>
                   <span className="text-sm text-muted">From {price('full-service')} per program / month</span>
                 </div>
+                <Link
+                  to="/full-service#concierge"
+                  className="mt-6 inline-flex items-center gap-1.5 border-t border-line pt-5 text-sm text-muted transition-colors hover:text-ink"
+                >
+                  Need a system of your own? <span className="font-medium text-accent">Concierge</span>
+                  <ArrowRight size={14} weight="bold" className="text-accent" />
+                </Link>
               </div>
             </article>
           </Reveal>

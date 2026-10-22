@@ -60,6 +60,11 @@ export const PLANS = [
 
 export const BUILD_HELP_RATE = 175
 
+// Concierge: a system of the program's own, built and maintained by our team. Flat, every
+// product included, not priced per module. Hours are use-it-or-lose-it and do not grow with
+// added programs.
+export const CONCIERGE = { base: 3500, perAddedProgram: 1000, hours: 10 } as const
+
 // ─── Full-service calculator (per program, per month) ───────────────────────
 export const FACILITY_PRICES = { ehr: 1000, crm: 500, outcomes: 250 } as const
 export const BUNDLES = { ehrCrm: 1350, ehrOutcomes: 1125, all: 1500 } as const

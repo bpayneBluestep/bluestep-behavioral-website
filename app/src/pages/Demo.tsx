@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { CheckCircle, Hammer, Package, SquaresFour, UsersThree } from '@phosphor-icons/react'
+import { CheckCircle, Hammer, Handshake, Package, SquaresFour, UsersThree } from '@phosphor-icons/react'
 import { BRAND } from '../site'
 import { track } from '../analytics'
 import { Container, asset, useTitle } from '../ui'
@@ -13,6 +13,7 @@ const ENDPOINT_READY = !FORM_ENDPOINT.startsWith('REPLACE_ME')
 
 const PATHS = [
   { id: 'full-service', label: 'A demo', hint: 'See the EHR, CRM, and outcomes', icon: UsersThree },
+  { id: 'concierge', label: 'Concierge', hint: 'Your own system, built by our team', icon: Handshake },
   { id: 'builder', label: 'Blueprint', hint: 'The full suite, yours to build on', icon: Hammer },
   { id: 'blank-slate', label: 'Slate', hint: 'A blank slate to build anything', icon: SquaresFour },
   { id: 'publish', label: 'Publishing', hint: 'Sell a feature in the marketplace', icon: Package },

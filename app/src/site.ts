@@ -38,6 +38,7 @@ export const NAV: (NavGroup | NavLinkItem)[] = [
         title: 'Products',
         items: [
           { href: '/full-service', label: 'Overview', hint: 'We run it. You run your program.' },
+          { href: '/full-service#concierge', label: 'Concierge', hint: 'Your own system, built by our team' },
           { href: '/products/ehr', label: 'EHR', hint: 'Clinical, nursing, and compliance' },
           { href: '/products/crm', label: 'CRM', hint: 'Referrals, census, and intake' },
           { href: '/products/outcomes', label: 'Outcomes', hint: 'Surveys and outcome analytics' },
