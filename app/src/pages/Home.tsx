@@ -196,13 +196,10 @@ function Paths() {
 
 function Clients() {
   return (
-    <section aria-labelledby="clients-label" className="border-y border-line bg-surface pt-8">
-      <p id="clients-label" className="text-center text-sm font-medium text-muted">
-        Programs running on BlueStep
-      </p>
+    <section aria-label="Programs running on BlueStep" className="border-y border-line bg-surface">
       {/* Too many logos for one row, so they scroll. The list renders twice so the loop is
           seamless; the copy is hidden from screen readers. */}
-      <div className="marquee pb-10 pt-6">
+      <div className="marquee py-10">
         <div className="marquee-track">
           {[0, 1].map((copy) => (
             <ul key={copy} aria-hidden={copy === 1 || undefined} className="flex shrink-0 items-center gap-x-14 pr-14">
