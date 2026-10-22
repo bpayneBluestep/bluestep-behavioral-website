@@ -137,6 +137,40 @@
   }
 }
 
+/* Client logo marquee: two copies of the list slide left by one copy's width, then loop. */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    row-gap: 2rem;
+  }
+  .marquee-track > [aria-hidden] {
+    display: none;
+  }
+  .marquee {
+    mask-image: none;
+  }
+}
+
 /* Horizontal rails: hide the scrollbar but keep native scroll + snap. */
 .rail {
   scrollbar-width: none;

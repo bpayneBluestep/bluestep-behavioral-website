@@ -12,6 +12,16 @@ const CLIENTS = [
   { name: 'Ascent Behavioral Health', file: 'ascent-behavioral-health.png' },
   { name: 'Telos Academy', file: 'telos-academy.png' },
   { name: 'Velocity Health Group', file: 'velocity-health-group.png' },
+  { name: 'Havenwood Academy', file: 'havenwood-academy.png' },
+  { name: 'Engage Transitions', file: 'engage-transitions.svg' },
+  { name: 'Center for Change', file: 'center-for-change.svg' },
+  { name: 'Kaizen Academy', file: 'kaizen-academy.png' },
+  { name: 'CERTS', file: 'certs.png' },
+  { name: 'Kolob Canyon', file: 'kolob-canyon.png' },
+  { name: 'Moonridge Academy', file: 'moonridge-academy.png' },
+  { name: 'Mountain Valley Treatment Center', file: 'mountain-valley.svg' },
+  { name: 'New Focus Academy', file: 'new-focus-academy.png' },
+  { name: 'ScenicView Academy', file: 'scenicview-academy.png' },
 ]
 
 const price = (id: string) => usd(PLANS.find((p) => p.id === id)!.price)
@@ -143,16 +153,25 @@ function Fork() {
 function Clients() {
   return (
     <section aria-label="Programs running on BlueStep" className="border-y border-line bg-surface">
-      <Container className="flex flex-wrap items-center justify-center gap-x-14 gap-y-8 py-10">
-        {CLIENTS.map((c) => (
-          <img
-            key={c.name}
-            src={asset(`images/logos/${c.file}`)}
-            alt={c.name}
-            className="h-12 w-auto opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 dark:opacity-75 dark:invert dark:hover:grayscale"
-          />
-        ))}
-      </Container>
+      {/* Too many logos for one row, so they scroll. The list renders twice so the loop is
+          seamless; the copy is hidden from screen readers. */}
+      <div className="marquee py-10">
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <ul key={copy} aria-hidden={copy === 1 || undefined} className="flex shrink-0 items-center gap-x-14 pr-14">
+              {CLIENTS.map((c) => (
+                <li key={c.name} className="shrink-0">
+                  <img
+                    src={asset(`images/logos/${c.file}`)}
+                    alt={copy === 0 ? c.name : ''}
+                    className="h-12 w-auto max-w-[200px] object-contain opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 dark:opacity-75 dark:invert dark:hover:grayscale"
+                  />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
