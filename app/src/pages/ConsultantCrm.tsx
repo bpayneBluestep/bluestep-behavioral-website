@@ -1,19 +1,32 @@
-import { Link } from "react-router-dom";
-import { AddressBook, ArrowRight, Check, Star } from "@phosphor-icons/react";
-import { REFERRAL } from "../data/pricing";
-import { CTA } from "../site";
-import { Button, ClosingCTA, Container, OnAccentButton, Reveal, asset, useTitle } from "../ui";
+import { Link } from 'react-router-dom'
+import {
+  AddressBook,
+  ArrowRight,
+  ArrowsClockwise,
+  Check,
+  Gift,
+  MagnifyingGlass,
+  Microphone,
+  NotePencil,
+  SealCheck,
+  Sparkle,
+  Star,
+} from '@phosphor-icons/react'
+import { REFERRAL } from '../data/pricing'
+import { CTA } from '../site'
+import { Button, ClosingCTA, Container, OnAccentButton, Reveal, asset, useTitle } from '../ui'
 
 // The Consultant CRM (EC-CRM) is its own product, sold self-serve at /signup. This page is
 // what the product does; /for-referring-professionals is who it's for and the problems it solves.
-// It follows the shared product-page layout (ProductPage.tsx) with three
-// screenshots: the dashboard and the two phone signing views. They are the real app (gitsites/ec-crm-gitsite) running on invented data: every
-// family, program, and consultant shown is fictional.
+// It follows the shared product-page layout (ProductPage.tsx), plus two dedicated sections for
+// the biggest selling points: BlueIQ and the Program Directory. Screenshots are the real app
+// (gitsites/ec-crm-gitsite) running on invented data: every family, program, and consultant
+// shown is fictional.
 
-const img = (name: string) => asset(`images/consultant-crm/${name}.jpg`);
+const img = (name: string) => asset(`images/consultant-crm/${name}.jpg`)
 
 /** A screenshot in a light window frame. */
-function Shot({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
+function Shot({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
   return (
     <div
       className={`overflow-hidden rounded-xl border border-line bg-surface shadow-[0_30px_60px_-30px_rgb(0_0_0/0.35)] ${className}`}
@@ -25,91 +38,123 @@ function Shot({ src, alt, className = "" }: { src: string; alt: string; classNam
       </div>
       <img src={src} alt={alt} loading="lazy" width={1600} height={1000} className="block w-full" />
     </div>
-  );
+  )
 }
 
 /** A screenshot of the phone signing view. */
-function Phone({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
+function Phone({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
   return (
     <div
       className={`overflow-hidden rounded-[2rem] border-[6px] border-[#1f2530] bg-[#1f2530] shadow-[0_30px_60px_-25px_rgb(0_0_0/0.6)] ${className}`}
     >
       <img src={src} alt={alt} loading="lazy" width={585} height={1266} className="block w-full rounded-[1.6rem]" />
     </div>
-  );
+  )
 }
 
 // Same shape as a ProductSection in data/products.ts.
 const SECTIONS = [
   {
-    id: "caseload",
-    heading: "Every family, from first call to alumni",
-    pain: "Inquiries, active clients, and alumni live in one list. When a family moves forward, one click moves the record, and nothing is left behind.",
+    id: 'caseload',
+    heading: 'Every family, from first call to alumni',
+    pain: 'Inquiries, active clients, and alumni live in one list. When a family moves forward, one click moves the record, and nothing is left behind.',
     bullets: [
-      "Search your whole caseload by name, location, email, or phone",
-      "Move a record from inquiry to client to alumni, and back if you need to",
-      "A dashboard with the pipeline, overdue tasks, and recent activity",
-      "Priorities, due dates, and overdue flags on every family",
+      'Search your whole caseload by name, location, email, or phone',
+      'Move a record from inquiry to client to alumni, and back if you need to',
+      'A dashboard with the pipeline, overdue tasks, and recent activity',
+      'Priorities, due dates, and overdue flags on every family',
     ],
   },
   {
-    id: "record",
-    heading: "The whole story, in one place",
-    pain: "Every call, email, text, and meeting is logged on the family with who it was with. Contacts, tasks, files, and the parent application sit right beside it.",
+    id: 'record',
+    heading: 'The whole story, in one place',
+    pain: 'Every call, email, text, and meeting is logged on the family with who it was with. Contacts, tasks, files, and the parent application sit right beside it.',
     bullets: [
-      "Log calls, emails, texts, video calls, meetings, and notes. Who and when is stamped automatically.",
-      "Parents, guardians, therapists, and schools on each record",
-      "Connect Gmail or Outlook and send from inside the record. Every email logs itself.",
-      "Files in folders like a drive, plus a parent application you design",
+      'Log calls, emails, texts, video calls, meetings, and notes. Who and when is stamped automatically.',
+      'Parents, guardians, therapists, and schools on each record',
+      'Connect Gmail or Outlook and send from inside the record. Every email logs itself.',
+      'Files in folders like a drive, plus a parent application you design',
     ],
   },
   {
-    id: "referrals",
-    heading: "Referrals, including the ones that fall through",
-    pain: "Each referral follows the real path a placement takes, from considering a program to enrollment. When one falls through, you record why, and your dashboard shows the patterns.",
+    id: 'referrals',
+    heading: 'Referrals, including the ones that fall through',
+    pain: 'Each referral follows the real path a placement takes, from considering a program to enrollment. When one falls through, you record why, and your dashboard shows the patterns.',
     bullets: [
-      "Statuses from Considering and Pre-screening through Waitlisted, Accepted, and Enrolled",
-      "Decline reasons you can edit: clinical fit, no bed, insurance, cost, and more",
-      "Referral win rate and top destinations on your dashboard",
+      'Statuses from Considering and Pre-screening through Waitlisted, Accepted, and Enrolled',
+      'Decline reasons you can edit: clinical fit, no bed, insurance, cost, and more',
+      'Referral win rate and top destinations on your dashboard',
     ],
   },
   {
-    id: "agreements",
-    heading: "Agreements signed on a phone, not a scanner",
-    pain: "E-signature is built in. Send a packet, and parents sign from their phone. You countersign, and the signed copies file themselves to the family.",
+    id: 'agreements',
+    heading: 'Agreements signed on a phone, not a scanner',
+    pain: 'E-signature is built in. Send a packet, and parents sign from their phone. You countersign, and the signed copies file themselves to the family.',
     bullets: [
-      "Templates and packets: place the fields once, send every agreement in one envelope",
-      "Emailed links locked behind a six-digit code you share separately",
-      "Signing order, automatic reminders, and an expiration you choose",
-      "Hash-chained, tamper-evident record with a certificate of completion",
+      'Templates and packets: place the fields once, send every agreement in one envelope',
+      'Emailed links locked behind a six-digit code you share separately',
+      'Signing order, automatic reminders, and an expiration you choose',
+      'Hash-chained, tamper-evident record with a certificate of completion',
     ],
+  },
+]
+
+// Example questions in the BlueIQ section. Each maps to something BlueIQ does today.
+const ASK = [
+  { about: 'A client', q: "What's still outstanding on the Alvarez family, and when did we last talk?" },
+  { about: 'Programs', q: "Which programs I've toured take insurance and work with 15-year-olds with trauma?" },
+  { about: 'A program', q: 'What did I write about the clinical team at Cedar Ridge on my last tour?' },
+  { about: 'A document', q: "Summarize the psych eval in Maya's file." },
+]
+
+const IQ = [
+  {
+    icon: Sparkle,
+    t: 'Answers from your own records',
+    b: 'Families, referrals, programs, ratings, tour notes, and files. Not the internet.',
   },
   {
-    id: "programs",
-    heading: "A program directory with your notes on top",
-    pain: "Search a shared library of treatment programs by level of care, specialty, age, gender, insurance, and region. Your ratings, tour notes, and files on each program stay private to you.",
-    bullets: [
-      "Filter by setting, level of care, specialties, modalities, and home state",
-      "Rate programs one to five stars and keep a private summary",
-      "Tour notes with the date and whether you visited in person",
-      "Every client you referred there, and how it turned out",
-    ],
+    icon: MagnifyingGlass,
+    t: 'Compares programs for you',
+    b: 'Cost, length of stay, insurance, and fit, weighed against the client in front of you.',
   },
   {
-    id: "blueiq",
-    heading: "BlueIQ for your caseload",
-    pain: `Ask a question and BlueIQ answers from your own families, programs, and notes. Talk through a tour or a call, and it drafts the note and the follow-ups. $${REFERRAL.blueIqPerSeat} per user.`,
-    bullets: [
-      "Answers scoped to the family or program you have open",
-      "Compares programs on cost, length of stay, insurance, and fit",
-      "Reads the documents on file to answer questions about them",
-      "Dictated notes become drafts. Nothing saves until you review it.",
-    ],
+    icon: NotePencil,
+    t: "Reads what's on file",
+    b: 'Ask about an evaluation, an agreement, or a transcript and it answers from the document.',
   },
-];
+  {
+    icon: Microphone,
+    t: 'Dictate on the drive home',
+    b: 'Talk through a tour or a call. It drafts the note and the follow-up tasks for you to review.',
+  },
+]
+
+const DIRECTORY = [
+  'Search by level of care, specialty, modality, age, gender, insurance, and region',
+  'Rate programs one to five stars and keep a private summary',
+  'Tour notes with the date and whether you visited in person',
+  'Files and contacts on each program, in folders like a drive',
+  'Every client you referred there, and how it turned out',
+  'Your ratings and notes stay private to you',
+]
+
+const LISTINGS = [
+  { icon: Gift, t: 'Free for every program', b: 'Programs list for free, so the directory keeps growing.' },
+  {
+    icon: ArrowsClockwise,
+    t: 'Updated by the program',
+    b: 'Admissions teams keep their own specialties, ages, levels of care, and contacts current.',
+  },
+  {
+    icon: SealCheck,
+    t: 'Verified and dated',
+    b: 'A listing the program has confirmed shows a verified badge with the date of its last update.',
+  },
+]
 
 export default function ConsultantCrm() {
-  useTitle("Consultant CRM");
+  useTitle('Consultant CRM')
   return (
     <>
       <section className="border-b border-line">
@@ -123,8 +168,9 @@ export default function ConsultantCrm() {
               The CRM built for placing students, not closing deals.
             </h1>
             <p className="prose-body mt-6 max-w-[52ch]">
-              Families, referrals, agreements, and the programs you trust, in one workspace made for educational
-              consultants. Sign up online, and we bring your caseload over for you.
+              Families, referrals, agreements, and a live directory of programs, in one workspace made for educational
+              consultants. Then ask BlueIQ anything about all of it. Sign up online, and we bring your caseload over for
+              you.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Button to="/signup" arrow>
@@ -136,10 +182,69 @@ export default function ConsultantCrm() {
             </div>
           </div>
           <Shot
-            src={img("dashboard")}
+            src={img('dashboard')}
             alt="The Consultant CRM dashboard: active clients, inquiries, alumni, overdue tasks, referral win rate, and upcoming tasks"
             className="rise [animation-delay:120ms]"
           />
+        </Container>
+      </section>
+
+      <section
+        id="blueiq"
+        className="panel-dark scroll-mt-20 overflow-hidden py-24 md:py-32 dark:border-x-0"
+        data-track-section="consultant-crm-blueiq"
+      >
+        <Container>
+          <Reveal className="max-w-3xl">
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-[#60a5eb]">
+              BlueIQ · ${REFERRAL.blueIqPerSeat} per user
+            </p>
+            <h2 className="text-3xl font-semibold leading-[1.1] tracking-tightest md:text-5xl">
+              Ask anything about your caseload. It already knows.
+            </h2>
+            <p className="mt-5 max-w-[56ch] text-base leading-relaxed opacity-75 md:text-lg">
+              BlueIQ reads your families, referrals, programs, notes, and files, so you can ask a question the way you'd
+              ask a colleague and get an answer from your own work. No digging through records, no re-reading tour notes
+              from last spring.
+            </p>
+          </Reveal>
+          <div className="mt-14 grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+            <ul className="space-y-3">
+              {ASK.map((a, i) => (
+                <Reveal
+                  key={a.q}
+                  as="li"
+                  delay={i * 60}
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#60a5eb]">
+                    Ask about {a.about.toLowerCase()}
+                  </p>
+                  <p className="mt-2 leading-relaxed">“{a.q}”</p>
+                </Reveal>
+              ))}
+            </ul>
+            <Reveal delay={80}>
+              <img
+                src={img('blueiq')}
+                alt="BlueIQ answering which programs fit a 15-year-old with trauma and take insurance, citing the consultant's ratings and tour notes"
+                loading="lazy"
+                width={1600}
+                height={1000}
+                className="w-full rounded-xl border border-white/10"
+              />
+            </Reveal>
+          </div>
+          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            {IQ.map((f, i) => (
+              <Reveal key={f.t} delay={i * 50} className="bg-[#0e1116] p-7 dark:bg-[#151a22]">
+                <f.icon size={24} className="text-[#60a5eb]" />
+                <h3 className="mt-6 font-semibold">{f.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed opacity-70">{f.b}</p>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-8 text-sm opacity-60">Nothing BlueIQ drafts is saved until you review it.</p>
         </Container>
       </section>
 
@@ -182,6 +287,68 @@ export default function ConsultantCrm() {
         </Container>
       </section>
 
+      <section
+        id="programs"
+        className="scroll-mt-20 border-y border-line bg-surface py-24 md:py-28"
+        data-track-section="consultant-crm-programs"
+      >
+        <Container>
+          <div className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <Reveal>
+              <p className="kicker mb-4">Program directory</p>
+              <h2 className="text-3xl font-semibold leading-[1.1] tracking-tightest md:text-[2.6rem]">
+                Every program, with your own notes on top.
+              </h2>
+              <p className="prose-body mt-5 max-w-[48ch]">
+                Search a shared directory of treatment programs, then make it yours: rate them, log your tours, keep
+                your files, and see how every placement there turned out.
+              </p>
+            </Reveal>
+            <Reveal delay={80}>
+              <Shot
+                src={img('program')}
+                alt="A program in the directory with the consultant's five-star rating and private summary"
+              />
+            </Reveal>
+          </div>
+          <ul className="mt-14 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {DIRECTORY.map((d) => (
+              <li key={d} className="card flex gap-3 p-5 text-[15px] leading-relaxed">
+                <Check size={18} weight="bold" className="mt-0.5 shrink-0 text-accent" />
+                {d}
+              </li>
+            ))}
+          </ul>
+          <Reveal className="mt-14 rounded-2xl bg-accent-soft p-8 md:p-10">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-14">
+              <div>
+                <h3 className="text-2xl font-semibold tracking-tight">Kept up to date by the programs themselves.</h3>
+                <p className="mt-3 leading-relaxed text-muted">
+                  Programs claim and manage their own listings, so what you see is what admissions says today, not a
+                  spreadsheet from two years ago.
+                </p>
+                <Link
+                  to="/program-directory"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent"
+                >
+                  How program listings work
+                  <ArrowRight size={16} weight="bold" />
+                </Link>
+              </div>
+              <div className="grid gap-8 sm:grid-cols-3">
+                {LISTINGS.map((l) => (
+                  <div key={l.t}>
+                    <l.icon size={24} className="text-accent" />
+                    <h4 className="mt-4 font-semibold">{l.t}</h4>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">{l.b}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
       <section className="panel-dark overflow-hidden py-20 md:py-24 dark:border-x-0">
         <Container className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
@@ -195,12 +362,12 @@ export default function ConsultantCrm() {
           </Reveal>
           <Reveal delay={80} className="flex justify-center gap-5 sm:gap-8">
             <Phone
-              src={img("sign-adopt")}
+              src={img('sign-adopt')}
               alt="A parent adopting a signature on a phone"
               className="w-[44%] max-w-[230px] translate-y-4"
             />
             <Phone
-              src={img("sign-done")}
+              src={img('sign-done')}
               alt="A signed agreement on a phone with every required field complete"
               className="w-[44%] max-w-[230px] -translate-y-2"
             />
@@ -217,7 +384,7 @@ export default function ConsultantCrm() {
               <span className="text-base font-normal text-muted"> / user / month</span>
             </p>
             <p className="mt-4 max-w-[46ch] leading-relaxed text-muted">
-              Everything on this page, for every consultant in your practice. Add BlueIQ for ${REFERRAL.blueIqPerSeat}{" "}
+              Everything on this page, for every consultant in your practice. Add BlueIQ for ${REFERRAL.blueIqPerSeat}{' '}
               per user. We bring your clients, documents, and notes over for you.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -261,5 +428,5 @@ export default function ConsultantCrm() {
         <OnAccentButton to={CTA.demo.href}>{CTA.demo.label}</OnAccentButton>
       </ClosingCTA>
     </>
-  );
+  )
 }
