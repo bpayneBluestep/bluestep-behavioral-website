@@ -67,7 +67,7 @@ commercial use, no attribution required). Each photo is used once on the site; c
 | File | Used on | Source |
 | --- | --- | --- |
 | `teen-session.jpg` | Home, Full-service panel | [pexels 23496574](https://www.pexels.com/photo/23496574/) |
-| `demo.jpg` | Home, Build panel | Likely Pexels; carried over from the original site, source not recorded |
+| `builder-cafe.jpg` | Home, Build panel | [pexels 12662813](https://www.pexels.com/photo/12662813/) |
 | `about.jpg` | Home, "We know how programs run" | Likely Pexels; carried over, source not recorded |
 | `team-discussion.jpg` | About | [pexels 7495644](https://www.pexels.com/photo/7495644/) |
 | `team-onboarding.jpg` | Full-service hero | [pexels 7792868](https://www.pexels.com/photo/7792868/) |

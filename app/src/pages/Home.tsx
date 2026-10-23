@@ -142,8 +142,8 @@ function Paths() {
             <article className="panel-dark relative flex h-full flex-col overflow-hidden rounded-2xl">
               <div className="relative aspect-[16/8] w-full overflow-hidden">
                 <img
-                  src={asset('images/heroes/demo.jpg')}
-                  alt="A program director building on a laptop"
+                  src={asset('images/heroes/builder-cafe.jpg')}
+                  alt="A builder working on a sticker-covered laptop in a cafe"
                   className="h-full w-full object-cover opacity-55"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0e1116] to-transparent dark:from-[#151a22]" />
