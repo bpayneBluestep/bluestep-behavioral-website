@@ -61,8 +61,8 @@ export default function BlankSlate() {
               idea.big ? (
                 <Reveal key={idea.t} className="relative overflow-hidden rounded-2xl md:col-span-2 md:row-span-2">
                   <img
-                    src={asset('images/heroes/for-executives.jpg')}
-                    alt="Leaders reviewing financial charts"
+                    src={asset('images/heroes/planning-board.jpg')}
+                    alt="Someone mapping out a system on a whiteboard of sticky notes"
                     className="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
                   />

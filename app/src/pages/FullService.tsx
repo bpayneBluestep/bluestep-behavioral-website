@@ -55,8 +55,8 @@ export default function FullService() {
             </div>
           </div>
           <img
-            src={asset('images/heroes/for-clinicians.jpg')}
-            alt="A therapist leading a group session"
+            src={asset('images/heroes/team-onboarding.jpg')}
+            alt="A trainer walking a program team through their setup"
             className="rise aspect-[4/3] w-full rounded-2xl object-cover [animation-delay:120ms]"
           />
         </Container>
@@ -142,8 +142,8 @@ export default function FullService() {
         <Container className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           <Reveal className="relative">
             <img
-              src={asset('images/heroes/about.jpg')}
-              alt="Two staff members in conversation at a treatment program"
+              src={asset('images/heroes/team-building.jpg')}
+              alt="A team working through a build together on laptops"
               loading="lazy"
               className="aspect-[4/5] w-full rounded-2xl object-cover"
             />

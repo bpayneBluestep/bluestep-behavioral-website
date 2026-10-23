@@ -70,8 +70,8 @@ export default function ProgramDirectory() {
             </div>
           </div>
           <img
-            src={asset('images/heroes/for-admissions.jpg')}
-            alt="An admissions director taking a call from a referring professional"
+            src={asset('images/heroes/referral-call.jpg')}
+            alt="An admissions director on a call with a referring professional"
             className="rise aspect-[4/3] w-full rounded-2xl object-cover [animation-delay:120ms]"
           />
         </Container>

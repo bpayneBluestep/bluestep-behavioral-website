@@ -139,8 +139,8 @@ export default function Demo() {
             You'll talk to someone who knows how residential programs run. Brandon reads every message. No sales drip.
           </p>
           <img
-            src={asset("images/heroes/homepage.jpg")}
-            alt="A clinician taking notes during a session"
+            src={asset("images/heroes/video-call.jpg")}
+            alt="A video call with notes being taken"
             className="mt-12 hidden aspect-[4/3] w-full rounded-2xl object-cover lg:block"
           />
         </div>

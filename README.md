@@ -58,3 +58,29 @@ checking the `assets/index-*.js` hash matches the repo, not by webhook status.
 - **Blueprint ($750) and Slate ($300) prices are pilot hypotheses** and are labeled
   "Pilot pricing" on the page.
 - Brand name is `BlueStep Behavioral` pending the rebrand.
+
+## Photo credits
+
+Hero photos in `app/public/images/heroes/` are from [Pexels](https://www.pexels.com/license/) (free for
+commercial use, no attribution required). Each photo is used once on the site; check this list before reusing one.
+
+| File | Used on | Source |
+| --- | --- | --- |
+| `teen-session.jpg` | Home, Full-service panel | [pexels 23496574](https://www.pexels.com/photo/23496574/) |
+| `demo.jpg` | Home, Build panel | Likely Pexels; carried over from the original site, source not recorded |
+| `about.jpg` | Home, "We know how programs run" | Likely Pexels; carried over, source not recorded |
+| `team-discussion.jpg` | About | [pexels 7495644](https://www.pexels.com/photo/7495644/) |
+| `team-onboarding.jpg` | Full-service hero | [pexels 7792868](https://www.pexels.com/photo/7792868/) |
+| `team-building.jpg` | Full-service, Concierge | [pexels 7793988](https://www.pexels.com/photo/7793988/) |
+| `planning-board.jpg` | Slate | [pexels 8837731](https://www.pexels.com/photo/8837731/) |
+| `referral-call.jpg` | Program Directory | [pexels 7605974](https://www.pexels.com/photo/7605974/) |
+| `video-call.jpg` | Demo | [pexels 4226256](https://www.pexels.com/photo/4226256/) |
+| `homepage.jpg` | EHR product page | Likely Pexels; carried over, source not recorded |
+| `admissions-call.jpg` | CRM product page | [pexels 8204396](https://www.pexels.com/photo/8204396/) |
+| `for-executives.jpg` | Outcomes product page | Likely Pexels; carried over, source not recorded |
+| `reviewing-draft.jpg` | BlueIQ product page | [pexels 8111853](https://www.pexels.com/photo/8111853/) |
+| `for-clinicians.jpg` | For clinicians | Likely Pexels; carried over, source not recorded |
+| `nurse-station.jpg` | For nurses | [pexels 6129594](https://www.pexels.com/photo/6129594/) |
+| `for-admissions.jpg` | For admissions | Likely Pexels; carried over, source not recorded |
+| `leadership-table.jpg` | For executives | [pexels 7414038](https://www.pexels.com/photo/7414038/) |
+| `family-consult.jpg` | For referring professionals | [pexels 5336930](https://www.pexels.com/photo/5336930/) |

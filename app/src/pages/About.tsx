@@ -46,8 +46,8 @@ export default function About() {
         <Container className="grid items-start gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <Reveal>
             <img
-              src={asset('images/heroes/about.jpg')}
-              alt="Two staff members in conversation at a treatment program"
+              src={asset('images/heroes/team-discussion.jpg')}
+              alt="A team talking through a problem around a table"
               className="aspect-[4/5] w-full rounded-2xl object-cover"
               loading="lazy"
             />

@@ -88,8 +88,8 @@ export const PRODUCTS: Product[] = [
     card: 'Referrals, leads, census, pre-admissions, and e-signatures.',
     headline: 'Empty beds are a revenue crisis.',
     sub: 'Leads land on sticky notes. Families fill out the same intake packet three times. So we built the admissions system residential programs need, in the same record as the chart.',
-    image: 'images/heroes/for-admissions.jpg',
-    alt: 'An admissions director on a call with a family',
+    image: 'images/heroes/admissions-call.jpg',
+    alt: 'An admissions coordinator on a call with a family',
     sections: [
       {
         heading: 'Referral network',
@@ -176,8 +176,8 @@ export const PRODUCTS: Product[] = [
     card: 'Drafts from the record. Your staff reviews and signs.',
     headline: 'The record already knows. BlueIQ puts it to work.',
     sub: 'BlueIQ drafts from what your team already documented. Your staff reviews and signs. Nothing goes out without a human decision.',
-    image: 'images/heroes/about.jpg',
-    alt: 'Two staff members in conversation',
+    image: 'images/heroes/reviewing-draft.jpg',
+    alt: 'A staff member reviewing a draft before signing',
     sections: [
       {
         heading: 'Utilization review',

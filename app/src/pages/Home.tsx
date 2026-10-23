@@ -100,8 +100,8 @@ function Paths() {
           <Reveal>
             <article className="card flex h-full flex-col overflow-hidden">
               <img
-                src={asset('images/heroes/for-clinicians.jpg')}
-                alt="A therapist leading a group session"
+                src={asset('images/heroes/teen-session.jpg')}
+                alt="A counselor in a one-on-one session with a teenager"
                 className="aspect-[16/8] w-full object-cover"
               />
               <div className="flex flex-1 flex-col p-8 md:p-10">

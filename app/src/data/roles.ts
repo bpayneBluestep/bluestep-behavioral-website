@@ -77,8 +77,8 @@ export const ROLES: Role[] = [
     title: 'For Nurses',
     headline: 'One shift. One workflow. Not four systems.',
     sub: 'A med pass across 30 residents, an incident to document, and a paper trail three bodies will audit. BlueStep puts all of it in one workflow.',
-    image: 'images/heroes/for-nurses.jpg',
-    alt: 'A nurse at a residential program',
+    image: 'images/heroes/nurse-station.jpg',
+    alt: 'A nurse at the medication station',
     pains: [
       { icon: ArrowsLeftRight, heading: 'System toggling', body: 'Three systems for one med pass. A fourth for the incident during it. Every minute at a screen is a minute off the unit.' },
       { icon: Table, heading: 'Med-pass documentation', body: "Every administration across 20 to 40 residents, several times a day. Capturing it is non-negotiable. The time it takes shouldn't be." },
@@ -122,8 +122,8 @@ export const ROLES: Role[] = [
     title: 'For Executives',
     headline: 'Your program runs in real time. Your data should too.',
     sub: "Census, pipeline, incidents, and outcomes on live screens, and compliance reports that don't cost your team a weekend.",
-    image: 'images/heroes/for-executives.jpg',
-    alt: 'Leaders reviewing outcome charts',
+    image: 'images/heroes/leadership-table.jpg',
+    alt: 'A leadership team reviewing reports together',
     pains: [
       { icon: Clock, heading: 'Lagged visibility', body: "By the time the spreadsheet is compiled, the data is a week old. You're managing today on last week's information." },
       { icon: PresentationChart, heading: 'Outcomes reporting burden', body: 'Payers want outcomes. Accreditors want quality metrics. The state wants incident data. Your team stitches it together every cycle.' },
@@ -144,8 +144,8 @@ export const ROLES: Role[] = [
     title: 'For Referring Professionals',
     headline: 'You guide families through the hardest decision of their lives.',
     sub: "Your tools should carry the whole journey: assessment, placement, and every step after. Ours hands a student's full record straight to programs on BlueStep.",
-    image: 'images/heroes/demo.jpg',
-    alt: 'An educational consultant working on a laptop',
+    image: 'images/heroes/family-consult.jpg',
+    alt: 'A consultant meeting with a family',
     pains: [
       { icon: NotePencil, heading: 'Chasing signatures on paper', body: 'Engagement letters still go out as PDFs to print, sign, scan, and send back. A week of follow-up for one signature.' },
       { icon: FolderOpen, heading: 'Drowning in documents', body: 'Evaluations, applications, records, call notes. Finding one detail months later means re-reading the whole file.' },
