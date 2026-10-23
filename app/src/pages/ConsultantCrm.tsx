@@ -12,6 +12,7 @@ import {
   Sparkle,
   Star,
 } from '@phosphor-icons/react'
+import BlueIqDemo from '../components/BlueIqDemo'
 import { REFERRAL } from '../data/pricing'
 import { CTA } from '../site'
 import { Button, ClosingCTA, Container, OnAccentButton, Reveal, asset, useTitle } from '../ui'
@@ -19,7 +20,8 @@ import { Button, ClosingCTA, Container, OnAccentButton, Reveal, asset, useTitle 
 // The Consultant CRM (EC-CRM) is its own product, sold self-serve at /signup. This page is
 // what the product does; /for-referring-professionals is who it's for and the problems it solves.
 // It follows the shared product-page layout (ProductPage.tsx), plus two dedicated sections for
-// the biggest selling points: BlueIQ and the Program Directory. Screenshots are the real app
+// the biggest selling points: BlueIQ (an animated demo, components/BlueIqDemo.tsx) and the
+// Program Directory. Screenshots are the real app
 // (gitsites/ec-crm-gitsite) running on invented data: every family, program, and consultant
 // shown is fictional.
 
@@ -97,14 +99,6 @@ const SECTIONS = [
       'Hash-chained, tamper-evident record with a certificate of completion',
     ],
   },
-]
-
-// Example questions in the BlueIQ section. Each maps to something BlueIQ does today.
-const ASK = [
-  { about: 'A client', q: "What's still outstanding on the Alvarez family, and when did we last talk?" },
-  { about: 'Programs', q: "Which programs I've toured take insurance and work with 15-year-olds with trauma?" },
-  { about: 'A program', q: 'What did I write about the clinical team at Cedar Ridge on my last tour?' },
-  { about: 'A document', q: "Summarize the psych eval in Maya's file." },
 ]
 
 const IQ = [
@@ -208,33 +202,9 @@ export default function ConsultantCrm() {
               from last spring.
             </p>
           </Reveal>
-          <div className="mt-14 grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
-            <ul className="space-y-3">
-              {ASK.map((a, i) => (
-                <Reveal
-                  key={a.q}
-                  as="li"
-                  delay={i * 60}
-                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"
-                >
-                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#60a5eb]">
-                    Ask about {a.about.toLowerCase()}
-                  </p>
-                  <p className="mt-2 leading-relaxed">“{a.q}”</p>
-                </Reveal>
-              ))}
-            </ul>
-            <Reveal delay={80}>
-              <img
-                src={img('blueiq')}
-                alt="BlueIQ answering which programs fit a 15-year-old with trauma and take insurance, citing the consultant's ratings and tour notes"
-                loading="lazy"
-                width={1600}
-                height={1000}
-                className="w-full rounded-xl border border-white/10"
-              />
-            </Reveal>
-          </div>
+          <Reveal className="mt-14">
+            <BlueIqDemo />
+          </Reveal>
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
             {IQ.map((f, i) => (
               <Reveal key={f.t} delay={i * 50} className="bg-[#0e1116] p-7 dark:bg-[#151a22]">
