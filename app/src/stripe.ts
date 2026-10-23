@@ -41,16 +41,14 @@ export function loadStripe(): Promise<(key: string) => any> {
 
 export const STRIPE_FONTS = [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap' }]
 
-/** Stripe Appearance built from the site's live color tokens, so it follows the theme. */
-export function stripeAppearance() {
-  const root = document.documentElement
-  const css = getComputedStyle(root)
+/** Stripe Appearance built from the color tokens where the form mounts, so it matches that tone. */
+export function stripeAppearance(el: Element = document.documentElement) {
+  const css = getComputedStyle(el)
   const rgb = (token: string, alpha?: number) => {
     const parts = css.getPropertyValue(token).trim().split(/\s+/).join(', ')
     return alpha === undefined ? `rgb(${parts})` : `rgba(${parts}, ${alpha})`
   }
-  const theme = root.dataset.theme
-  const dark = theme === 'dark'
+  const dark = css.colorScheme.trim() === 'dark'
 
   return {
     theme: dark ? 'night' : 'stripe',

@@ -77,7 +77,7 @@ export default function ProductPage() {
         <section className="border-y border-line bg-surface py-24">
           <Container className="max-w-3xl text-center">
             <Reveal>
-              <p className="text-3xl font-semibold tracking-tightest md:text-5xl">{product.quote.headline}</p>
+              <p className="display text-3xl md:text-5xl">{product.quote.headline}</p>
               <p className="prose-body mx-auto mt-6 max-w-[54ch]">{product.quote.body}</p>
             </Reveal>
           </Container>
@@ -88,7 +88,7 @@ export default function ProductPage() {
         <Container className="grid gap-4 lg:grid-cols-[1.2fr_1fr]">
           <Reveal>
             <Link to="/build" className="group panel-dark flex h-full flex-col justify-between rounded-2xl p-8 md:p-10">
-              <Sparkle size={26} weight="fill" className="text-[#60a5eb]" />
+              <Sparkle size={26} weight="fill" className="text-accent" />
               <div className="mt-10">
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Run it as-is, or make it yours.</h2>
                 <p className="mt-3 max-w-md leading-relaxed opacity-75">

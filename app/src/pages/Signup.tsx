@@ -172,7 +172,7 @@ export default function Signup() {
             <div>
               <label htmlFor="s-name" className="text-sm font-medium">Your name</label>
               <input id="s-name" type="text" autoComplete="name" value={values.name} onChange={set('name')} aria-invalid={!!errors.name} className={inputCls('name')} />
-              {errors.name && <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{errors.name}</p>}
+              {errors.name && <p className="mt-1.5 text-sm text-danger">{errors.name}</p>}
             </div>
             <div>
               <label htmlFor="s-firm" className="text-sm font-medium">Firm (optional)</label>
@@ -181,12 +181,12 @@ export default function Signup() {
             <div>
               <label htmlFor="s-email" className="text-sm font-medium">Work email</label>
               <input id="s-email" type="email" autoComplete="email" value={values.email} onChange={set('email')} aria-invalid={!!errors.email} className={inputCls('email')} />
-              {errors.email && <p className="mt-1.5 text-sm text-red-600 dark:text-red-400">{errors.email}</p>}
+              {errors.email && <p className="mt-1.5 text-sm text-danger">{errors.email}</p>}
             </div>
           </div>
 
           {failure && (
-            <p role="alert" className="mt-6 rounded-xl border border-red-500/40 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+            <p role="alert" className="mt-6 rounded-xl border border-red-500/40 px-4 py-3 text-sm text-danger">
               {failure}
             </p>
           )}
@@ -219,7 +219,6 @@ function PaymentStep({ session, users, blueiq, email, onEdit }: { session: Sessi
   useEffect(() => {
     let cancelled = false
     let element: any = null
-    let observer: MutationObserver | null = null
 
     const apply = (s: any) => {
       if (cancelled || !s) return
@@ -232,18 +231,12 @@ function PaymentStep({ session, users, blueiq, email, onEdit }: { session: Sessi
         if (cancelled || !mountRef.current) return
         const checkout = Stripe(session.publishableKey).initCheckoutElementsSdk({
           clientSecret: session.clientSecret,
-          elementsOptions: { appearance: stripeAppearance(), fonts: STRIPE_FONTS },
+          elementsOptions: { appearance: stripeAppearance(mountRef.current), fonts: STRIPE_FONTS },
         })
         checkout.on('change', apply)
         element = checkout.createPaymentElement({ layout: 'tabs' })
         element.on('ready', () => !cancelled && setReady(true))
         element.mount(mountRef.current)
-
-        // Re-skin the card fields when the visitor flips the site theme.
-        if (typeof checkout.changeAppearance === 'function') {
-          observer = new MutationObserver(() => checkout.changeAppearance(stripeAppearance()))
-          observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
-        }
 
         return checkout.loadActions().then((r: any) => {
           if (cancelled) return
@@ -259,7 +252,6 @@ function PaymentStep({ session, users, blueiq, email, onEdit }: { session: Sessi
 
     return () => {
       cancelled = true
-      observer?.disconnect()
       try { element?.destroy() } catch { /* already gone */ }
     }
   }, [session])
@@ -310,7 +302,7 @@ function PaymentStep({ session, users, blueiq, email, onEdit }: { session: Sessi
       </div>
 
       {failure && (
-        <p role="alert" className="mt-6 rounded-xl border border-red-500/40 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+        <p role="alert" className="mt-6 rounded-xl border border-red-500/40 px-4 py-3 text-sm text-danger">
           {failure}
         </p>
       )}

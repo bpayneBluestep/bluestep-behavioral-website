@@ -104,37 +104,31 @@ function Plans() {
               className={`rounded-2xl p-6 md:p-8 ${gi === 0 ? 'card' : 'panel-dark'}`}
             >
               <h2 className="text-2xl font-semibold tracking-tight">{g.title}</h2>
-              <p className={`mt-1 text-sm ${gi === 0 ? 'text-muted' : 'opacity-70'}`}>{g.sub}</p>
+              <p className="mt-1 text-sm text-muted">{g.sub}</p>
               <div className="mt-8 grid gap-8 sm:grid-cols-2 sm:gap-6">
                 {g.plans.map((p) => (
                   <div key={p.name} className="flex min-w-0 flex-col">
                     <p className="flex items-center gap-2 font-semibold">
                       {p.name}
                       {'pilot' in p && p.pilot && (
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
-                            gi === 0 ? 'bg-accent-soft text-accent' : 'bg-white/15 text-white'
-                          }`}
-                        >
+                        <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent">
                           Pilot pricing
                         </span>
                       )}
                     </p>
-                    <p className="mt-3 text-4xl font-semibold tracking-tightest">{p.price}</p>
-                    <p className={`mt-1 min-h-[2.5rem] text-sm ${gi === 0 ? 'text-muted' : 'opacity-70'}`}>{p.unit}</p>
+                    <p className="display mt-3 text-4xl">{p.price}</p>
+                    <p className="mt-1 min-h-[2.5rem] text-sm text-muted">{p.unit}</p>
                     <dl className="mt-5 space-y-3 text-sm">
                       {p.rows.map(([k, v]) => (
-                        <div key={k} className={`border-t pt-3 ${gi === 0 ? 'border-line' : 'border-white/15'}`}>
-                          <dt className={`text-xs ${gi === 0 ? 'text-muted' : 'opacity-60'}`}>{k}</dt>
+                        <div key={k} className="border-t border-line pt-3">
+                          <dt className="text-xs text-muted">{k}</dt>
                           <dd className="mt-0.5 leading-snug">{v}</dd>
                         </div>
                       ))}
                     </dl>
                     <Link
                       to={p.cta.href}
-                      className={`mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium ${
-                        gi === 0 ? 'text-accent' : 'text-[#60a5eb]'
-                      }`}
+                      className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-accent"
                     >
                       {p.cta.label}
                       <ArrowRight size={14} weight="bold" />
@@ -180,6 +174,8 @@ function Calculator() {
       : monthlyTotal(base, programs)
 
   const toggle = (k: keyof Selection) => setSel((s) => ({ ...s, [k]: !s[k] }))
+  // The estimate takes the plan's tone: dark for the plans your team builds on.
+  const tone = plan === 'builder' || plan === 'blank-slate' ? 'tone-dark' : 'tone-light'
 
   // One analytics event per visit to the page, on the first interaction.
   const used = useRef(false)
@@ -196,7 +192,7 @@ function Calculator() {
           title="Estimate your price."
           sub="Full-service and Blueprint: the 2nd program is 15% off, the 3rd and beyond 25% off. Concierge adds a flat amount per program. Slate is one flat fee."
         />
-        <Reveal className="card p-6 md:p-8">
+        <Reveal className={`${tone} card p-6 md:p-8`}>
           <div onClickCapture={touched} onChangeCapture={touched}>
           <fieldset>
             <legend className="text-sm font-medium">Plan</legend>
@@ -301,7 +297,7 @@ function Calculator() {
             <div className="mt-4 flex items-end justify-between border-t border-line pt-4">
               <div>
                 <p className="text-sm text-muted">Estimated monthly</p>
-                <p className="text-4xl font-semibold tracking-tightest tabular-nums">{usd(monthly)}</p>
+                <p className="display text-4xl tabular-nums">{usd(monthly)}</p>
               </div>
               <p className="text-sm text-muted tabular-nums">{usd(monthly * 12)} / year</p>
             </div>
@@ -318,9 +314,9 @@ function Extras() {
   return (
     <section className="border-y border-line bg-surface py-24 md:py-32">
       <Container className="grid gap-4 md:grid-cols-2">
-        <Reveal className="card p-8">
+        <Reveal className="panel-dark rounded-2xl p-8">
           <h2 className="text-2xl font-semibold tracking-tight">Build help</h2>
-          <p className="mt-2 text-5xl font-semibold tracking-tightest">
+          <p className="display mt-2 text-5xl">
             ${BUILD_HELP_RATE}
             <span className="text-base font-normal text-muted"> / hour</span>
           </p>
@@ -334,7 +330,7 @@ function Extras() {
         </Reveal>
         <Reveal id="referring-professionals" delay={80} className="card scroll-mt-24 p-8">
           <h2 className="text-2xl font-semibold tracking-tight">Referring Professionals</h2>
-          <p className="mt-2 text-5xl font-semibold tracking-tightest">
+          <p className="display mt-2 text-5xl">
             ${REFERRAL.perSeat}
             <span className="text-base font-normal text-muted"> / user / month</span>
           </p>

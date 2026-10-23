@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { CaretDown, Gift, List, X } from '@phosphor-icons/react'
-import { BRAND, CTA, NAV, isGroup, type NavGroup } from './site'
+import { BRAND, CTA, NAV, isGroup, toneFor, toneForGroup, type NavGroup, type Tone } from './site'
 import { Container, Logo } from './ui'
-import ThemeToggle from './components/ThemeToggle'
 import ConsentBanner from './components/ConsentBanner'
 import { analyticsEnabled, openConsent, track, trackPage } from './analytics'
 
-/** Desktop dropdown. Opens on hover or click, closes on outside click, Escape, or navigation. */
+/**
+ * Desktop dropdown. Opens on hover or click, closes on outside click, Escape, or navigation.
+ * The menu takes its path's tone, so Build opens dark even from a light page.
+ */
 function Dropdown({ group }: { group: NavGroup }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -49,7 +51,7 @@ function Dropdown({ group }: { group: NavGroup }) {
       {open && (
         <div className="absolute left-0 top-full pt-2">
           <div
-            className={`rise card grid gap-1 p-2 shadow-[0_20px_50px_-20px_rgb(var(--ink)/0.25)] ${
+            className={`tone-${toneForGroup(group.label)} rise card grid gap-1 p-2 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.35)] ${
               group.columns.length > 1 ? 'w-[520px] grid-cols-2' : 'w-72'
             }`}
           >
@@ -73,7 +75,7 @@ function Dropdown({ group }: { group: NavGroup }) {
   )
 }
 
-function Header() {
+function Header({ tone }: { tone: Tone }) {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
   useEffect(() => setOpen(false), [pathname])
@@ -89,7 +91,7 @@ function Header() {
   // collapse a fixed full-screen menu to the header's 64px.
   return (
     <>
-    <header className="sticky top-0 z-40 border-b border-line/80 bg-bg/80 backdrop-blur-md">
+    <header className={`tone-${tone} sticky top-0 z-40 border-b border-line/80 bg-bg/80 backdrop-blur-md`}>
       <Container className="flex h-16 items-center justify-between gap-6">
         <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label={`${BRAND.name} home`}>
           <Logo className="h-6" />
@@ -117,7 +119,6 @@ function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <Link
             to={CTA.directory.href}
             className="btn hidden gap-1.5 whitespace-nowrap border border-accent/30 bg-accent-soft px-4 py-2 text-accent hover:border-accent md:inline-flex"
@@ -144,7 +145,7 @@ function Header() {
     </header>
 
       {open && (
-        <div id="mobile-nav" className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-bg lg:hidden">
+        <div id="mobile-nav" className={`tone-${tone} fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto lg:hidden`}>
           <Container className="py-6">
             {NAV.map((n) =>
               isGroup(n) ? (
@@ -177,7 +178,6 @@ function Header() {
                 </NavLink>
               ),
             )}
-            <ThemeToggle withLabel className="mt-6 -ml-2" />
             <div className="mt-6 flex flex-col gap-3">
               <Link
                 to={CTA.directory.href}
@@ -203,7 +203,7 @@ function Header() {
 function Footer() {
   const columns = NAV.filter(isGroup).flatMap((g) => g.columns)
   return (
-    <footer className="border-t border-line bg-surface">
+    <footer className="tone-dark dots border-t border-line">
       <Container className="grid gap-12 py-16 md:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
           <Logo className="h-7" />
@@ -317,7 +317,18 @@ function RouteTracker() {
   return null
 }
 
+/** What a page can ask of the layout: here, to take another tone (the demo form does). */
+export type LayoutContext = { setTone: (tone: Tone) => void }
+
 export default function Layout() {
+  const { pathname, search } = useLocation()
+  // An override only holds for the page that set it, so it can't leak across navigation.
+  const [override, setOverride] = useState<{ path: string; tone: Tone } | null>(null)
+  const tone = override?.path === pathname ? override.tone : toneFor(pathname, search)
+  const context: LayoutContext = { setTone: (t) => setOverride({ path: window.location.pathname, tone: t }) }
+  useEffect(() => {
+    document.querySelector<HTMLMetaElement>('meta[name=theme-color]')?.setAttribute('content', tone === 'dark' ? '#06080c' : '#faf9f6')
+  }, [tone])
   return (
     <>
       <a
@@ -327,9 +338,9 @@ export default function Layout() {
         Skip to content
       </a>
       <ScrollManager />
-      <Header />
-      <main id="main">
-        <Outlet />
+      <Header tone={tone} />
+      <main id="main" className={tone === 'dark' ? 'tone-dark dots' : 'tone-light'}>
+        <Outlet context={context} />
       </main>
       <Footer />
       <RouteTracker />
