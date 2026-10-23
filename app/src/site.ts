@@ -85,19 +85,3 @@ export const CTA = {
   pricing: { href: '/pricing', label: 'See pricing' },
   directory: { href: '/program-directory', label: 'Free program listing' },
 } as const
-
-// Each path has a tone (see styles.css): Build pages are dark, everything else is light.
-// The demo form goes dark when the visitor picks a build path.
-export type Tone = 'light' | 'dark'
-const DARK_ROUTES = ['/build', '/marketplace', '/slate']
-const DARK_DEMO_PATHS = ['builder', 'blank-slate', 'publish']
-
-export const toneForDemoPath = (path: string | null): Tone => (DARK_DEMO_PATHS.includes(path ?? '') ? 'dark' : 'light')
-
-export function toneFor(pathname: string, search: string): Tone {
-  if (DARK_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`))) return 'dark'
-  if (pathname === '/demo') return toneForDemoPath(new URLSearchParams(search).get('path'))
-  return 'light'
-}
-
-export const toneForGroup = (label: string): Tone => (label === 'Build' ? 'dark' : 'light')

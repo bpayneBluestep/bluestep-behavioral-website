@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { useOutletContext, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { CheckCircle, Hammer, Handshake, Package, SquaresFour, UsersThree } from '@phosphor-icons/react'
-import type { LayoutContext } from '../Layout'
-import { BRAND, toneForDemoPath } from '../site'
+import { BRAND } from '../site'
 import { track } from '../analytics'
 import { Container, asset, useTitle } from '../ui'
 
@@ -45,7 +44,6 @@ export default function Demo() {
   const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({})
   const [status, setStatus] = useState<Status>('idle')
   const doneRef = useRef<HTMLDivElement>(null)
-  const { setTone } = useOutletContext<LayoutContext>()
 
   useEffect(() => {
     if (isPath(initial)) setPath(initial)
@@ -53,8 +51,6 @@ export default function Demo() {
   useEffect(() => {
     if (status === 'sent') doneRef.current?.focus()
   }, [status])
-  // The whole page takes the chosen path's tone: pick Blueprint and it goes dark.
-  useEffect(() => setTone(toneForDemoPath(path)), [path])
 
   function validate(v: Values) {
     const e: Partial<Record<keyof Values, string>> = {}
@@ -218,7 +214,7 @@ export default function Demo() {
                       className={inputCls(f.name)}
                     />
                     {errors[f.name] && (
-                      <p id={`e-${f.name}`} className="mt-1.5 text-sm text-danger">
+                      <p id={`e-${f.name}`} className="mt-1.5 text-sm text-red-600 dark:text-red-400">
                         {errors[f.name]}
                       </p>
                     )}
@@ -239,7 +235,7 @@ export default function Demo() {
                     className={inputCls('message')}
                   />
                   {errors.message && (
-                    <p id="e-message" className="mt-1.5 text-sm text-danger">
+                    <p id="e-message" className="mt-1.5 text-sm text-red-600 dark:text-red-400">
                       {errors.message}
                     </p>
                   )}

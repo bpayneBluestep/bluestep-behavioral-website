@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from '@phosphor-icons/react'
 import { Container } from '../ui'
 
-// Thin strip at the top of each path hub: where you are, and the other path, shown as a
-// pill in that path's tone, a preview of the other side.
+// Thin strip at the top of each path hub: where you are, and the other path.
 const PATHS = {
   'full-service': { label: 'Full-service', blurb: 'We run it for you.', to: '/full-service' },
   build: { label: 'Build', blurb: 'You change it with your own AI tools.', to: '/build' },
@@ -17,10 +16,7 @@ export default function PathSwitch({ current }: { current: keyof typeof PATHS })
         <p className="text-muted">
           You&apos;re on the <span className="font-medium text-ink">{PATHS[current].label}</span> path.
         </p>
-        <Link
-          to={other.to}
-          className={`${current === 'build' ? 'tone-light' : 'tone-dark'} group inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1 text-muted hover:text-ink`}
-        >
+        <Link to={other.to} className="group inline-flex items-center gap-1.5 text-muted hover:text-ink">
           <span>
             {other.label}: {other.blurb}
           </span>

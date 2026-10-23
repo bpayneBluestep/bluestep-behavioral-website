@@ -2,85 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Tones ─────────────────────────────────────────────────────────────────
-   There is no light/dark mode. The site has two tones, one per path:
-
-     .tone-light  Full-service. Paper white, ink navy, serif headlines. Classic, clinical.
-     .tone-dark   Build. Near-black, dot grid, mono details, a blue glow. A builder's tool.
-
-   Every color is a token, and tokens inherit from the nearest tone, so a dark section
-   inside a light page (or the reverse) just works. Layout puts the page's tone on
-   <main>; sections and cards flip it locally. Anything that differs by tone and is not
-   a color (fonts, the logo variant, filters) is a token too, never a dark: variant,
-   because variants can't tell which tone is nearest. */
-:root,
-.tone-light {
-  --bg: 250 249 246;
+/* ── Tokens ────────────────────────────────────────────────────────────────
+   One accent (BlueStep logo blue, #1263A8). Neutrals are cool grays.
+   Theme = data-theme on <html>, set before paint by the script in index.html:
+   the visitor's saved choice, else the OS setting. See components/ThemeToggle. */
+:root {
+  --bg: 250 250 251;
   --surface: 255 255 255;
-  --raised: 242 241 236;
-  --ink: 12 27 42;
-  --muted: 74 85 99;
-  --faint: 128 137 148;
-  --line: 228 225 218;
+  --raised: 243 245 248;
+  --ink: 14 17 22;
+  --muted: 82 91 104;
+  --faint: 128 137 150;
+  --line: 226 230 236;
   --accent: 18 99 168;
   --accent-ink: 255 255 255;
-  --accent-soft: 233 241 250;
-  --danger: 200 38 38;
-
-  --display: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
-  --display-weight: 440;
-  --display-tracking: -0.022em;
-  --kicker-font: 'Geist Variable', system-ui, sans-serif;
-  --kicker-prefix: '';
-  --kicker-rule: 1.5rem;
-  --kicker-border: 1px;
-
-  --btn-bg: var(--accent);
-  --btn-ink: var(--accent-ink);
-  --card-shadow: 0 1px 2px rgb(12 27 42 / 0.04), 0 18px 40px -28px rgb(12 27 42 / 0.22);
-  --glow: radial-gradient(60% 70% at 50% 0%, rgb(18 99 168 / 0.07), transparent 70%);
-  --band-bg: 18 99 168;
-  --band-image: none;
-  --mark-opacity: 0.12;
-  --logo-filter: grayscale(1);
-  --only-light: block;
-  --only-dark: none;
+  --accent-soft: 232 240 249;
   color-scheme: light;
 }
 
-.tone-dark,
-.panel-dark {
-  --bg: 6 8 12;
-  --surface: 13 17 23;
-  --raised: 22 28 37;
-  --ink: 236 241 247;
-  --muted: 150 161 177;
-  --faint: 104 115 131;
-  --line: 33 41 53;
-  --accent: 92 170 255;
-  --accent-ink: 4 12 24;
-  --accent-soft: 15 33 57;
-  --danger: 248 113 113;
-
-  --display: 'Geist Variable', system-ui, sans-serif;
-  --display-weight: 600;
-  --display-tracking: -0.045em;
-  --kicker-font: 'Geist Mono Variable', ui-monospace, monospace;
-  --kicker-prefix: '// ';
-  --kicker-rule: auto;
-  --kicker-border: 0px;
-
-  --btn-bg: var(--ink);
-  --btn-ink: var(--bg);
-  --card-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
-  --glow: radial-gradient(55% 75% at 50% -10%, rgb(92 170 255 / 0.22), transparent 70%);
-  --band-bg: 9 14 24;
-  --band-image: radial-gradient(70% 120% at 85% 110%, rgb(92 170 255 / 0.35), transparent 60%),
-    radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px);
-  --mark-opacity: 0.05;
-  --logo-filter: grayscale(1) invert(1);
-  --only-light: none;
-  --only-dark: block;
+:root[data-theme='dark'] {
+  --bg: 10 13 18;
+  --surface: 17 21 28;
+  --raised: 24 29 38;
+  --ink: 237 240 245;
+  --muted: 160 169 182;
+  --faint: 118 128 142;
+  --line: 36 42 53;
+  --accent: 96 165 235;
+  --accent-ink: 8 20 36;
+  --accent-soft: 16 35 58;
   color-scheme: dark;
 }
 
@@ -93,31 +43,13 @@
     @apply bg-bg text-ink antialiased;
     font-feature-settings: 'ss01', 'cv11';
   }
-  /* A tone paints its own ground, so a flipped section is never see-through. In base,
-     so a bg-* utility or .card on the same element still wins. */
-  .tone-light,
-  .tone-dark {
-    background-color: rgb(var(--bg));
-    color: rgb(var(--ink));
-    transition:
-      background-color 0.45s ease,
-      color 0.45s ease;
-  }
-  /* Headlines take the tone's display face: serif on light, tight Geist on dark. The id
-     outranks utility classes, so font-semibold and tracking-tightest give way. */
-  #root :is(h1, h2) {
-    font-family: var(--display);
-    font-weight: var(--display-weight);
-    letter-spacing: var(--display-tracking);
-    font-optical-sizing: auto;
-  }
   :focus-visible {
     outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
     border-radius: 6px;
   }
   ::selection {
-    background: rgb(var(--accent) / 0.25);
+    background: rgb(var(--accent) / 0.2);
   }
 }
 
@@ -126,81 +58,28 @@
     @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-medium transition duration-200 active:scale-[0.98];
   }
   .btn-primary {
-    @apply btn hover:brightness-110;
-    background-color: rgb(var(--btn-bg));
-    color: rgb(var(--btn-ink));
+    @apply btn bg-accent text-accent-ink hover:brightness-110;
   }
   .btn-ghost {
     @apply btn border border-line bg-surface text-ink hover:border-faint;
   }
   .card {
     @apply rounded-2xl border border-line bg-surface;
-    box-shadow: var(--card-shadow);
   }
-  /* A piece of Build inside any page: always the dark tone, ringed in blue so it reads as
-     featured even on a dark page. */
+  /* Fixed dark surface, the same in both themes. Used for the one featured panel
+     per section. In dark mode it gets a hairline so it separates from the page. */
   .panel-dark {
-    @apply border bg-surface text-ink;
-    border-color: rgb(var(--accent) / 0.35);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.05),
-      0 30px 80px -40px rgb(var(--accent) / 0.55);
+    @apply bg-[#0e1116] text-[#eef1f5] dark:border dark:border-line dark:bg-[#151a22];
   }
-  /* Closing band: logo blue on the light tone, a glowing near-black on the dark one. */
+  /* Closing band: always the logo blue, white text, in both themes. */
   .band {
-    color: #fff;
-    background-color: rgb(var(--band-bg));
-    background-image: var(--band-image);
-    background-size: auto, 22px 22px;
+    @apply bg-[#1263a8] text-white;
   }
   .prose-body {
     @apply text-base leading-relaxed text-muted md:text-lg;
   }
   .kicker {
-    @apply inline-flex items-center gap-3 text-xs uppercase tracking-[0.14em] text-accent;
-    font-family: var(--kicker-font);
-  }
-  .kicker::before {
-    content: var(--kicker-prefix);
-    width: var(--kicker-rule);
-    border-top: var(--kicker-border) solid currentColor;
-    letter-spacing: 0;
-  }
-  .only-light {
-    display: var(--only-light);
-  }
-  .only-dark {
-    display: var(--only-dark);
-  }
-  .logo-tone {
-    filter: var(--logo-filter);
-  }
-  /* Set a number or short line in the tone's headline face (prices, pull quotes). */
-  #root .display {
-    font-family: var(--display);
-    font-weight: var(--display-weight);
-    letter-spacing: var(--display-tracking);
-  }
-}
-
-@layer utilities {
-  /* The Build tone's dot grid. Put it on a dark world or section, not on cards. */
-  .dots {
-    background-image: radial-gradient(rgb(var(--ink) / 0.075) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-  /* A soft light from the top of a hero: faint blue on light, a real glow on dark. The
-     element brings its own position (relative or absolute). */
-  .glow {
-    isolation: isolate;
-  }
-  .glow::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: var(--glow);
+    @apply font-mono text-xs uppercase tracking-[0.14em] text-accent;
   }
 }
 
@@ -255,10 +134,6 @@
   .caret,
   .rise {
     animation: none;
-  }
-  .tone-light,
-  .tone-dark {
-    transition: none;
   }
 }
 

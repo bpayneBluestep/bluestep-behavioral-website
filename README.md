@@ -47,7 +47,7 @@ checking the `assets/index-*.js` hash matches the repo, not by webhook status.
 | Marketplace listings | `app/src/data/marketplace.ts` |
 | Product pages (EHR, CRM, Outcomes, BlueIQ) | `app/src/data/products.ts` |
 | Who-we-help role pages | `app/src/data/roles.ts` |
-| Tones (light Full-service, dark Build) | `app/src/styles.css`, `toneFor` in `app/src/site.ts` |
+| Colors (light + dark tokens) | `app/src/styles.css` |
 | Contact form endpoint | `FORM_ENDPOINT` in `app/src/pages/Demo.tsx` |
 
 ## Open items
@@ -58,15 +58,6 @@ checking the `assets/index-*.js` hash matches the repo, not by webhook status.
 - **Blueprint ($750) and Slate ($300) prices are pilot hypotheses** and are labeled
   "Pilot pricing" on the page.
 - Brand name is `BlueStep Behavioral` pending the rebrand.
-
-## Two tones, no dark mode
-
-There is no light/dark toggle. Full-service is the light tone (paper white, serif headlines) and Build is
-the dark tone (near-black, dot grid, mono details). `toneFor()` in `site.ts` picks each page's tone;
-sections and cards flip locally with `tone-light` / `tone-dark` (or `panel-dark` for a featured piece of
-Build on any page). Every color, the headline face and the logo variant are CSS variables, so they follow
-the nearest tone. Avoid `dark:` variants: they can't tell a light section nested inside a dark one.
-The pre-makeover site is tagged `pre-duotone`.
 
 ## Photo credits
 

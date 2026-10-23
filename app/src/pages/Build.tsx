@@ -139,7 +139,7 @@ export default function Build() {
   return (
     <>
       <PathSwitch current="build" />
-      <section className="glow relative border-b border-line">
+      <section className="border-b border-line">
         <Container className="grid items-center gap-12 pb-16 pt-10 md:pt-14 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:pb-24">
           <div className="rise">
             <p className="kicker mb-5">Build</p>
@@ -178,13 +178,13 @@ export default function Build() {
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <s.icon size={26} className="text-accent" />
+                    <s.icon size={26} className={i === 0 ? 'text-[#60a5eb]' : 'text-accent'} />
                     <ArrowUpRight size={20} className="opacity-40 transition group-hover:opacity-100" />
                   </div>
-                  <p className="mt-10 text-sm font-medium text-accent">{s.name}</p>
+                  <p className={`mt-10 text-sm font-medium ${i === 0 ? 'text-[#60a5eb]' : 'text-accent'}`}>{s.name}</p>
                   <h3 className="mt-1 text-2xl font-semibold tracking-tight">{s.t}</h3>
-                  <p className="mt-3 leading-relaxed text-muted">{s.b}</p>
-                  <p className="mt-auto pt-8 text-sm text-faint">{s.price}</p>
+                  <p className={`mt-3 leading-relaxed ${i === 0 ? 'opacity-75' : 'text-muted'}`}>{s.b}</p>
+                  <p className={`mt-auto pt-8 text-sm ${i === 0 ? 'opacity-60' : 'text-faint'}`}>{s.price}</p>
                 </Link>
               </Reveal>
             ))}

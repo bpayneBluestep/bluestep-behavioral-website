@@ -148,7 +148,7 @@ export default function FullService() {
               className="aspect-[4/5] w-full rounded-2xl object-cover"
             />
             <div className="absolute -bottom-6 left-6 right-6 rounded-xl border border-line bg-surface p-5 shadow-[0_20px_40px_-20px_rgb(0_0_0/0.35)] sm:left-auto sm:w-64">
-              <p className="display text-3xl">{usd(CONCIERGE.base)}</p>
+              <p className="text-3xl font-semibold tracking-tightest">{usd(CONCIERGE.base)}</p>
               <p className="mt-1 text-sm text-muted">per month. Every product, {CONCIERGE.hours} build hours included.</p>
             </div>
           </Reveal>

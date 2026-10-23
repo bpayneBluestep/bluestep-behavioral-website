@@ -62,12 +62,12 @@ export function Container({ children, className = '' }: { children: ReactNode; c
   return <div className={`mx-auto w-full max-w-page px-5 md:px-8 ${className}`}>{children}</div>
 }
 
-/** The BlueStep logo, swapped for the reversed wordmark on the dark tone. */
+/** The BlueStep logo, swapped for the reversed wordmark in dark mode. */
 export function Logo({ className = 'h-7' }: { className?: string }) {
   return (
     <>
-      <img src={asset('images/logo-light.png')} alt="BlueStep" className={`only-light w-auto ${className}`} />
-      <img src={asset('images/logo-dark.png')} alt="BlueStep" className={`only-dark w-auto ${className}`} />
+      <img src={asset('images/logo-light.png')} alt="BlueStep" className={`w-auto dark:hidden ${className}`} />
+      <img src={asset('images/logo-dark.png')} alt="BlueStep" className={`hidden w-auto dark:block ${className}`} />
     </>
   )
 }
@@ -126,7 +126,7 @@ export function PageHero({
   children?: ReactNode
 }) {
   return (
-    <section className="glow relative border-b border-line">
+    <section className="border-b border-line">
       <Container className="pb-16 pt-14 md:pb-24 md:pt-20">
         <div className="rise max-w-3xl">
           {kicker && <p className="kicker mb-5">{kicker}</p>}
@@ -175,7 +175,7 @@ export function ClosingCTA({
             src={asset('images/mark.png')}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute -bottom-16 -right-10 w-72 opacity-[var(--mark-opacity)] mix-blend-luminosity md:w-96"
+            className="pointer-events-none absolute -bottom-16 -right-10 w-72 opacity-[0.12] mix-blend-luminosity md:w-96"
           />
           <h2 className="relative max-w-2xl text-3xl font-semibold leading-[1.1] tracking-tightest md:text-5xl">
             {title}

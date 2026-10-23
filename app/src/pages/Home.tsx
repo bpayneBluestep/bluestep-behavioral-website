@@ -38,23 +38,19 @@ const COMPARE: [string, string, string][] = [
   ['Starting price', `${price('full-service')} per program / month`, `Blueprint ${price('builder')} per program / month, or Slate ${price('blank-slate')} flat`],
 ]
 
-// The fork, made literal. On wide screens the hero splits down the middle: light for
-// Full-service on the left, dark for Build on the right, each panel on its own side. The
-// headline sits across the seam in difference blend, so it reads as ink on the light
-// half and white on the dark half.
 function Hero() {
   return (
     <section className="relative overflow-hidden" data-track-section="home-hero">
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-        <div className="glow absolute inset-y-0 left-0 w-1/2" />
-        <div className="tone-dark dots glow absolute inset-y-0 right-0 w-1/2" />
-      </div>
-      <Container className="relative pb-20 pt-12 md:pt-16 lg:pb-28">
-        <div className="rise mx-auto max-w-4xl text-center lg:text-white lg:mix-blend-difference">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(50%_60%_at_50%_0%,rgb(var(--accent)/0.10),transparent_70%)]"
+      />
+      <Container className="relative pb-20 pt-12 md:pt-16">
+        <div className="rise mx-auto max-w-4xl text-center">
           <h1 className="text-balance text-[2.6rem] font-semibold leading-[1.03] tracking-tightest sm:text-6xl lg:text-[4.2rem]">
             One EHR. Two ways to run it.
           </h1>
-          <p className="prose-body mx-auto mt-6 max-w-[52ch] lg:text-[#c9c9c9]">
+          <p className="prose-body mx-auto mt-6 max-w-[52ch]">
             Built for behavioral health. Let our team run it for you, or build on it yourself with the AI tools
             you already use.
           </p>
@@ -100,7 +96,7 @@ function Stay() {
 
 function Paths() {
   return (
-        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16" data-track-section="home-fork">
+        <div className="mt-14 grid gap-4 lg:grid-cols-2" data-track-section="home-fork">
           <Reveal>
             <article className="card flex h-full flex-col overflow-hidden">
               <img
@@ -142,9 +138,7 @@ function Paths() {
             </article>
           </Reveal>
 
-          <Reveal delay={100} className="relative">
-            {/* Phones get no split backdrop, so the Build side brings its own full-bleed dark band. */}
-            <div aria-hidden className="tone-dark dots absolute -bottom-20 -top-6 left-[calc(50%-50vw)] right-[calc(50%-50vw)] -z-10 lg:hidden" />
+          <Reveal delay={100}>
             <article className="panel-dark relative flex h-full flex-col overflow-hidden rounded-2xl">
               <div className="relative aspect-[16/8] w-full overflow-hidden">
                 <img
@@ -152,13 +146,13 @@ function Paths() {
                   alt="A program director building on a laptop"
                   className="h-full w-full object-cover opacity-55"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0e1116] to-transparent dark:from-[#151a22]" />
                 <span className="absolute right-5 top-5 rounded-full bg-[#1263a8] px-2.5 py-1 text-xs font-semibold text-white">
                   New
                 </span>
               </div>
               <div className="flex flex-1 flex-col p-8 md:p-10">
-                <p className="flex items-center gap-2 text-sm font-medium text-accent">
+                <p className="flex items-center gap-2 text-sm font-medium text-[#60a5eb]">
                   <Code size={18} weight="bold" />
                   Build
                 </p>
@@ -168,7 +162,7 @@ function Paths() {
                 <ul className="mt-6 space-y-3">
                   {['Blueprint: the full suite, ready to build on', 'Slate: a blank slate to build anything', 'Describe a change. Your AI builds it the same day.'].map((b) => (
                     <li key={b} className="flex gap-3 text-[15px] opacity-90">
-                      <Check size={18} weight="bold" className="mt-0.5 shrink-0 text-accent" />
+                      <Check size={18} weight="bold" className="mt-0.5 shrink-0 text-[#60a5eb]" />
                       {b}
                     </li>
                   ))}
@@ -203,7 +197,7 @@ function Clients() {
                   <img
                     src={asset(`images/logos/${c.file}`)}
                     alt={copy === 0 ? c.name : ''}
-                    className="h-12 w-auto max-w-[200px] object-contain logo-tone opacity-60 transition duration-300 hover:opacity-100 hover:[filter:none]"
+                    className="h-12 w-auto max-w-[200px] object-contain opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 dark:opacity-75 dark:invert dark:hover:grayscale"
                   />
                 </li>
               ))}
@@ -239,7 +233,7 @@ function Quotes() {
               <figure className={`card flex h-full flex-col ${single ? 'p-8 md:p-12' : 'p-7'}`}>
                 <QuoteIcon size={single ? 36 : 28} weight="fill" className="text-accent" aria-hidden />
                 <blockquote
-                  className={`mt-6 font-display leading-snug tracking-[-0.012em] ${single ? 'text-2xl md:text-[2rem]' : 'text-xl'}`}
+                  className={`mt-6 font-medium leading-relaxed tracking-tight ${single ? 'text-xl md:text-2xl' : 'text-lg'}`}
                 >
                   “{q.quote}”
                 </blockquote>
@@ -248,7 +242,7 @@ function Quotes() {
                     src={asset(`images/logos/${q.logo}`)}
                     alt=""
                     aria-hidden
-                    className="h-10 w-auto max-w-[120px] object-contain logo-tone opacity-70"
+                    className="h-10 w-auto max-w-[120px] object-contain opacity-70 grayscale dark:invert"
                     loading="lazy"
                   />
                   <div>
@@ -270,7 +264,6 @@ function Compare() {
     <section className="py-24 md:py-32">
       <Container className="max-w-5xl">
         <Heading title="Side by side." sub="Same platform, same record, same security. The difference is who makes the changes." />
-        {/* The Build column is the dark tone, so the comparison reads at a glance. */}
         <div className="mt-12 overflow-x-auto rounded-2xl border border-line">
           <table className="w-full min-w-[620px] border-collapse text-left text-[15px]">
             <thead>
@@ -279,17 +272,17 @@ function Compare() {
                 <th scope="col" className="px-6 py-4 font-semibold">
                   <Link to="/full-service" className="hover:text-accent">Full-service</Link>
                 </th>
-                <th scope="col" className="tone-dark px-6 py-4 font-semibold">
+                <th scope="col" className="px-6 py-4 font-semibold">
                   <Link to="/build" className="hover:text-accent">Build</Link>
                 </th>
               </tr>
             </thead>
             <tbody>
               {COMPARE.map(([k, a, b]) => (
-                <tr key={k}>
-                  <th scope="row" className="border-t border-line bg-surface px-6 py-4 text-sm font-medium text-muted">{k}</th>
-                  <td className="border-t border-line bg-surface px-6 py-4">{a}</td>
-                  <td className="tone-dark border-t border-line px-6 py-4">{b}</td>
+                <tr key={k} className="border-t border-line">
+                  <th scope="row" className="px-6 py-4 text-sm font-medium text-muted">{k}</th>
+                  <td className="px-6 py-4">{a}</td>
+                  <td className="px-6 py-4">{b}</td>
                 </tr>
               ))}
             </tbody>
@@ -310,7 +303,7 @@ function EitherWay() {
     { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'On every plan. Every change is logged, and any earlier version can be restored.' },
   ]
   return (
-    <section className="tone-dark dots py-24 md:py-32">
+    <section className="border-y border-line bg-surface py-24 md:py-32">
       <Container>
         <Heading title="Either way, you get the same foundation." />
         <div className="mt-12 grid gap-10 md:grid-cols-3">
