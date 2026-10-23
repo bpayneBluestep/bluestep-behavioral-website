@@ -106,8 +106,8 @@ export default function Signup() {
             ))}
           </ul>
           <p className="mt-10 text-sm text-muted">
-            Want to see it first? <Link to="/demo" className="text-accent">Request a demo</Link> or read about it{' '}
-            <Link to="/for-referring-professionals" className="text-accent">for referring professionals</Link>.
+            Want to see it first? <Link to="/demo" className="text-accent">Request a demo</Link> or see{' '}
+            <Link to="/products/consultant-crm" className="text-accent">everything in the Consultant CRM</Link>.
           </p>
         </div>
 
@@ -342,7 +342,7 @@ export function SignupSuccess() {
             Questions before then? Email <span className="text-ink">bpayne@bluestep.net</span>.
           </p>
           <div className="mt-10 flex justify-center gap-3">
-            <Link to="/for-referring-professionals" className="btn-ghost">What you get</Link>
+            <Link to="/products/consultant-crm" className="btn-ghost">What you get</Link>
             <Link to="/" className="btn-primary">Back to home</Link>
           </div>
         </div>

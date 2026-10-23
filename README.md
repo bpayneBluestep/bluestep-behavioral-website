@@ -84,3 +84,7 @@ commercial use, no attribution required). Each photo is used once on the site; c
 | `for-admissions.jpg` | For admissions | Likely Pexels; carried over, source not recorded |
 | `leadership-table.jpg` | For executives | [pexels 7414038](https://www.pexels.com/photo/7414038/) |
 | `teen-consult.jpg` | For referring professionals | [pexels 4100661](https://www.pexels.com/photo/4100661/) |
+
+### Product screenshots
+
+`app/public/images/consultant-crm/` holds screenshots of the real Consultant CRM (`ec-crm-gitsite`) on the `/products/consultant-crm` page. They were taken with the app running locally against a stubbed backend, so every family, program, practice, and consultant in them is invented. There is no real client data in any of them. To retake them, serve the built app and intercept `/b/maestro`, `/b/blueiq`, and `/b/agreementSign` with fictional data.

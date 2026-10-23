@@ -6,6 +6,7 @@ import FullService from './pages/FullService'
 import Build from './pages/Build'
 import Marketplace from './pages/Marketplace'
 import ProductPage from './pages/ProductPage'
+import ConsultantCrm from './pages/ConsultantCrm'
 import RolePage from './pages/RolePage'
 import BlankSlate from './pages/BlankSlate'
 import Pricing from './pages/Pricing'
@@ -27,6 +28,8 @@ const REDIRECTS: Record<string, string> = {
   '/values': '/',
   '/ehr': '/products/ehr',
   '/crm': '/products/crm',
+  '/consultant-crm': '/products/consultant-crm',
+  '/ec-crm': '/products/consultant-crm',
   '/outcomes': '/products/outcomes',
   '/blueiq': '/products/blueiq',
   '/products': '/full-service',
@@ -46,6 +49,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="full-service" element={<FullService />} />
+        <Route path="products/consultant-crm" element={<ConsultantCrm />} />
         <Route path="products/:slug" element={<ProductPage />} />
         {ROLES.map((r) => (
           <Route key={r.slug} path={r.slug} element={<RolePage />} />

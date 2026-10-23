@@ -339,15 +339,15 @@ function Extras() {
             <span className="text-base font-normal text-muted"> / user / month</span>
           </p>
           <p className="mt-4 leading-relaxed text-muted">
-            For consultants and placement teams. Add BlueIQ document intelligence and dictation for $
+            The Consultant CRM, for consultants and placement teams. Add BlueIQ document intelligence and dictation for $
             {REFERRAL.blueIqPerSeat} per user.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link to="/signup" className="btn-primary px-4 py-2 text-sm">
               Sign up now
             </Link>
-            <Link to={CTA.demo.href} className="text-sm font-medium text-accent">
-              {CTA.demo.label}
+            <Link to="/products/consultant-crm" className="text-sm font-medium text-accent">
+              See the Consultant CRM
             </Link>
           </div>
         </Reveal>

@@ -72,6 +72,33 @@ export default function RolePage() {
         </Container>
       </section>
 
+      {isPartner && (
+        <section className="py-16">
+          <Container>
+            <Reveal>
+              <Link
+                to="/products/consultant-crm"
+                className="group flex flex-col gap-5 rounded-2xl border border-accent/25 bg-accent-soft p-7 md:flex-row md:items-center md:justify-between md:p-8"
+              >
+                <span className="flex items-start gap-4">
+                  <Sparkle size={22} weight="fill" className="mt-0.5 shrink-0 text-accent" />
+                  <span>
+                    <span className="block font-semibold">See the product: the Consultant CRM</span>
+                    <span className="mt-1 block text-muted">
+                      Screens from the real app: caseload, referrals, e-signature, the program directory, and BlueIQ.
+                    </span>
+                  </span>
+                </span>
+                <span className="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-accent group-hover:text-ink">
+                  Take the tour
+                  <ArrowRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            </Reveal>
+          </Container>
+        </section>
+      )}
+
       {!isPartner && (
         <section className="py-16">
           <Container>
