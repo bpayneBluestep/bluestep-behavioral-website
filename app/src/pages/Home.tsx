@@ -219,6 +219,13 @@ const QUOTES = [
     title: 'COO, Telos Companies',
     logo: 'telos-academy.png',
   },
+  {
+    quote:
+      'The behavioral health EHR space has a scale problem. Bigger systems, smaller humans. What gets lost is the middle, where clinical depth meets actual relationship. Bluestep is being built in that middle. As a start-up behavioral health company we initially chose one of those ‘bigger systems’ vendors; it was a total disaster. Moving to Bluestep was the best decision we made.',
+    name: 'Chris Perkins',
+    title: 'Founder and CEO, Velocity Health Group',
+    logo: 'velocity-health-group.png',
+  },
 ]
 
 function Quotes() {
@@ -227,13 +234,13 @@ function Quotes() {
     <section className="border-y border-line bg-surface py-24 md:py-32" data-track-section="home-quotes">
       <Container>
         <Heading title="In their words." sub="What the people running programs on BlueStep say about it." />
-        <div className={`mt-12 grid gap-4 ${single ? 'max-w-4xl' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+        <div className={`mt-12 grid gap-4 ${single ? 'max-w-4xl' : QUOTES.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
           {QUOTES.map((q, i) => (
             <Reveal key={q.name} delay={i * 70}>
               <figure className={`card flex h-full flex-col ${single ? 'p-8 md:p-12' : 'p-7'}`}>
                 <QuoteIcon size={single ? 36 : 28} weight="fill" className="text-accent" aria-hidden />
                 <blockquote
-                  className={`mt-6 font-medium leading-relaxed tracking-tight ${single ? 'text-xl md:text-2xl' : 'text-lg'}`}
+                  className={`mb-8 mt-6 font-medium leading-relaxed tracking-tight ${single ? 'text-xl md:text-2xl' : 'text-lg'}`}
                 >
                   “{q.quote}”
                 </blockquote>
