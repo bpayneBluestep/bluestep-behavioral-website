@@ -144,8 +144,8 @@ export const ROLES: Role[] = [
     title: 'For Referring Professionals',
     headline: 'You guide families through the hardest decision of their lives.',
     sub: "Your tools should carry the whole journey: assessment, placement, and every step after. Ours hands a student's full record straight to programs on BlueStep.",
-    image: 'images/heroes/family-consult.jpg',
-    alt: 'A consultant meeting with a family',
+    image: 'images/heroes/teen-consult.jpg',
+    alt: 'A consultant talking with a teenager',
     pains: [
       { icon: NotePencil, heading: 'Chasing signatures on paper', body: 'Engagement letters still go out as PDFs to print, sign, scan, and send back. A week of follow-up for one signature.' },
       { icon: FolderOpen, heading: 'Drowning in documents', body: 'Evaluations, applications, records, call notes. Finding one detail months later means re-reading the whole file.' },

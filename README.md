@@ -83,4 +83,4 @@ commercial use, no attribution required). Each photo is used once on the site; c
 | `nurse-station.jpg` | For nurses | [pexels 6129594](https://www.pexels.com/photo/6129594/) |
 | `for-admissions.jpg` | For admissions | Likely Pexels; carried over, source not recorded |
 | `leadership-table.jpg` | For executives | [pexels 7414038](https://www.pexels.com/photo/7414038/) |
-| `family-consult.jpg` | For referring professionals | [pexels 5336930](https://www.pexels.com/photo/5336930/) |
+| `teen-consult.jpg` | For referring professionals | [pexels 4100661](https://www.pexels.com/photo/4100661/) |
