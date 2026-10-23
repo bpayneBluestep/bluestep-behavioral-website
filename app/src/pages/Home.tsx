@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Check, Code, Lifebuoy, ShieldCheck, Stack, Timer } from '@phosphor-icons/react'
+import { ArrowRight, Check, Code, Lifebuoy, Quotes as QuoteIcon, ShieldCheck, Stack, Timer } from '@phosphor-icons/react'
 import { PLANS, usd } from '../data/pricing'
 import { CTA } from '../site'
 import { ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, useTitle } from '../ui'
@@ -209,6 +209,56 @@ function Clients() {
   )
 }
 
+// Client quotes, verbatim. One quote renders as a single featured card; add more and
+// they fall into a grid.
+const QUOTES = [
+  {
+    quote:
+      "Bluestep has been a game-changer for our organization. The CRM, research capabilities, and quality of the EHR are unsurpassed. It is extremely customizable, and the team is always innovating. We have built so many systems around it that I don't know what we would do without it.",
+    name: 'Tony Mosier',
+    title: 'COO, Telos Companies',
+    logo: 'telos-academy.png',
+  },
+]
+
+function Quotes() {
+  const single = QUOTES.length === 1
+  return (
+    <section className="border-y border-line bg-surface py-24 md:py-32" data-track-section="home-quotes">
+      <Container>
+        <Heading title="In their words." sub="What the people running programs on BlueStep say about it." />
+        <div className={`mt-12 grid gap-4 ${single ? 'max-w-4xl' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+          {QUOTES.map((q, i) => (
+            <Reveal key={q.name} delay={i * 70}>
+              <figure className={`card flex h-full flex-col ${single ? 'p-8 md:p-12' : 'p-7'}`}>
+                <QuoteIcon size={single ? 36 : 28} weight="fill" className="text-accent" aria-hidden />
+                <blockquote
+                  className={`mt-6 font-medium leading-relaxed tracking-tight ${single ? 'text-xl md:text-2xl' : 'text-lg'}`}
+                >
+                  “{q.quote}”
+                </blockquote>
+                <figcaption className="mt-auto flex items-center gap-4 border-t border-line pt-6">
+                  <img
+                    src={asset(`images/logos/${q.logo}`)}
+                    alt=""
+                    aria-hidden
+                    className="h-10 w-auto max-w-[120px] object-contain opacity-70 grayscale dark:invert"
+                    loading="lazy"
+                  />
+                  <div>
+                    <p className="font-semibold">{q.name}</p>
+                    <p className="text-sm text-muted">{q.title}</p>
+                  </div>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
 function Compare() {
   return (
     <section className="py-24 md:py-32">
@@ -303,6 +353,7 @@ export default function Home() {
       <Hero />
       <Clients />
       <Stay />
+      <Quotes />
       <Compare />
       <EitherWay />
       <Origin />
