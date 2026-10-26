@@ -28,6 +28,8 @@ const LOGIN_URL = '/shared/login/login.jsp'
 const LOGOUT_URL = '/shared/login/logout'
 const REPO = 'bpayneBluestep/bluestep-behavioral-website'
 const HOOK_ID = '701032280'
+const GA_REPORTS_URL =
+  'https://analytics.google.com/analytics/web/#/a413551138p560897428/reports/intelligenthome?params=_u..nav%3Dmaui&collectionId=business-objectives'
 
 const microsoftLoginUrl = (dest: string) =>
   `https://oauth2.bluestep.net/v1/login/initiate/microsoft?host=${encodeURIComponent(window.location.host)}&destUrl=${encodeURIComponent(dest)}`
@@ -417,7 +419,8 @@ function LeadsCard() {
           <dd className="mt-1 text-muted">
             {analyticsEnabled
               ? 'Google Analytics is on. Visitors see the consent banner.'
-              : 'Google Analytics is off. Set the GA4 measurement ID in app/src/analytics.ts to turn it on.'}
+              : 'Google Analytics is off. Set the GA4 measurement ID in app/src/analytics.ts to turn it on.'}{' '}
+            <a href={GA_REPORTS_URL} target="_blank" rel="noopener noreferrer" className="text-accent">Google Analytics</a>
           </dd>
         </div>
       </dl>
