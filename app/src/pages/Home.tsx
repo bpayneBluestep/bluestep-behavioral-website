@@ -226,6 +226,14 @@ const QUOTES = [
     title: 'Founder and CEO, Velocity Health Group',
     logo: 'velocity-health-group.png',
   },
+  {
+    // Angie's 2026-10-23 email: a one-liner plus two sentences from her paragraph (she said to break it apart).
+    quote:
+      "BlueStep doesn't make us fit into their system. They make their system fit us. We used to have several different platforms to manage the 24-7 nature of residential treatment, and we love how BlueStep brought nearly every aspect of our work together in one comprehensive platform. Many times they were able to give us solutions that were far better than what we had envisioned!",
+    name: 'Angie Alvey',
+    title: 'Director, Alpine Academy',
+    logo: 'alpine-academy.svg',
+  },
 ]
 
 function Quotes() {
