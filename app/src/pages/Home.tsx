@@ -65,8 +65,8 @@ function Hero() {
 const STAY = [
   { role: 'Admissions', href: '/for-admissions', pain: 'A family calls back Thursday.', change: 'Whoever answers sees every call, the stage, and who owns the next step.' },
   { role: 'Clinical', href: '/for-clinicians', pain: 'The same picture gets written three times a week.', change: 'The session note feeds the weekly summary and the utilization review.' },
-  { role: 'Nursing', href: '/for-nurses', pain: 'A med pass, a PRN, and an incident in one hour.', change: 'All three go in the same record, from the same screen.' },
-  { role: 'Leadership', href: '/for-executives', pain: 'How many beds are open tonight?', change: 'Census, pipeline, and outcomes are on one live screen.' },
+  { role: 'Nursing', href: '/for-nurses', pain: 'A missed dose surfaces a shift too late.', change: 'The eMAR builds each med pass from active orders, and exceptions go to the nurse supervisor.' },
+  { role: 'Leadership', href: '/for-executives', pain: 'How many beds are open tonight?', change: 'Census, pipeline, and outcomes live on the same platform, updated as staff document.' },
 ]
 
 function Stay() {
@@ -160,7 +160,7 @@ function Paths() {
                   Our EHR. Yours to change.
                 </h2>
                 <ul className="mt-6 space-y-3">
-                  {['Blueprint: the full suite, ready to build on', 'Slate: a blank slate to build anything', 'Describe a change. Your AI builds it the same day.'].map((b) => (
+                  {['Blueprint: the full suite, ready to build on', 'Slate: a blank slate to build anything', 'Describe a change. Your AI can build it within the same day.'].map((b) => (
                     <li key={b} className="flex gap-3 text-[15px] opacity-90">
                       <Check size={18} weight="bold" className="mt-0.5 shrink-0 text-[#60a5eb]" />
                       {b}
@@ -304,7 +304,7 @@ function Compare() {
           </table>
         </div>
         <p className="mt-5 text-sm text-muted">
-          Programs can switch paths as their team changes. <Link to="/pricing" className="text-accent">See full pricing</Link>
+          <Link to="/pricing" className="text-accent">See full pricing</Link>
         </p>
       </Container>
     </section>
@@ -313,9 +313,9 @@ function Compare() {
 
 function EitherWay() {
   const items = [
-    { icon: Timer, t: '15 years in behavioral health', b: 'BlueStep has run residential programs for 15 years: the documentation, the audits, and the shift handoffs.' },
+    { icon: Timer, t: '15 years in behavioral health', b: 'BlueStep has worked with residential programs for 15 years: the documentation, the audits, and the shift handoffs.' },
     { icon: Stack, t: 'One record', b: 'EHR, CRM, Outcomes, Academics, and BlueIQ share one database. Admissions data is in the chart on day one.' },
-    { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'On every plan. Every change is logged, and any earlier version can be restored.' },
+    { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'On every plan. Every change is logged, with a full history of who changed what and when.' },
   ]
   return (
     <section className="border-y border-line bg-surface py-24 md:py-32">

@@ -100,7 +100,7 @@ export default function ProductPage() {
               <div className="mt-10">
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Run it as-is, or make it yours.</h2>
                 <p className="mt-3 max-w-md leading-relaxed opacity-75">
-                  On Blueprint, your team can change anything in {product.name} with its own AI tools, the same day.
+                  On Blueprint, your team can change anything in {product.name} with its own AI tools, often within the same day.
                 </p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium">
                   {CTA.how.label}

@@ -385,10 +385,6 @@ const FAQ = [
     'No. You need someone who likes to build and can describe what the program needs. Your AI does the platform work.',
   ],
   [
-    'Can we change plans later?',
-    'Full-service programs can move to a system of their own when they outgrow the standard EHR. Talk to us and we will work out the timing.',
-  ],
-  [
     'Why is it pilot pricing?',
     'Blueprint and Slate are new. We are starting with a small group of programs, and pricing may change as we learn.',
   ],

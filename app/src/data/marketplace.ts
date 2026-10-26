@@ -2,7 +2,7 @@
 // for a real program. Publisher listings from builders get added here as they pass
 // review.
 
-export type Category = 'Clinical' | 'Nursing' | 'Admissions' | 'Compliance' | 'Family' | 'Operations'
+export type Category = 'Clinical' | 'Nursing' | 'Admissions' | 'Compliance'
 
 export interface Listing {
   slug: string
@@ -16,7 +16,7 @@ export interface Listing {
   uses: string[]
 }
 
-export const CATEGORIES: Category[] = ['Clinical', 'Nursing', 'Admissions', 'Compliance', 'Family', 'Operations']
+export const CATEGORIES: Category[] = ['Clinical', 'Nursing', 'Admissions', 'Compliance']
 
 export const LISTINGS: Listing[] = [
   {
@@ -70,36 +70,6 @@ export const LISTINGS: Listing[] = [
     uses: ['Grouped readings', 'Metabolic tracking', 'Chart history'],
   },
   {
-    slug: 'psych-eval',
-    name: 'Psychological Evaluation',
-    summary: 'An evaluation that pulls diagnoses, meds, and history as of the encounter date. Nothing retyped.',
-    category: 'Clinical',
-    publisher: 'BlueStep',
-    price: 'Free',
-    builtOn: 'Blueprint',
-    uses: ['Chart data by date', 'Structured sections', 'Co-sign'],
-  },
-  {
-    slug: 'family-connect',
-    name: 'Family Connect Portal',
-    summary: 'A portal where parents see what they need to, sign what they need to, and nothing more.',
-    category: 'Family',
-    publisher: 'BlueStep',
-    price: 'Free',
-    builtOn: 'Slate',
-    uses: ['Parent sign-in', 'Shared documents', 'Scoped access'],
-  },
-  {
-    slug: 'academic-portal',
-    name: 'Academic Portal',
-    summary: 'Grades, credits, and transcripts for programs that run their own school.',
-    category: 'Family',
-    publisher: 'BlueStep',
-    price: 'Free',
-    builtOn: 'Slate',
-    uses: ['Gradebook', 'Credit tracking', 'Printable transcript'],
-  },
-  {
     slug: 'crm-dashboard',
     name: 'Admissions Dashboard',
     summary: 'Pipeline, follow-ups, and referral sources on one screen for the admissions team.',
@@ -110,6 +80,16 @@ export const LISTINGS: Listing[] = [
     uses: ['Follow-up queue', 'Referral source tracking', 'Census view'],
   },
   {
+    slug: 'pre-admissions-application',
+    name: 'Pre-Admissions Application',
+    summary: 'A form families fill out once. They save, come back, and submit, and BlueIQ drafts an admission summary.',
+    category: 'Admissions',
+    publisher: 'BlueStep',
+    price: 'Included with CRM',
+    builtOn: 'Blueprint',
+    uses: ['Save and return', 'Your own questions', 'BlueIQ admission summary'],
+  },
+  {
     slug: 'bps-lock',
     name: 'Assessment Lock and Unlock',
     summary: 'Lock signed assessments. Unlocking takes a reason, and the reason is logged.',
@@ -118,26 +98,6 @@ export const LISTINGS: Listing[] = [
     price: 'Free',
     builtOn: 'Blueprint',
     uses: ['Lock on sign', 'Audited unlock', 'Role-based control'],
-  },
-  {
-    slug: 'pre-admission',
-    name: 'Pre-Admission Assessment',
-    summary: 'Screen a referral before they arrive, with tiered access for clinical and admissions staff.',
-    category: 'Admissions',
-    publisher: 'BlueStep',
-    price: 'Free',
-    builtOn: 'Blueprint',
-    uses: ['Referral screening', 'Tiered permissions', 'Flows into intake'],
-  },
-  {
-    slug: 'eos',
-    name: 'Leadership Scorecard',
-    summary: 'Rocks, issues, and a weekly scorecard for the leadership team. Built on Slate.',
-    category: 'Operations',
-    publisher: 'BlueStep',
-    price: 'Free',
-    builtOn: 'Slate',
-    uses: ['Weekly scorecard', 'Quarterly rocks', 'Issue tracking'],
   },
 ]
 

@@ -28,7 +28,7 @@ const IDEAS = [
 const IN_THE_BOX = [
   { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'Store anything, including PHI, from day one.' },
   { icon: PlugsConnected, t: 'An MCP connection', b: 'Point your own AI tools at it and start building.' },
-  { icon: BookOpenText, t: 'The BlueStep reference', b: 'Patterns and known traps, so your AI builds it right the first time.' },
+  { icon: BookOpenText, t: 'The BlueStep reference', b: 'Patterns and the traps we have learned from, so your AI starts ahead.' },
   { icon: Storefront, t: 'The marketplace', b: 'Start from a feature another program built instead of from zero.' },
 ]
 

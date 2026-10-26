@@ -32,7 +32,7 @@ export const PLANS = [
       'Everything in Slate',
       'The complete suite: clinical, eMAR, CRM, outcomes, academics',
       'Every marketplace feature from BlueStep',
-      'Snapshot history on every change',
+      'A full history of every change',
       'Technical support',
     ],
     cta: { href: '/demo?path=builder', label: 'Start building' },

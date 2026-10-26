@@ -148,7 +148,7 @@ export default function Marketplace() {
               ['You set the price', 'Free, or whatever your work is worth. Paid listings are licensed per program.'],
               ['We review every listing', 'Before anything is published, we check what it touches: outside connections, data access, and permission changes.'],
               ['Clinical logic is labeled', 'Anything that touches medications or risk is marked for clinical review before use.'],
-              ['Behavioral health only', 'This marketplace is curated for residential and outpatient behavioral health only.'],
+              ['Behavioral health only', 'This marketplace is curated for behavioral healthcare only.'],
             ].map(([t, b], i) => (
               <Reveal key={t} delay={i * 60} className="border-b border-line pb-5 last:border-0">
                 <h3 className="font-semibold">{t}</h3>

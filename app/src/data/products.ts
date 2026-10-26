@@ -58,7 +58,7 @@ export const PRODUCTS: Product[] = [
         heading: 'eMAR',
         pain: "Paper MARs get lost between shifts. A missed dose doesn't surface until the next med pass. The eMAR keeps the record tight through every shift change.",
         bullets: [
-          'Daily schedule generated from active orders. No transcription errors.',
+          'Daily schedule generated from active orders, so nobody recopies them by hand',
           'Tap, time-stamp, initial. PRN reasons and missed doses captured at the point of care.',
           'Exceptions routed to the nurse supervisor',
         ],

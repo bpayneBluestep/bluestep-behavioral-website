@@ -71,7 +71,7 @@ export const ROLES: Role[] = [
       { icon: ClipboardText, name: 'Treatment plan builder', body: '90-day cycles, measurable goals, diagnosis-linked objectives. You fill in the clinical picture. The builder holds the structure.' },
       { icon: Lightning, name: 'Documentation that keeps up', body: "One clinical record, auto-populated fields, compliance rules in the workflow. The system surfaces what's due, so you don't have to remember." },
     ],
-    build: 'A note type your program invented? Our team can build it for you, or your team can build it on Blueprint the same day.',
+    build: 'A note type your program invented? Our team can build it for you, or your team can build it on Blueprint, often within the same day.',
     closing: { headline: 'See how it works for your clinical team.', body: "You'll talk to someone who knows how residential programs run." },
   },
   {
@@ -136,9 +136,9 @@ export const ROLES: Role[] = [
     features: [
       { icon: ChartLineUp, name: 'Outcomes monitoring', body: 'Progress surveys, outcome measures, and post-discharge follow-up, tied to the clinical record.' },
       { icon: ShieldCheck, name: 'Compliance reporting', body: 'Incident trends and compliance reports from the same record your staff documents in.' },
-      { icon: PresentationChart, name: 'Operational dashboards', body: 'Census, pipeline, staffing, and outcomes, updated as your staff documents.' },
+      { icon: PresentationChart, name: 'Operational dashboards', body: 'Census, pipeline, and outcomes, updated as your staff documents.' },
     ],
-    build: 'A report nobody sells? Ask our team to build it, or build it yourself on Blueprint the same day.',
+    build: 'A report nobody sells? Ask our team to build it, or build it yourself on Blueprint, often within the same day.',
     closing: { headline: 'See the visibility your program has been missing.', body: "You'll talk to someone who knows how residential programs run." },
   },
   {

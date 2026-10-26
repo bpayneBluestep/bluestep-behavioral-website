@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   SquaresFour,
   Storefront,
-  Trash,
   Wrench,
 } from '@phosphor-icons/react'
 import BuildLog from '../components/BuildLog'
@@ -48,7 +47,7 @@ const KIT = [
   {
     icon: BookOpenText,
     title: 'The BlueStep reference',
-    body: '15 years of platform knowledge and every known trap, written down so your AI reads it before it builds.',
+    body: '15 years of platform knowledge and the traps we have learned from, written down so your AI reads it before it builds.',
   },
   {
     icon: CheckSquareOffset,
@@ -60,18 +59,16 @@ const KIT = [
 // The trust section. Framed as what helps a builder succeed, not what stops them.
 const GUARDRAILS = [
   { icon: ShieldCheck, t: 'HIPAA-ready from the start', b: 'Everything you build runs on HIPAA-ready hosting under a signed BAA, with the same permissions as the rest of your EHR.' },
-  { icon: FileLock, t: 'A complete audit trail', b: 'Every change is logged with who made it and when, whether a person or their AI made it.' },
-  { icon: ClockCounterClockwise, t: 'Every version saved', b: 'Each change is a snapshot. If something is not right, restore the last good version.' },
-  { icon: Trash, t: 'Deletes take a person', b: 'Your AI can build and change anything. Removing a field, form, or record waits for someone on your team.' },
+  { icon: FileLock, t: 'A complete audit trail', b: 'Every change is logged with who made it and when.' },
+  { icon: ClockCounterClockwise, t: 'A full change history', b: 'Code is saved as a snapshot on every push, and every form keeps a history of what changed.' },
 ]
 
 // Sample change history for the illustration. Names and items are made up.
 const AUDIT = [
-  { v: 'v48', what: 'Created form "Agreement" with 9 fields', who: 'Sam R. with AI', when: '2:14 PM' },
-  { v: 'v47', what: 'Gave Admissions edit access to Agreement', who: 'Sam R. with AI', when: '2:12 PM' },
-  { v: '—', what: 'Delete field "Old notes"', who: 'Requested by AI', when: '', blocked: true },
-  { v: 'v46', what: 'Restored v44', who: 'Jordan M.', when: 'Yesterday' },
-  { v: 'v45', what: 'Added "Discharge plan" section to Treatment Plan', who: 'Jordan M. with AI', when: 'Yesterday' },
+  { v: 'v48', what: 'Created form "Agreement" with 9 fields', who: 'Sam R.', when: '2:14 PM' },
+  { v: 'v47', what: 'Gave Admissions edit access to Agreement', who: 'Sam R.', when: '2:12 PM' },
+  { v: 'v46', what: 'Added "Signed date" field to Agreement', who: 'Sam R.', when: '2:09 PM' },
+  { v: 'v45', what: 'Added "Discharge plan" section to Treatment Plan', who: 'Jordan M.', when: 'Yesterday' },
 ]
 
 const STARTS = [
@@ -269,23 +266,17 @@ export default function Build() {
                 <li key={e.v} className="grid grid-cols-[auto_1fr_auto] items-start gap-x-4 px-5 py-4">
                   <span className="font-mono text-xs text-faint">{e.v}</span>
                   <div className="min-w-0">
-                    <p className={e.blocked ? 'text-ink' : ''}>{e.what}</p>
+                    <p>{e.what}</p>
                     <p className="mt-0.5 text-xs text-muted">{e.who}</p>
                   </div>
-                  <span className="whitespace-nowrap text-xs text-muted">
-                    {e.blocked ? (
-                      <span className="rounded-full bg-raised px-2 py-0.5 font-medium text-ink">Needs a person</span>
-                    ) : (
-                      e.when
-                    )}
-                  </span>
+                  <span className="whitespace-nowrap text-xs text-muted">{e.when}</span>
                 </li>
               ))}
             </ol>
             <div className="flex items-center justify-between border-t border-line bg-raised/60 px-5 py-3 text-xs text-muted">
               <span className="flex items-center gap-1.5">
                 <ClockCounterClockwise size={14} />
-                Restore any version
+                Full change history
               </span>
               <span>Illustration</span>
             </div>
