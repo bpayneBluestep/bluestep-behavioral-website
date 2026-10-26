@@ -12,7 +12,7 @@
 // Enhanced measurement > "Page changes based on browser history events", or every page
 // view counts twice.
 
-const MEASUREMENT_ID = '' // e.g. 'G-XXXXXXXXXX'
+const MEASUREMENT_ID = 'G-F50N894XH2'
 
 export const GA_ID: string = MEASUREMENT_ID || import.meta.env.VITE_GA_ID || ''
 export const analyticsEnabled = GA_ID !== ''
