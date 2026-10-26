@@ -306,7 +306,7 @@ function Compare() {
 function EitherWay() {
   const items = [
     { icon: Timer, t: '15 years in behavioral health', b: 'BlueStep has run residential programs for 15 years: the documentation, the audits, and the shift handoffs.' },
-    { icon: Stack, t: 'One record', b: 'EHR, CRM, Outcomes, and BlueIQ share one database. Admissions data is in the chart on day one.' },
+    { icon: Stack, t: 'One record', b: 'EHR, CRM, Outcomes, Academics, and BlueIQ share one database. Admissions data is in the chart on day one.' },
     { icon: ShieldCheck, t: 'HIPAA-ready hosting and a BAA', b: 'On every plan. Every change is logged, and any earlier version can be restored.' },
   ]
   return (

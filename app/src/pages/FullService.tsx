@@ -10,7 +10,7 @@ import { Button, ClosingCTA, Container, Heading, OnAccentButton, Reveal, asset, 
 const WHY = [
   { icon: Buildings, t: 'People who have worked in programs', b: 'Members of our team started in residential treatment, in direct care and program leadership. We know the documentation, the audits, and the shift-change handoffs.' },
   { icon: ShieldCheck, t: 'Compliance built into the record', b: 'Notes lock when they are signed. Unlocks need a logged reason. Cosignatures route by licensure. A surveyor can see all of it.' },
-  { icon: Stack, t: 'One record for the whole stay', b: 'Admissions, clinical, nursing, and outcomes share one database. On admission day, the chart already has the history.' },
+  { icon: Stack, t: 'One record for the whole stay', b: 'Admissions, clinical, nursing, school, and outcomes share one database. On admission day, the chart already has the history.' },
   { icon: CurrencyDollar, t: 'Prices on the website', b: 'Every plan is priced on our pricing page. Your quote confirms it, and your whole staff is covered.' },
 ]
 
@@ -83,7 +83,7 @@ export default function FullService() {
             title="One record. Every part of the stay."
             sub="Pick the products you need. They share one database, so nothing gets entered twice."
           />
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {PRODUCTS.map((p, i) => (
               <Reveal key={p.slug} delay={i * 60}>
                 <Link

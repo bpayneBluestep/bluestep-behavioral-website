@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Minus, Plus } from '@phosphor-icons/react'
 import {
+  ACADEMICS_BUNDLED,
   BUILD_HELP_RATE,
   CONCIERGE,
   FACILITY_PRICES,
@@ -20,6 +21,8 @@ import { ClosingCTA, Container, Heading, OnAccentButton, PageHero, Reveal, useTi
 type PlanId = 'full-service' | 'concierge' | 'builder' | 'blank-slate'
 
 const planPrice = (id: string) => PLANS.find((p) => p.id === id)!.price
+
+const PRODUCT_LABELS: Record<keyof Selection, string> = { ehr: 'EHR', crm: 'CRM', outcomes: 'Outcomes', academics: 'Academics' }
 
 // The page's one idea: first pick who does the work, then how much of the system is yours.
 // Full-service is the only plan on the standard EHR, so the only one that updates itself.
@@ -163,7 +166,7 @@ const CALC_PLANS: { id: PlanId; name: string }[] = [
 function Calculator() {
   const [plan, setPlan] = useState<PlanId>('full-service')
   const [programs, setPrograms] = useState(2)
-  const [sel, setSel] = useState<Selection>({ ehr: true, crm: true, outcomes: false })
+  const [sel, setSel] = useState<Selection>({ ehr: true, crm: true, outcomes: false, academics: false })
 
   // Slate is one flat fee for the workspace, so the program count doesn't apply.
   const flat = plan === 'blank-slate'
@@ -220,8 +223,8 @@ function Calculator() {
           {plan === 'full-service' && (
             <fieldset className="mt-7">
               <legend className="text-sm font-medium">Products</legend>
-              <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                {(['ehr', 'crm', 'outcomes'] as const).map((k) => (
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {(['ehr', 'crm', 'outcomes', 'academics'] as const).map((k) => (
                   <label
                     key={k}
                     className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 text-sm transition ${
@@ -229,20 +232,20 @@ function Calculator() {
                     }`}
                   >
                     <span>
-                      <span className="block font-medium">{k === 'ehr' ? 'EHR' : k === 'crm' ? 'CRM' : 'Outcomes'}</span>
+                      <span className="block font-medium">{PRODUCT_LABELS[k]}</span>
                       <span className="text-xs text-muted">{usd(FACILITY_PRICES[k])}</span>
                     </span>
                     <input type="checkbox" checked={sel[k]} onChange={() => toggle(k)} className="h-4 w-4 accent-[rgb(var(--accent))]" />
                   </label>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-muted">Bundles are priced lower than the sum. All three: {usd(1500)}.</p>
+              <p className="mt-2 text-xs text-muted">Bundles are priced lower than the sum. EHR, CRM, and Outcomes: {usd(1500)}. Academics is {usd(ACADEMICS_BUNDLED)} with any other product.</p>
             </fieldset>
           )}
 
           {concierge && (
             <p className="mt-7 rounded-xl border border-accent/30 bg-accent-soft px-4 py-3 text-sm">
-              Every product included, plus {CONCIERGE.hours} hours of build work a month from your dedicated engineer.
+              Every product included, Academics too, plus {CONCIERGE.hours} hours of build work a month from your dedicated engineer.
             </p>
           )}
 
@@ -368,6 +371,14 @@ const FAQ = [
   [
     'What is the difference between Blueprint and Full-service?',
     'Same EHR. On Full-service, our team configures it, trains your staff, and builds what you ask for. On Blueprint, your team builds with its own AI tools and we support the platform.',
+  ],
+  [
+    'What does Academics cost?',
+    `${usd(FACILITY_PRICES.academics)} per program a month on its own, or ${usd(ACADEMICS_BUNDLED)} with any other product, with the same multi-program discounts. Every teacher is covered. Academics is included in Concierge and Blueprint. Reading transcripts with BlueIQ uses BlueIQ credits.`,
+  ],
+  [
+    'Do we need a separate school system?',
+    "No. Academics covers classes, attendance, the gradebook, credits, report cards, and transcripts, in the same record as the chart. It doesn't include a parent portal or IEPs yet.",
   ],
   [
     'Do we need a developer?',

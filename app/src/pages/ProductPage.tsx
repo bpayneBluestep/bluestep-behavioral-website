@@ -67,6 +67,14 @@ export default function ProductPage() {
                     </li>
                   ))}
                 </ul>
+                {s.shot && (
+                  <img
+                    src={asset(s.shot.src)}
+                    alt={s.shot.alt}
+                    loading="lazy"
+                    className="mt-7 w-full rounded-2xl border border-line"
+                  />
+                )}
               </Reveal>
             ))}
           </div>
@@ -101,7 +109,7 @@ export default function ProductPage() {
               </div>
             </Link>
           </Reveal>
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {others.map((o, i) => (
               <Reveal key={o.slug} delay={i * 60}>
                 <Link to={`/products/${o.slug}`} className="card group flex h-full items-center gap-4 p-5 transition-colors hover:border-faint">

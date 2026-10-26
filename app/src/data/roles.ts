@@ -6,6 +6,7 @@ import {
   Buildings,
   ChartBar,
   ChartLineUp,
+  CheckCircle,
   ClipboardText,
   Clock,
   Copy,
@@ -44,6 +45,8 @@ export interface Role {
   features: { icon: Icon; name: string; body: string }[]
   /** One line on what this role's team could build next. */
   build: string
+  /** The product this role uses most, shown as a "See the product" card. */
+  product?: { href: string; label: string; body: string }
   closing: { headline: string; body: string }
 }
 
@@ -139,6 +142,34 @@ export const ROLES: Role[] = [
     closing: { headline: 'See the visibility your program has been missing.', body: "You'll talk to someone who knows how residential programs run." },
   },
   {
+    slug: 'for-teachers',
+    nav: 'Teachers',
+    title: 'For Teachers',
+    headline: 'Teach the class. The system keeps the record.',
+    sub: 'Students arrive mid-term and leave without notice. Half your class gets pulled for therapy. Academics was built for teaching in a residential school, in the same record your clinical team uses.',
+    image: 'images/heroes/for-teachers.jpg',
+    alt: 'A teacher helping a student with her work at a desk',
+    pains: [
+      { icon: UserPlus, heading: 'A new student every week', body: 'Students arrive mid-term. You find out when they walk in, and the roster catches up a week later.' },
+      { icon: ArrowsLeftRight, heading: 'Pulled for therapy, medical, court', body: "In a residential school, being out of class isn't truancy. A system built for districts calls it absent anyway." },
+      { icon: Table, heading: 'The gradebook is a spreadsheet', body: 'Grades live in a file on your laptop until report cards are due. Then you retype them into another system.' },
+      { icon: FileText, heading: 'Report cards and transcripts by hand', body: 'A student discharges on Friday and the next school wants a transcript Monday. Someone builds it from three sources.' },
+    ],
+    features: [
+      { icon: SquaresFour, name: 'My Classes', body: "Your classes for the term, each one tap from attendance and the gradebook. Anything you still owe is flagged." },
+      { icon: CheckCircle, name: 'Attendance by exception', body: "Everyone starts present. Tap the students who aren't, using your school's own codes, Therapy and Medical included." },
+      { icon: ChartBar, name: 'A gradebook that does the math', body: 'Your categories and weights. Scores in, running average and letter grade out. Post final grades when the term ends.' },
+      { icon: Sparkle, name: 'Transcripts in, report cards out', body: "BlueIQ reads a new student's old transcript into transfer credits for you to check. Report cards come out in your school's design." },
+    ],
+    build: 'A report your state requires, or a grading rule only your school uses? Ask our team to build it, or build it yourself on Blueprint.',
+    product: {
+      href: '/products/academics',
+      label: 'See the product: Academics',
+      body: 'Screens from the real app: My Classes, attendance, the gradebook, transcripts, and BlueIQ transfer credits.',
+    },
+    closing: { headline: 'See it with your own classes.', body: "You'll talk to someone who knows how residential schools run." },
+  },
+  {
     slug: 'for-referring-professionals',
     nav: 'Referring Professionals',
     title: 'For Referring Professionals',
@@ -161,6 +192,11 @@ export const ROLES: Role[] = [
       { icon: MapTrifold, name: 'Built for the whole journey', body: 'One family, one record, and a timeline of every placement, however long the journey runs.' },
     ],
     build: 'Priced per user: $25 a month, plus $15 for BlueIQ.',
+    product: {
+      href: '/products/consultant-crm',
+      label: 'See the product: the Consultant CRM',
+      body: 'Screens from the real app: caseload, referrals, e-signature, the program directory, and BlueIQ.',
+    },
     closing: { headline: 'See it built for the way you place.', body: 'Talk to someone who understands the placement world.' },
   },
 ]

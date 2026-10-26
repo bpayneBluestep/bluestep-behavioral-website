@@ -81,7 +81,7 @@ const STARTS = [
     name: 'Blueprint',
     price: `${price('builder')} per program / month`,
     t: 'Start with the full suite.',
-    b: 'EHR, CRM, Outcomes, and BlueIQ, already built. Change anything on top of it.',
+    b: 'EHR, CRM, Outcomes, Academics, and BlueIQ, already built. Change anything on top of it.',
   },
   {
     to: '/marketplace',

@@ -45,7 +45,7 @@ checking the `assets/index-*.js` hash matches the repo, not by webhook status.
 | Brand name, nav, CTA labels (rebrand = edit here) | `app/src/site.ts` |
 | Plans and prices (Blueprint/Slate are pilot numbers) | `app/src/data/pricing.ts` |
 | Marketplace listings | `app/src/data/marketplace.ts` |
-| Product pages (EHR, CRM, Outcomes, BlueIQ) | `app/src/data/products.ts` |
+| Product pages (EHR, CRM, Outcomes, Academics, BlueIQ) | `app/src/data/products.ts` |
 | Who-we-help role pages | `app/src/data/roles.ts` |
 | Colors (light + dark tokens) | `app/src/styles.css` |
 | Contact form endpoint | `FORM_ENDPOINT` in `app/src/pages/Demo.tsx` |
@@ -84,7 +84,11 @@ commercial use, no attribution required). Each photo is used once on the site; c
 | `for-admissions.jpg` | For admissions | Likely Pexels; carried over, source not recorded |
 | `leadership-table.jpg` | For executives | [pexels 7414038](https://www.pexels.com/photo/7414038/) |
 | `teen-consult.jpg` | For referring professionals | [pexels 4100661](https://www.pexels.com/photo/4100661/) |
+| `classroom.jpg` | Academics product page | [pexels 8419491](https://www.pexels.com/photo/8419491/) |
+| `for-teachers.jpg` | For teachers | [pexels 8617736](https://www.pexels.com/photo/8617736/) |
 
 ### Product screenshots
 
 `app/public/images/consultant-crm/` holds screenshots of the real Consultant CRM (`ec-crm-gitsite`) on the `/products/consultant-crm` page. They were taken with the app running locally against a stubbed backend, so every family, program, practice, and consultant in them is invented. There is no real client data in any of them. To retake them, serve the built app and intercept `/b/maestro`, `/b/blueiq`, and `/b/agreementSign` with fictional data.
+
+`app/public/images/academics/` holds screenshots of Academics on configbehmodular (summitridge.bluestep.net), cropped from the 2026-10-25 QA walk. **They are temporary.** The dev dataset uses real athletes' names and the term is labeled "(TEST)". Replace them with a screenshot-only dataset of invented students (Brandon, 2026-10-26: "we'll replace it with better demo data later"). Never use the student-record shots: those show real athletes' photos.

@@ -3,7 +3,7 @@
 // Full-service numbers mirror the internal pricing calculator spreadsheet (unchanged
 // from the previous site). Blueprint and Slate numbers are PILOT HYPOTHESES from
 // the 2026-10-15 strategy session and are labeled as pilot pricing on the page.
-// Change them here.
+// Academics ($150, launched 2026-10-26) is not a pilot number. Change them here.
 
 export const PLANS = [
   {
@@ -30,7 +30,7 @@ export const PLANS = [
     pitch: 'The full suite, already built. Build on top of it.',
     includes: [
       'Everything in Slate',
-      'The complete EHR: clinical, eMAR, CRM, outcomes',
+      'The complete suite: clinical, eMAR, CRM, outcomes, academics',
       'Every marketplace feature from BlueStep',
       'Snapshot history on every change',
       'Technical support',
@@ -66,8 +66,11 @@ export const BUILD_HELP_RATE = 175
 export const CONCIERGE = { base: 3500, perAddedProgram: 1000, hours: 10 } as const
 
 // ─── Full-service calculator (per program, per month) ───────────────────────
-export const FACILITY_PRICES = { ehr: 1000, crm: 500, outcomes: 250 } as const
+export const FACILITY_PRICES = { ehr: 1000, crm: 500, outcomes: 250, academics: 150 } as const
 export const BUNDLES = { ehrCrm: 1350, ehrOutcomes: 1125, all: 1500 } as const
+/** Academics with any other product: $125 instead of $150. EHR + Academics lands at 10% off, like
+ *  the two-product bundles; all four at ~15% off, like the three-product bundle. */
+export const ACADEMICS_BUNDLED = 125
 /** 1st program full price, 2nd program -15%, 3rd and beyond -25%. Per-program plans only (not Slate). */
 export const VOLUME_DISCOUNTS = [0, 0.15, 0.25] as const
 
@@ -77,13 +80,20 @@ export interface Selection {
   ehr: boolean
   crm: boolean
   outcomes: boolean
+  academics: boolean
 }
 
-export function basePerProgram({ ehr, crm, outcomes }: Selection): number {
+function coreBase({ ehr, crm, outcomes }: Selection): number {
   if (ehr && crm && outcomes) return BUNDLES.all
   if (ehr && crm) return BUNDLES.ehrCrm
   if (ehr && outcomes) return BUNDLES.ehrOutcomes
   return (ehr ? FACILITY_PRICES.ehr : 0) + (crm ? FACILITY_PRICES.crm : 0) + (outcomes ? FACILITY_PRICES.outcomes : 0)
+}
+
+export function basePerProgram(sel: Selection): number {
+  const core = coreBase(sel)
+  if (!sel.academics) return core
+  return core + (core > 0 ? ACADEMICS_BUNDLED : FACILITY_PRICES.academics)
 }
 
 export function discountFor(programIndex: number): number {

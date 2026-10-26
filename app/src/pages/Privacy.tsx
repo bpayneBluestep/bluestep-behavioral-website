@@ -95,7 +95,7 @@ export default function Privacy() {
 
         <Section title="BlueStep products">
           <p>
-            This page covers this website only. Data in the BlueStep EHR, CRM, Outcomes, and BlueIQ is governed by your
+            This page covers this website only. Data in the BlueStep EHR, CRM, Outcomes, Academics, and BlueIQ is governed by your
             program's agreement with {BRAND.legal} and our Business Associate Agreement.
           </p>
         </Section>

@@ -1,11 +1,13 @@
 // Product pages (/products/*). Copy condensed from the previous site's approved
 // product pages. Each section: a heading, the pain it answers, and what we do.
-import { Brain, ChartLineUp, Funnel, Stethoscope, type Icon } from '@phosphor-icons/react'
+import { Brain, ChartLineUp, Funnel, GraduationCap, Stethoscope, type Icon } from '@phosphor-icons/react'
 
 export interface ProductSection {
   heading: string
   pain: string
   bullets: string[]
+  /** Optional screenshot shown under the bullets. */
+  shot?: { src: string; alt: string }
 }
 
 export interface Product {
@@ -169,6 +171,98 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
+    slug: 'academics',
+    name: 'Academics',
+    icon: GraduationCap,
+    price: '$150 per program / month',
+    card: 'Classes, attendance, gradebook, report cards, and transcripts.',
+    headline: 'Your school already knows who was admitted this morning.',
+    sub: 'Residential schools run a second system for classes and grades, and someone keeps it in sync with the chart by hand. Academics is the school system in the same record, so admissions, discharges, and transcripts stop falling through the gap.',
+    image: 'images/heroes/classroom.jpg',
+    alt: 'A teacher leading a discussion with a small class of teenagers',
+    sections: [
+      {
+        heading: 'Admissions and discharge',
+        pain: 'Students arrive and leave mid-term. A new student sits in class for a week before anyone enrolls them, and the one who discharged still has six open classes in June.',
+        bullets: [
+          "New admissions show up on a Needs enrollment list until they're in classes",
+          'Discharged students with open classes are flagged for their teachers to wrap up',
+          'Close each class with a withdrawal mark, partial credit, or a hand-off grade for the next school',
+          'Partial credit is suggested from the days the student was enrolled',
+        ],
+        shot: { src: 'images/academics/my-classes.jpg', alt: "A teacher's classes for the term, with one class flagged as needing wrap-up" },
+      },
+      {
+        heading: 'Attendance in seconds',
+        pain: "Class attendance competes with teaching. If it takes more than a minute, it doesn't get done.",
+        bullets: [
+          "Teachers open My Classes and see today's classes, each one tap from its roster",
+          'Everyone starts present. Teachers tap only the exceptions.',
+          'Your own codes, including Therapy and Medical for students pulled from class',
+          'Classes still missing attendance are flagged',
+        ],
+        shot: { src: 'images/academics/attendance.jpg', alt: 'A class attendance roster with present, absent, tardy, excused, therapy, and medical codes' },
+      },
+      {
+        heading: 'Gradebook and posting',
+        pain: 'Grades live in a spreadsheet until report cards are due. Then someone retypes them.',
+        bullets: [
+          'Assignment categories and weights per class, starting from a school default',
+          'Running average and letter grade as scores go in, with late and missing work flagged',
+          'Post final grades at the end of a term. Posted grades lock.',
+          'Unlocking takes an admin and a logged reason',
+        ],
+        shot: { src: 'images/academics/gradebook.jpg', alt: 'A class gradebook with weighted categories, scores, and running term grades' },
+      },
+      {
+        heading: 'Credits and GPA',
+        pain: '"How many credits does she have?" should not take an afternoon with three transcripts.',
+        bullets: [
+          'Credits by subject area on the student record, with in-progress credits shown separately',
+          'Unweighted and weighted GPA, with Honors, AP, and dual enrollment weighting',
+          'Cumulative across the whole record, transfer credits included',
+          'Dated grade-level history, set by a person, never advanced automatically',
+        ],
+      },
+      {
+        heading: 'Report cards and transcripts',
+        pain: 'Report cards that look like a database export. Transcripts assembled by hand the week a student discharges.',
+        bullets: [
+          'Progress reports and report cards any time, for one student or the whole school',
+          'Unofficial transcripts on demand, watermarked',
+          "Official transcripts with the registrar's signature, a document number, and an issuance log",
+          "Your school's logo, header, and sections, set once with a live preview",
+        ],
+        shot: { src: 'images/academics/transcript.jpg', alt: 'An unofficial transcript with term grades, credits, and cumulative GPA' },
+      },
+      {
+        heading: 'Transfer credits with BlueIQ',
+        pain: 'Every new student brings a transcript from somewhere else, often a phone photo of a fax. Someone types it in, line by line.',
+        bullets: [
+          'Upload the transcript. BlueIQ fills in the courses, credits, and grades beside the file.',
+          'Staff checks every row and saves. Nothing is saved without a person.',
+          'Flags a transcript that belongs to a different student',
+          'Uses BlueIQ credits. Typing credits in by hand works too.',
+        ],
+        shot: { src: 'images/academics/transfer-import.jpg', alt: 'BlueIQ filling in transfer credits from an uploaded transcript for staff to review' },
+      },
+      {
+        heading: 'Setup in an afternoon',
+        pain: 'Most school systems take a consultant and a semester to configure.',
+        bullets: [
+          'A seven-step checklist: school details, terms, subjects, grade scales, attendance codes, courses, and documents',
+          'Sensible defaults to start from. Copy last term forward.',
+          'Permissions per person: teachers see their own classes, registrars issue transcripts',
+          'Nothing is turned on until your admin grants it',
+        ],
+      },
+    ],
+    quote: {
+      headline: 'One record. The school is in it.',
+      body: 'Academics lives in the same database as the clinical record. When a student is admitted, the school already has them. When they discharge, their teachers know.',
+    },
+  },
+  {
     slug: 'blueiq',
     name: 'BlueIQ',
     icon: Brain,
@@ -187,7 +281,11 @@ export const PRODUCTS: Product[] = [
       {
         heading: 'Dictation and document intelligence',
         pain: 'Records arrive as a pile. Notes get typed at the end of a long shift.',
-        bullets: ['Point BlueIQ at a pile of documents for a summary and cited answers', 'Dictate a note and it comes back clean, classified, and ready for review'],
+        bullets: [
+          'Point BlueIQ at a pile of documents for a summary and cited answers',
+          'Dictate a note and it comes back clean, classified, and ready for review',
+          "Reads a new student's old transcript into transfer credits for staff to check",
+        ],
       },
       {
         heading: 'Clear usage',
