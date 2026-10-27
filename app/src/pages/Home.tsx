@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Check, Code, Lifebuoy, Quotes as QuoteIcon, ShieldCheck, Stack, Timer } from '@phosphor-icons/react'
 import { PLANS, usd } from '../data/pricing'
@@ -243,39 +244,77 @@ const QUOTES = [
   },
 ]
 
+// One featured quote with a logo row to switch between them, so the section stays
+// one quote tall however many we add. Rotates on a timer, paused while hovered or
+// focused and off entirely under reduced motion.
+const QUOTE_INTERVAL_MS = 8000
+
 function Quotes() {
-  const single = QUOTES.length === 1
+  const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused || QUOTES.length < 2) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const t = window.setTimeout(() => setActive((i) => (i + 1) % QUOTES.length), QUOTE_INTERVAL_MS)
+    return () => window.clearTimeout(t)
+  }, [active, paused])
+
   return (
-    <section className="border-y border-line bg-surface py-24 md:py-32" data-track-section="home-quotes">
+    <section className="border-y border-line bg-surface py-20 md:py-24" data-track-section="home-quotes">
       <Container>
         <Heading title="In their words." sub="What the people running programs on BlueStep say about it." />
-        <div className={`mt-12 grid gap-4 ${single ? 'max-w-4xl' : QUOTES.length % 3 === 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-2'}`}>
-          {QUOTES.map((q, i) => (
-            <Reveal key={q.name} delay={i * 70}>
-              <figure className={`card flex h-full flex-col ${single ? 'p-8 md:p-12' : 'p-7'}`}>
-                <QuoteIcon size={single ? 36 : 28} weight="fill" className="text-accent" aria-hidden />
-                <blockquote
-                  className={`mb-8 mt-6 font-medium leading-relaxed tracking-tight ${single ? 'text-xl md:text-2xl' : 'text-lg'}`}
+        <Reveal>
+          <div
+            className="card mt-12 p-8 md:p-12"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocus={() => setPaused(true)}
+            onBlur={() => setPaused(false)}
+          >
+            <QuoteIcon size={32} weight="fill" className="text-accent" aria-hidden />
+            {/* Every quote sits in the same grid cell, so the card is as tall as the longest one and never jumps. */}
+            <div className="mt-6 grid">
+              {QUOTES.map((q, i) => (
+                <figure
+                  key={q.name}
+                  id={`quote-${i}`}
+                  role="tabpanel"
+                  aria-hidden={i !== active}
+                  className={`col-start-1 row-start-1 transition-opacity duration-500 ${i === active ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
                 >
-                  “{q.quote}”
-                </blockquote>
-                <figcaption className="mt-auto flex items-center gap-4 border-t border-line pt-6">
+                  <blockquote className="max-w-4xl text-lg font-medium leading-relaxed tracking-tight md:text-xl">“{q.quote}”</blockquote>
+                  <figcaption className="mt-6">
+                    <p className="font-semibold">{q.name}</p>
+                    <p className="text-sm text-muted">{q.title}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            <div role="tablist" aria-label="Client quotes" className="mt-8 flex flex-wrap items-center gap-2 border-t border-line pt-6">
+              {QUOTES.map((q, i) => (
+                <button
+                  key={q.name}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === active}
+                  aria-controls={`quote-${i}`}
+                  aria-label={q.title.split(', ').pop()}
+                  onClick={() => setActive(i)}
+                  className={`rounded-xl border px-4 py-3 transition-colors ${i === active ? 'border-accent bg-bg' : 'border-transparent hover:border-line'}`}
+                >
                   <img
                     src={asset(`images/logos/${q.logo}`)}
                     alt=""
                     aria-hidden
-                    className="h-10 w-auto max-w-[120px] object-contain opacity-70 grayscale dark:invert"
+                    className={`h-8 w-auto max-w-[120px] object-contain grayscale transition-opacity dark:invert ${i === active ? 'opacity-100' : 'opacity-60'}`}
                     loading="lazy"
                   />
-                  <div>
-                    <p className="font-semibold">{q.name}</p>
-                    <p className="text-sm text-muted">{q.title}</p>
-                  </div>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </Container>
     </section>
   )
