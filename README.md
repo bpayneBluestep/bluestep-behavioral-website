@@ -52,7 +52,6 @@ checking the `assets/index-*.js` hash matches the repo, not by webhook status.
 
 ## Open items
 
-- **Pre-launch password gate** (`app/src/components/SiteGate.tsx`, added 2026-10-26) plus a `noindex` meta in `app/index.html`. A courtesy lock only: the bundle is public. Remove both at launch.
 - **Contact form endpoint is still a placeholder** (it was on the old site too, so the old
   demo form never delivered). Until it is set, the form opens a pre-filled email to
   `bpayne@bluestep.net` instead of failing.

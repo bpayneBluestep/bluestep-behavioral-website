@@ -239,7 +239,7 @@ const QUOTES = [
       "We have constructed a state-of-the-art EHR that is carefully designed around the unique systems, processes, clinical workflows, and quality assurance needs we have. In many ways, we have created an enterprise resource planning tool (ERP) for the Hope Group. It's taken intentional time and investment in development, and is now an integral tool in our toolbelt that makes us better.",
     name: 'Josh Gardner',
     title: 'CFO, The Hope Group',
-    logo: 'havenwood-academy.png',
+    logo: 'hope-group.png',
   },
 ]
 

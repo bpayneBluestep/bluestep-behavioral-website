@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/geist-mono'
 import App from './App'
-import SiteGate from './components/SiteGate'
 import { initAnalytics } from './analytics'
 import './styles.css'
 
@@ -22,10 +21,8 @@ initAnalytics()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SiteGate>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </SiteGate>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>,
 )
