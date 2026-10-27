@@ -248,7 +248,7 @@ const QUOTES = [
 // peeking in from the right and fading out. Advances one card on a timer or the arrows,
 // paused while hovered or focused and never automatic under reduced motion. The list is
 // rendered twice so it loops: after sliding onto the copy, it snaps back without animating.
-const QUOTE_INTERVAL_MS = 9000
+const QUOTE_INTERVAL_MS = 20000
 const SLIDES = [...QUOTES, ...QUOTES]
 
 function Quotes() {
