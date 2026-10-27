@@ -234,6 +234,13 @@ const QUOTES = [
     title: 'Director, Alpine Academy',
     logo: 'alpine-academy.svg',
   },
+  {
+    quote:
+      "We have constructed a state-of-the-art EHR that is carefully designed around the unique systems, processes, clinical workflows, and quality assurance needs we have. In many ways, we have created an enterprise resource planning tool (ERP) for the Hope Group. It's taken intentional time and investment in development, and is now an integral tool in our toolbelt that makes us better.",
+    name: 'Josh Gardner',
+    title: 'CFO, The Hope Group',
+    logo: 'havenwood-academy.png',
+  },
 ]
 
 function Quotes() {
@@ -242,7 +249,7 @@ function Quotes() {
     <section className="border-y border-line bg-surface py-24 md:py-32" data-track-section="home-quotes">
       <Container>
         <Heading title="In their words." sub="What the people running programs on BlueStep say about it." />
-        <div className={`mt-12 grid gap-4 ${single ? 'max-w-4xl' : QUOTES.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+        <div className={`mt-12 grid gap-4 ${single ? 'max-w-4xl' : QUOTES.length % 3 === 0 ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-2'}`}>
           {QUOTES.map((q, i) => (
             <Reveal key={q.name} delay={i * 70}>
               <figure className={`card flex h-full flex-col ${single ? 'p-8 md:p-12' : 'p-7'}`}>
