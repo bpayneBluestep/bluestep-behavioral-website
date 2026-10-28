@@ -408,10 +408,9 @@ function LeadsCard() {
         <div>
           <dt className="font-medium">CRM sign-ups</dt>
           <dd className="mt-1 text-muted">
-            <Link to="/signup" className="text-accent">/signup</Link> takes payment through Stripe (/b/crmCheckout). Each
-            completed payment emails you from /b/stripeWebhook. Keys live in Stripe Settings on the Cobalt
-            Organization record.{' '}
-            <a href="https://dashboard.stripe.com/subscriptions" target="_blank" rel="noopener noreferrer" className="text-accent">Stripe subscriptions</a>
+            <Link to="/signup" className="text-accent">/signup</Link> is temporarily payment-free: each sign-up is
+            emailed to you through FormSubmit and invoiced by hand. Stripe checkout (/b/crmCheckout, /b/stripeWebhook)
+            is switched off until the live account is linked.
           </dd>
         </div>
         <div>
