@@ -5,12 +5,9 @@ import { BRAND } from '../site'
 import { track } from '../analytics'
 import { Container, asset, useTitle } from '../ui'
 
+// /b/crmCheckout (Cobalt org U142140) emails each request to bpayne@bluestep.net with B.email.
 // If FORM_ENDPOINT is reset to a REPLACE_ME placeholder, the form opens a pre-filled email instead.
-// FormSubmit relays each request to bpayne@bluestep.net. The id is FormSubmit's alias for that
-// address (activated 2026-10-16), so the email isn't scrapeable from the bundle.
-// 2026-10-28: FormSubmit hung on every submit, so the form uses the email fallback. Put the
-// formsubmit.co/ajax/633006af458489a48ebf5f7491a3c3e3 URL back here to re-enable it.
-const FORM_ENDPOINT: string = 'REPLACE_ME'
+const FORM_ENDPOINT: string = '/b/crmCheckout'
 const ENDPOINT_READY = !FORM_ENDPOINT.startsWith('REPLACE_ME')
 
 const PATHS = [
@@ -101,21 +98,18 @@ export default function Demo() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
+          kind: 'demo',
           interest: pathLabel,
           name: values.name,
-          'role/title': values.role,
-          'facility name': values.facility,
+          role: values.role,
+          facility: values.facility,
           email: values.email,
-          phone: values.phone || undefined,
+          phone: values.phone,
           message: values.message,
-          _subject: `Website: ${pathLabel} request from ${values.facility}`,
-          _replyto: values.email,
-          _template: 'table',
-          _honey: '',
         }),
       })
       const data = await res.json().catch(() => ({}))
-      const ok = res.ok && String(data.success) === 'true'
+      const ok = res.ok && data.ok === true
       setStatus(ok ? 'sent' : 'error')
       // Only the chosen path goes to analytics, never what the visitor typed.
       track(ok ? 'generate_lead' : 'lead_error', { interest: path })

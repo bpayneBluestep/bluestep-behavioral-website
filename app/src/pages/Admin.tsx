@@ -409,8 +409,8 @@ function LeadsCard() {
           <dt className="font-medium">CRM sign-ups</dt>
           <dd className="mt-1 text-muted">
             <Link to="/signup" className="text-accent">/signup</Link> is temporarily payment-free: each sign-up is
-            emailed to you through FormSubmit and invoiced by hand. Stripe checkout (/b/crmCheckout, /b/stripeWebhook)
-            is switched off until the live account is linked.
+            emailed to you by /b/crmCheckout (B.email) and invoiced by hand. Stripe checkout
+            (/b/stripeWebhook) is off until the live account is linked.
           </dd>
         </div>
         <div>

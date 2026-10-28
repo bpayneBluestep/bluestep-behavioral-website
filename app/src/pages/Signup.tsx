@@ -7,12 +7,13 @@ import { track } from '../analytics'
 import { Container, useTitle } from '../ui'
 
 // Self-serve sign-up for the Educational Consultant CRM.
-// TEMPORARY (2026-10-28): Stripe is still in sandbox, so this page takes no payment. Submitting
-// opens the visitor's email app with the sign-up addressed to bpayne@bluestep.net, and we invoice
-// by hand. The Stripe checkout (/b/crmCheckout + Payment Element, ../stripe.ts) is in git history
-// at bf93066; restore that version of this file once the live account is ready.
+// TEMPORARY (2026-10-28): Stripe is still in sandbox, so this page takes no payment. It posts the
+// sign-up to /b/crmCheckout (Cobalt org U142140), which emails it to bpayne@bluestep.net with
+// B.email, and we invoice by hand. The Stripe checkout (Payment Element, ../stripe.ts) is in git
+// history at bf93066; restore that version of this file once the live account is ready.
 
 const MAX_USERS = 100
+const SEND_FAILED = 'Your sign-up could not be sent. Please try again, or email bpayne@bluestep.net.'
 
 const INCLUDED = [
   'One family, one record, with every placement on a timeline',
@@ -31,6 +32,8 @@ export default function Signup() {
   const [blueiq, setBlueiq] = useState(true)
   const [values, setValues] = useState<Values>({ name: '', firm: '', email: '' })
   const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({})
+  const [busy, setBusy] = useState(false)
+  const [failure, setFailure] = useState('')
 
   const perUser = REFERRAL.perSeat + (blueiq ? REFERRAL.blueIqPerSeat : 0)
   const total = perUser * users
@@ -41,7 +44,7 @@ export default function Signup() {
     if (errors[k]) setErrors((x) => ({ ...x, [k]: undefined }))
   }
 
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault()
     const next: typeof errors = {}
     if (!values.name.trim()) next.name = 'Enter your name.'
@@ -49,25 +52,25 @@ export default function Signup() {
     setErrors(next)
     if (Object.keys(next).length) return
 
-    const name = values.name.trim()
-    const firm = values.firm.trim()
-    const email = values.email.trim()
-    const body = [
-      `Plan: Consultant CRM${blueiq ? ' + BlueIQ' : ''}`,
-      `Users: ${users}`,
-      `Per user: $${perUser} / month`,
-      `Monthly total: $${total.toLocaleString()} / month`,
-      `Name: ${name}`,
-      firm && `Firm: ${firm}`,
-      `Email: ${email}`,
-    ]
-      .filter(Boolean)
-      .join('\n')
-    track('crm_signup', { users, blueiq: blueiq ? 'yes' : 'no' })
-    window.location.href = `mailto:${BRAND.email}?subject=${encodeURIComponent(
-      `CRM sign-up: ${firm || name} (${users} ${users === 1 ? 'user' : 'users'})`,
-    )}&body=${encodeURIComponent(body)}`
-    navigate('/signup/success')
+    setBusy(true)
+    setFailure('')
+    try {
+      const res = await fetch('/b/crmCheckout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind: 'signup', users, blueiq, name: values.name.trim(), firm: values.firm.trim(), email: values.email.trim() }),
+      })
+      const body = await res.json().catch(() => null)
+      track(body?.ok ? 'crm_signup' : 'crm_signup_error', { users, blueiq: blueiq ? 'yes' : 'no' })
+      if (body?.ok) {
+        navigate('/signup/success')
+        return
+      }
+      setFailure(body?.error || SEND_FAILED)
+    } catch {
+      setFailure(SEND_FAILED)
+    }
+    setBusy(false)
   }
 
   const inputCls = (k: keyof Values) =>
@@ -164,8 +167,14 @@ export default function Signup() {
             </div>
           </div>
 
-          <button type="submit" className="btn-primary mt-8 w-full justify-center py-3 text-base">
-            Sign up
+          {failure && (
+            <p role="alert" className="mt-6 rounded-xl border border-red-500/40 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+              {failure}
+            </p>
+          )}
+
+          <button type="submit" disabled={busy} className="btn-primary mt-8 w-full justify-center py-3 text-base disabled:opacity-60">
+            {busy ? 'Sending…' : 'Sign up'}
           </button>
           <p className="mt-4 text-center text-xs text-muted">
             Nothing is charged today. Billed monthly by invoice. Change users or cancel any time by emailing us.
@@ -177,21 +186,20 @@ export default function Signup() {
 }
 
 export function SignupSuccess() {
-  useTitle('Send your sign-up')
+  useTitle("You're signed up")
   return (
     <section className="py-24 md:py-32">
       <Container className="max-w-2xl text-center">
         <div className="rise">
           <CheckCircle size={52} weight="fill" className="mx-auto text-accent" />
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tightest md:text-5xl">One last step.</h1>
+          <h1 className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tightest md:text-5xl">You're in. Thank you.</h1>
           <p className="prose-body mx-auto mt-6 max-w-[48ch]">
-            Your email app opened with your sign-up filled in. Hit send, and we'll reach out within one business day
-            to set up your account, send your first invoice, and bring your clients over.
+            We got your sign-up. We'll reach out within one business day to set up your account, send your first
+            invoice, and bring your clients, documents, and notes over.
           </p>
           <p className="mt-6 text-sm text-muted">
-            Email app didn't open? Write to{' '}
-            <a className="text-accent underline" href={`mailto:${BRAND.email}`}>{BRAND.email}</a> with your plan and
-            number of users.
+            Questions before then? Email{' '}
+            <a className="text-accent underline" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
           </p>
           <div className="mt-10 flex justify-center gap-3">
             <Link to="/products/consultant-crm" className="btn-ghost">What you get</Link>
