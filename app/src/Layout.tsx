@@ -5,7 +5,6 @@ import { BRAND, CTA, NAV, isGroup, type NavGroup } from './site'
 import { Container, Logo } from './ui'
 import ThemeToggle from './components/ThemeToggle'
 import ConsentBanner from './components/ConsentBanner'
-import Garden from './components/Garden'
 import { analyticsEnabled, openConsent, track, trackPage } from './analytics'
 
 /** Desktop dropdown. Opens on hover or click, closes on outside click, Escape, or navigation. */
@@ -335,7 +334,6 @@ export default function Layout() {
       <Footer />
       <RouteTracker />
       <ConsentBanner />
-      <Garden />
     </>
   )
 }

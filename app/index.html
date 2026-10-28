@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" class="garden">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f7f3e9" />
+    <meta name="theme-color" content="#fafafb" />
     <script>
       // Set the theme before first paint so there is no flash: saved choice, else light.
       ;(function () {
@@ -12,7 +12,7 @@
         try { t = localStorage.getItem('theme') } catch (e) {}
         if (t !== 'light' && t !== 'dark') t = 'light'
         document.documentElement.dataset.theme = t
-        document.querySelector('meta[name=theme-color]').content = t === 'dark' ? '#0d1513' : '#f7f3e9'
+        document.querySelector('meta[name=theme-color]').content = t === 'dark' ? '#0a0d12' : '#fafafb'
       })()
     </script>
     <meta

@@ -253,7 +253,7 @@ export default function Demo() {
               )}
 
               <button type="submit" disabled={status === 'sending'} className="btn-primary mt-8 w-full py-3.5 text-base disabled:opacity-60">
-                {status === 'sending' ? 'Sending' : 'Send it by butterfly'}
+                {status === 'sending' ? 'Sending' : 'Send my request'}
               </button>
             </form>
           )}
