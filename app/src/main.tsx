@@ -6,6 +6,9 @@ import '@fontsource-variable/geist-mono'
 import App from './App'
 import { initAnalytics } from './analytics'
 import './styles.css'
+import '@fontsource-variable/fraunces/full.css'
+import '@fontsource-variable/nunito'
+import './garden.css'
 
 /*
  * Two bases, deliberately different (GitSite contract, see vite.config.ts):

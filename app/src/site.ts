@@ -81,7 +81,7 @@ export const isGroup = (n: NavGroup | NavLinkItem): n is NavGroup => 'columns' i
 
 // One label per intent, used everywhere.
 export const CTA = {
-  demo: { href: '/demo', label: 'Request a demo' },
+  demo: { href: '/demo', label: 'Step into the garden' },
   build: { href: '/demo?path=builder', label: 'Start building' },
   fullService: { href: '/full-service', label: 'Explore full-service' },
   how: { href: '/build', label: 'Explore building' },

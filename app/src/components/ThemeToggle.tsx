@@ -11,7 +11,7 @@ const current = (): Theme => (document.documentElement.dataset.theme === 'dark' 
 
 function apply(t: Theme) {
   document.documentElement.dataset.theme = t
-  document.querySelector<HTMLMetaElement>('meta[name=theme-color]')?.setAttribute('content', t === 'dark' ? '#0a0d12' : '#fafafb')
+  document.querySelector<HTMLMetaElement>('meta[name=theme-color]')?.setAttribute('content', t === 'dark' ? '#0d1513' : '#f7f3e9')
 }
 
 export default function ThemeToggle({ className = '', withLabel = false }: { className?: string; withLabel?: boolean }) {
