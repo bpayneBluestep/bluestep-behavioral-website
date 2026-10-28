@@ -57,9 +57,13 @@ export default function Signup() {
     const name = values.name.trim()
     const firm = values.firm.trim()
     const email = values.email.trim()
+    // FormSubmit can take 30s+ to answer; never leave the visitor on "Sending…" forever.
+    const timer = new AbortController()
+    const timeout = setTimeout(() => timer.abort(), 45000)
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
+        signal: timer.signal,
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           plan: `Consultant CRM${blueiq ? ' + BlueIQ' : ''}`,
@@ -82,9 +86,12 @@ export default function Signup() {
         navigate('/signup/success')
         return
       }
+      if (data.message) console.error('FormSubmit:', data.message)
       setFailure(SEND_FAILED)
     } catch {
-      setFailure('Your sign-up could not be sent. Check your connection and try again.')
+      setFailure(SEND_FAILED)
+    } finally {
+      clearTimeout(timeout)
     }
     setBusy(false)
   }
