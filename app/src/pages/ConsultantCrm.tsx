@@ -159,7 +159,7 @@ export default function ConsultantCrm() {
               Consultant CRM
             </p>
             <h1 className="text-4xl font-semibold leading-[1.05] tracking-tightest md:text-[3.4rem]">
-              The CRM built for placing students, not closing deals.
+              The CRM purpose-built for Educational Consultants.
             </h1>
             <p className="prose-body mt-6 max-w-[52ch]">
               Families, referrals, agreements, and a live directory of programs, in one workspace made for educational
