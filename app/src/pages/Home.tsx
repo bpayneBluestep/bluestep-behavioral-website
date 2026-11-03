@@ -243,9 +243,9 @@ const QUOTES = [
     logo: 'hope-group.png',
   },
   {
-    // Bryan's 2026-11-03 email ("Quote on Bluestep"). Title not given yet.
+    // Bryan's 2026-11-03 email ("Quote on Bluestep"), trimmed to his own sentences. Title not given yet.
     quote:
-      "What sets BlueStep apart is that it's ours to shape. We aren't limited to what comes out of the box. We've built our own clinical assessment dashboards, progress reports, photo upload tools, and integrations with outside systems like our learning management platform—all tailored to how our programs actually work. And the new AI tools have changed how quickly we can get answers. When something in the data looks off, I can get to the information I need quickly, track down the cause, and spot trends that would have taken hours of digging before. That means less time hunting through records and more time addressing what our staff actually need.",
+      "What sets BlueStep apart is that it's ours to shape. We've built our own clinical assessment dashboards, progress reports, photo upload tools, and integrations with outside systems, all tailored to how our programs actually work. And the new AI tools have changed how quickly we can get answers. That means less time hunting through records and more time addressing what our staff actually need.",
     name: 'Bryan Hancock',
     title: 'Ascent Programs',
     logo: 'ascent-behavioral-health.png',
