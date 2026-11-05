@@ -5,8 +5,9 @@ import { Container, PageHero, useTitle } from '../ui'
 
 // Unlisted customer setup guide for Slate: shared by link, never linked from the
 // nav or footer, and marked noindex so search engines leave it out.
-// The reader picks an agent and an OS; both live in the URL (?agent=&os=) so a
-// shared link opens on the same version, and every step renders for that pair only.
+// Written for people using the agents' desktop apps (Claude, Codex, Cursor), not a
+// command line. The reader picks an agent and an OS; both live in the URL
+// (?agent=&os=) so a shared link opens on the same version.
 
 type AgentId = 'claude' | 'codex' | 'cursor'
 type OsId = 'mac' | 'windows'
@@ -14,8 +15,10 @@ type OsId = 'mac' | 'windows'
 const AGENT_IDS: AgentId[] = ['claude', 'codex', 'cursor']
 const OS_IDS: OsId[] = ['mac', 'windows']
 
-const AGENT_NAMES: Record<AgentId, string> = { claude: 'Claude Code', codex: 'Codex', cursor: 'Cursor' }
+const AGENT_NAMES: Record<AgentId, string> = { claude: 'Claude', codex: 'Codex', cursor: 'Cursor' }
 const OS_NAMES: Record<OsId, string> = { mac: 'Mac', windows: 'Windows' }
+
+const MARKETPLACE = 'https://github.com/Bluestep-Systems/bspecs'
 
 /** Best guess at the reader's OS when the link doesn't say. */
 function detectOs(): OsId {
@@ -28,15 +31,11 @@ function osInfo(os: OsId) {
   const mac = os === 'mac'
   return {
     mac,
-    terminal: mac ? 'Terminal' : 'PowerShell',
-    openTerminal: mac
-      ? 'Press Cmd+Space, type Terminal, and press Enter.'
-      : 'Press the Windows key, type PowerShell, and press Enter.',
     mod: mac ? 'Cmd' : 'Ctrl',
-    workspace: mac ? '~/BlueStep' : '$HOME\\BlueStep',
-    site: mac ? '~/Sites/my-first-gitsite' : '$HOME\\Sites\\my-first-gitsite',
-    mkdirWorkspace: mac ? 'mkdir -p ~/BlueStep' : 'mkdir $HOME\\BlueStep',
-    mkdirSite: mac ? 'mkdir -p ~/Sites/my-first-gitsite' : 'mkdir $HOME\\Sites\\my-first-gitsite',
+    files: mac ? 'Finder' : 'File Explorer',
+    editor: mac ? 'TextEdit' : 'Notepad',
+    docs: mac ? 'Documents' : 'Documents',
+    newFolder: mac ? 'File → New Folder' : 'New → Folder',
   }
 }
 
@@ -228,13 +227,13 @@ function DataFlow() {
 
 const TOC = [
   ['overview', 'Overview'],
-  ['basics', '1. Install the basics'],
-  ['agent', '2. Install your agent'],
-  ['connect', '3. Connect to BlueStep'],
+  ['ready', '1. Get ready'],
+  ['plugin', '2. Add BlueStep'],
+  ['key', '3. Your BlueStep key'],
   ['workspace', '4. Your workspace'],
-  ['gitsite', '5. Your first GitSite'],
+  ['gitsite', '5. Your first website'],
   ['dashboard', '6. A live dashboard'],
-  ['help', 'Workflow and help'],
+  ['help', 'Everyday use and help'],
 ] as const
 
 export default function SlateSetup() {
@@ -266,97 +265,174 @@ export default function SlateSetup() {
   // ---- Agent × OS specifics -------------------------------------------------
 
   const plan = {
-    claude: 'Claude Pro, Max, Team or Enterprise',
-    codex: 'ChatGPT Plus, Pro, Business or Enterprise',
-    cursor: 'a paid Cursor plan (recommended)',
+    claude: 'a paid Claude plan (Pro, Max, Team or Enterprise)',
+    codex: 'a paid ChatGPT plan (Plus, Pro, Business or Enterprise)',
+    cursor: 'a paid Cursor plan',
   }[agent]
 
-  const maker = { claude: 'Anthropic', codex: 'OpenAI', cursor: 'Anysphere' }[agent]
-
-  const install: ReactNode = {
-    claude: <Code>{o.mac ? 'curl -fsSL https://claude.ai/install.sh | bash' : 'irm https://claude.ai/install.ps1 | iex'}</Code>,
-    codex: <Code>npm i -g @openai/codex</Code>,
-    cursor: (
-      <p>
-        Download the {o.mac ? 'Mac' : 'Windows'} installer from <A href="https://cursor.com">cursor.com</A>, run it, and open
-        Cursor.
-      </p>
-    ),
-  }[agent]
-
-  const signIn: ReactNode = {
+  const getApp: ReactNode = {
     claude: (
       <>
-        Run <C>claude</C> and pick your Claude account. A browser window opens to approve it.
+        Download the Claude app from <A href="https://claude.ai/download">claude.ai/download</A>, install it, and sign in.
+        You'll use its <strong>Code</strong> tab.
       </>
     ),
     codex: (
       <>
-        Run <C>codex</C> and choose <strong>Sign in with ChatGPT</strong>.
+        Download the Codex app from <A href="https://openai.com/codex">openai.com/codex</A>, install it, and sign in with
+        your ChatGPT account.
       </>
     ),
-    cursor: <>Sign in when Cursor first opens.</>,
+    cursor: (
+      <>
+        Download Cursor from <A href="https://cursor.com">cursor.com</A>, install it, and sign in when it first opens.
+      </>
+    ),
   }[agent]
 
+  /** How to start working in a folder, in this app. */
   const openIn = (folder: string): ReactNode =>
-    agent === 'cursor' ? (
+    ({
+      claude: (
+        <>
+          In the Claude app, click the <strong>Code</strong> tab. Under the message box, pick <strong>Local</strong>, then
+          click the folder button → <strong>Open folder…</strong> and choose <strong>{folder}</strong>.
+        </>
+      ),
+      codex: (
+        <>
+          In the Codex app, start a new project and choose the <strong>{folder}</strong> folder.
+        </>
+      ),
+      cursor: (
+        <>
+          In Cursor, choose <strong>File → Open Folder</strong>, pick <strong>{folder}</strong>, then open the Agent panel (
+          {o.mod}+I).
+        </>
+      ),
+    })[agent]
+
+  /** Where the one typed command goes. */
+  const terminal: ReactNode = {
+    claude: (
       <>
-        In Cursor, File → Open Folder and choose <C>{folder}</C>, then open the Agent panel ({o.mod}+I).
+        click <strong>Terminal</strong> at the top of your Code session (or press Ctrl+`)
+      </>
+    ),
+    codex: o.mac ? (
+      <>
+        open the Mac's <strong>Terminal</strong> app (press Cmd+Space, type Terminal, press Enter)
       </>
     ) : (
       <>
-        In {o.terminal}, run <C>{`cd ${folder}`}</C>, then <C>{agent}</C>.
-      </>
-    )
-
-  const plugin: ReactNode = {
-    claude: (
-      <>
-        <p>In {o.terminal}, run:</p>
-        <Code>{'claude plugin marketplace add Bluestep-Systems/bspecs\nclaude plugin install bluestep-tools@bluestep'}</Code>
-      </>
-    ),
-    codex: (
-      <>
-        <p>In {o.terminal}, run:</p>
-        <Code>codex plugin marketplace add Bluestep-Systems/bspecs</Code>
-        <p>
-          Then start <C>codex</C>, open its plugins screen and install <strong>bluestep-tools</strong>. Type <C>/hooks</C>{' '}
-          and <strong>trust</strong> the plugin's hooks. Until you do, BlueStep's safety checks silently do nothing.
-        </p>
+        open <strong>PowerShell</strong> (press the Windows key, type PowerShell, press Enter)
       </>
     ),
     cursor: (
-      <p>
-        Click <strong>Connect GitHub</strong> in Cursor's sidebar. Open Plugins → <strong>Add Marketplace → Import from
-        Repo</strong>, enter <C>https://github.com/Bluestep-Systems/bspecs</C>, and install <strong>bluestep-tools</strong>.
-      </p>
+      <>
+        choose <strong>Terminal → New Terminal</strong> from Cursor's menu bar
+      </>
+    ),
+  }[agent]
+
+  const plugin: ReactNode = {
+    claude: (
+      <ol className="list-decimal space-y-1.5 pl-5">
+        <li>
+          In the Claude app's left sidebar, click <strong>Customize</strong>, then <strong>Plugins</strong>.
+        </li>
+        <li>
+          Click <strong>+</strong> next to Personal plugins → <strong>Add marketplace</strong> →{' '}
+          <strong>From repository</strong>.
+        </li>
+        <li>
+          Paste <C>{MARKETPLACE}</C> and click <strong>Done</strong>.
+        </li>
+        <li>
+          Click <strong>Browse plugins</strong>, find <strong>bluestep-tools</strong>, and click <strong>Install</strong>.
+        </li>
+        <li>
+          In that marketplace's settings, turn on <strong>Sync automatically</strong> so updates arrive on their own.
+        </li>
+      </ol>
+    ),
+    codex: (
+      <ol className="list-decimal space-y-1.5 pl-5">
+        <li>
+          Ask Codex: <C>Add the BlueStep plugin marketplace by running: codex plugin marketplace add Bluestep-Systems/bspecs</C>{' '}
+          and approve it.
+        </li>
+        <li>
+          Open Codex's <strong>Plugins</strong> screen, find <strong>bluestep-tools</strong>, and click{' '}
+          <strong>Install</strong>.
+        </li>
+        <li>
+          On the plugin's page, choose <strong>Review → Trust</strong> for its hooks. Until you do, BlueStep's safety checks
+          quietly do nothing.
+        </li>
+      </ol>
+    ),
+    cursor: (
+      <ol className="list-decimal space-y-1.5 pl-5">
+        <li>
+          Click <strong>Connect GitHub</strong> in Cursor's sidebar and sign in. Without this, the next step silently adds
+          nothing.
+        </li>
+        <li>
+          Open Cursor's <strong>Plugins</strong> screen → <strong>Add Marketplace</strong> →{' '}
+          <strong>Import from Repo</strong>, and paste <C>{MARKETPLACE}</C>.
+        </li>
+        <li>
+          Install <strong>bluestep-tools</strong>. If it shows as off, turn it on in <strong>Manage</strong>.
+        </li>
+      </ol>
     ),
   }[agent]
 
   const phi: ReactNode = {
-    claude: <Code>claude plugin install phi-guard@bluestep --scope user</Code>,
+    claude: (
+      <>
+        In <strong>Customize → Plugins → Browse plugins</strong>, install <strong>phi-guard</strong> too.
+      </>
+    ),
     codex: (
-      <p>
-        Install <strong>phi-guard</strong> from Codex's plugins screen, then trust its hook with <C>/hooks</C>.
-      </p>
+      <>
+        On the Plugins screen, install <strong>phi-guard</strong> too and trust its hook the same way.
+      </>
     ),
     cursor: (
-      <p>
-        Install <strong>phi-guard</strong> from Cursor's plugins screen.
-      </p>
+      <>
+        On the Plugins screen, install <strong>phi-guard</strong> from the same marketplace.
+      </>
     ),
   }[agent]
 
-  const update: ReactNode = {
-    claude: <C>claude plugin update bluestep-tools@bluestep</C>,
-    codex: (
-      <>
-        update from Codex's plugins screen, then re-trust the hooks with <C>/hooks</C>
-      </>
-    ),
-    cursor: <>Cursor updates it on its own</>,
+  const quit = {
+    claude: o.mac ? 'Quit Claude completely (Cmd+Q) and open it again' : 'Quit Claude completely (File → Exit) and open it again',
+    codex: o.mac ? 'Quit Codex completely (Cmd+Q) and open it again' : 'Quit Codex completely and open it again',
+    cursor: o.mac ? 'Quit Cursor completely (Cmd+Q) and open it again' : 'Quit Cursor completely and open it again',
   }[agent]
+
+  // Where the gateway's copy of the key lives depends on the app and the OS.
+  const keyKind: 'claude' | 'mac-login' | 'win-env' = agent === 'claude' ? 'claude' : o.mac ? 'mac-login' : 'win-env'
+
+  const keyPrompt =
+    keyKind === 'claude'
+      ? `Help me store my BlueStep key without ever seeing it.
+1. If the b6p tool isn't installed, install it: npm i -g @bluestep-systems/b6p-cli
+2. In my Claude user settings file (${o.mac ? '~/.claude/settings.json' : '%USERPROFILE%\\.claude\\settings.json'}),
+   add B6PT_TOKEN to the "env" section with the value PASTE-YOUR-KEY-HERE.
+   Keep everything else in the file exactly as it is.
+3. Open that file for me in ${o.editor}.
+Never ask me for the key.`
+      : keyKind === 'mac-login'
+        ? `Help me store my BlueStep key without ever seeing it.
+1. If the b6p tool isn't installed, install it: npm i -g @bluestep-systems/b6p-cli
+2. Create a login item at ~/Library/LaunchAgents/net.bluestep.key.plist that runs
+   launchctl setenv B6PT_TOKEN PASTE-YOUR-KEY-HERE each time I log in.
+3. Open that file for me in TextEdit.
+Never ask me for the key.`
+        : `If the b6p tool isn't installed, install it: npm i -g @bluestep-systems/b6p-cli`
 
   // ---------------------------------------------------------------------------
 
@@ -364,13 +440,13 @@ export default function SlateSetup() {
     <>
       <PageHero
         kicker="Slate setup guide"
-        title="From zero to your first app on BlueStep."
-        sub="Every step to connect your coding agent to BlueStep, publish a website, and build a live dashboard on your own data. About two hours the first time."
+        title="Set up Slate, step by step."
+        sub="Connect your AI assistant to BlueStep, put a website live, and build a dashboard on your own data. No coding experience needed. Plan on about two hours the first time; most of it is waiting for downloads."
       >
         <div className="w-full">
-          <p className="mb-4 text-sm text-muted">Pick your setup. Every command, shortcut and folder below changes to match.</p>
+          <p className="mb-4 text-sm text-muted">Tell us what you're using. Every step below changes to match.</p>
           <div className="flex flex-wrap gap-6">
-            <Picker label="Coding agent" options={AGENT_IDS} names={AGENT_NAMES} value={agent} onChange={(v) => set('agent', v)} />
+            <Picker label="AI assistant" options={AGENT_IDS} names={AGENT_NAMES} value={agent} onChange={(v) => set('agent', v)} />
             <Picker
               label="Computer"
               options={OS_IDS}
@@ -397,7 +473,7 @@ export default function SlateSetup() {
                 type="button"
                 onClick={() => set('agent', id)}
                 aria-pressed={agent === id}
-                className={`shrink-0 rounded-full px-2.5 py-1 text-xs sm:px-3 transition ${agent === id ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'}`}
+                className={`shrink-0 rounded-full px-2.5 py-1 text-xs transition sm:px-3 ${agent === id ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'}`}
               >
                 {AGENT_NAMES[id]}
               </button>
@@ -409,7 +485,7 @@ export default function SlateSetup() {
                 type="button"
                 onClick={() => set('os', id)}
                 aria-pressed={os === id}
-                className={`shrink-0 rounded-full px-2.5 py-1 text-xs sm:px-3 transition ${os === id ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'}`}
+                className={`shrink-0 rounded-full px-2.5 py-1 text-xs transition sm:px-3 ${os === id ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'}`}
               >
                 {OS_NAMES[id]}
               </button>
@@ -436,434 +512,388 @@ export default function SlateSetup() {
             <Part
               id="overview"
               n="Overview"
-              title="What you'll have at the end"
+              title="How Slate works"
               lead={
                 <>
-                  {name} connected to your BlueStep organization, and a live website that shows your own BlueStep data. Slate is
-                  BlueStep plus the coding agent of your choice, running on your computer. You describe what you want in plain
-                  English; the agent reads your BlueStep setup, writes the code and publishes it. You approve anything that
-                  changes your organization.
+                  Slate pairs BlueStep with an AI assistant on your computer, here {name}. You describe what you want in
+                  everyday language. {name} looks at how your BlueStep is set up, does the technical work, and asks you before
+                  it changes anything.
                 </>
               }
             >
-              <p className="font-medium text-ink">You need before you start:</p>
+              <Callout>
+                <strong>You can't break anything in Parts 1 to 4.</strong> They only install software and connect accounts.
+                Nothing changes in your live BlueStep data until you approve it, and we recommend trying new builds on a test
+                site first.
+              </Callout>
+              <p className="font-medium text-ink">Before you start, have these ready:</p>
               <ul className="list-disc space-y-1.5 pl-5">
                 <li>
-                  {o.mac ? 'A Mac with an Apple Silicon chip (M1 or newer)' : 'A Windows 10 or 11 PC'}, and admin rights to
-                  install software on it.
+                  {o.mac ? 'A Mac with an Apple chip (M1 or newer)' : 'A Windows 10 or 11 PC'} that you're allowed to install
+                  software on.
                 </li>
+                <li>{plan[0].toUpperCase() + plan.slice(1)}.</li>
+                <li>Your BlueStep login, with admin access.</li>
                 <li>
-                  A plan for {name}: {plan}.
+                  <strong>Your BlueStep key.</strong> It's a long code that starts with <C>b6pt_</C> and lets {name} work in
+                  your BlueStep. Ask your BlueStep contact for one, and treat it like a password.
                 </li>
-                <li>A BlueStep login with admin access to your organization.</li>
-                <li>
-                  A BlueStep <strong>access token</strong> (it starts with <C>b6pt_</C>). Ask your BlueStep contact for a
-                  Slate access token before you begin.
-                </li>
-                <li>A free GitHub account (you can create it in Part 1).</li>
               </ul>
-              <p className="pt-2 font-medium text-ink">How the pieces fit:</p>
+              <p className="pt-2 font-medium text-ink">What you'll install, and why:</p>
               <Table
-                head={['Piece', 'What it is', 'What it does for you']}
+                head={['What', 'Why you need it']}
                 rows={[
-                  [name, `Your coding agent, by ${maker}`, 'Reads, writes and runs everything on your behalf'],
-                  ['bluestep-tools plugin', "BlueStep's add-on, built for Claude Code, Codex and Cursor", 'Teaches the agent the BlueStep rules and adds the b6p commands'],
-                  ['BlueStep gateway', 'A secure connection from your agent to your org', 'Lets the agent look up forms, fields and records, and set things up with your approval'],
-                  ['b6p', "BlueStep's command-line tool", 'Downloads and uploads your scripts and reports'],
-                  ['GitHub + GitSite', "Where your website's code lives, and the BlueStep site that serves it", 'Every change you push to GitHub goes live on your BlueStep domain'],
+                  [name, `The AI assistant that does the work for you.`],
+                  ['The BlueStep plugin', `Teaches ${name} how BlueStep works and connects it to your organization.`],
+                  ['Node.js', 'A free helper program that BlueStep’s tools run on. You won’t use it directly.'],
+                  ['GitHub', 'A free service that stores your website. When it changes, BlueStep updates your site.'],
                 ]}
               />
             </Part>
 
-            <Part
-              id="basics"
-              n="Part 1"
-              title="Install the basics"
-              lead={
-                <>
-                  You'll type a few commands into <strong className="text-ink">{o.terminal}</strong>, a text window where you run
-                  programs by name: paste a command, press Enter, and wait for the prompt to come back. After Part 2, your agent
-                  types almost everything for you.
-                </>
-              }
-            >
+            <Part id="ready" n="Part 1 · about 30 minutes" title="Get ready" lead="Ordinary downloads and installers, nothing to type.">
               <Steps>
-                <Step title={`Open ${o.terminal}.`}>
-                  <p>{o.openTerminal}</p>
-                </Step>
-                <Step title="Install Node.js 20 or newer.">
-                  {o.mac ? (
-                    <p>
-                      Download the LTS installer from <A href="https://nodejs.org">nodejs.org</A> and click through it.
-                    </p>
-                  ) : (
-                    <Code>winget install -e --id OpenJS.NodeJS.LTS</Code>
-                  )}
+                <Step title={`Install ${name}.`}>
                   <p>
-                    Close and reopen {o.terminal}, then check that <C>node --version</C> prints v20 or higher.
+                    {getApp} You need {plan}.
                   </p>
                 </Step>
-                <Step title="Install Git.">
-                  {o.mac ? (
-                    <>
-                      <Code>git --version</Code>
-                      <p>If it offers to install the command line developer tools, click Install and wait for it to finish.</p>
-                    </>
-                  ) : (
-                    <>
-                      <Code>winget install -e --id Git.Git</Code>
-                      <p>
-                        {agent === 'claude'
-                          ? 'Claude Code on Windows needs Git for Windows, so don’t skip this.'
-                          : 'Close and reopen PowerShell afterwards.'}
-                      </p>
-                    </>
-                  )}
-                </Step>
-                <Step title="Create a GitHub account">
+                <Step title="Install Node.js.">
                   <p>
-                    at <A href="https://github.com/signup">github.com/signup</A> if you don't have one.
+                    Go to <A href="https://nodejs.org">nodejs.org</A>, download the <strong>LTS</strong> version for{' '}
+                    {o.mac ? 'macOS' : 'Windows'}, and click through the installer with the default choices.
                   </p>
                 </Step>
-                <Step title="Install the GitHub command-line tool and sign in.">
-                  {o.mac ? (
+                {!o.mac && (
+                  <Step title="Install Git.">
                     <p>
-                      Download the macOS installer from <A href="https://cli.github.com">cli.github.com</A> and run it.
+                      Download <strong>Git for Windows</strong> from <A href="https://git-scm.com/download/win">git-scm.com</A>{' '}
+                      and click through the installer with the default choices. BlueStep's tools use it behind the scenes.
                     </p>
-                  ) : (
-                    <Code>winget install -e --id GitHub.cli</Code>
-                  )}
-                  <p>Close and reopen {o.terminal}, then run:</p>
-                  <Code>gh auth login</Code>
-                  <p>Choose GitHub.com, HTTPS, and Login with a web browser, then enter the code it shows.</p>
+                  </Step>
+                )}
+                <Step title="Create a free GitHub account.">
+                  <p>
+                    Sign up at <A href="https://github.com/signup">github.com/signup</A> if you don't have one.
+                  </p>
                 </Step>
-                <Step title="Check everything.">
-                  <p>Each line should print a version or "Logged in":</p>
-                  <Code>{'node --version\ngit --version\ngh auth status'}</Code>
+                <Step title="Install the GitHub helper.">
+                  <p>
+                    Download the {o.mac ? 'macOS' : 'Windows'} installer from <A href="https://cli.github.com">cli.github.com</A>{' '}
+                    and run it. {name} uses it to publish your website; you won't open it yourself.
+                  </p>
                 </Step>
               </Steps>
+              <p>
+                <strong>Done when:</strong> {name} opens and you're signed in.
+              </p>
             </Part>
 
             <Part
-              id="agent"
-              n="Part 2"
-              title={`Install ${name}`}
-              lead="Teams can mix agents: the BlueStep plugin and project rules work the same in all three."
+              id="plugin"
+              n="Part 2 · about 10 minutes"
+              title={`Add BlueStep to ${name}`}
+              lead={`You'll make one folder for your BlueStep work, open it in ${name}, and install the BlueStep plugin.`}
             >
               <Steps>
-                <Step title="Install it.">
-                  {install}
-                  {agent !== 'cursor' && <p>Close and reopen {o.terminal} afterwards.</p>}
-                </Step>
-                <Step title="Sign in.">
-                  <p>{signIn} Use the account on your paid plan.</p>
-                </Step>
-                <Step title="Say hello.">
+                <Step title="Make a folder for your BlueStep work.">
                   <p>
-                    Ask <C>What can you do in this folder?</C> If it answers, it works.
+                    In {o.files}, open <strong>{o.docs}</strong> and create a new folder ({o.newFolder}) named{' '}
+                    <strong>BlueStep</strong>.
                   </p>
                 </Step>
-                <Step title="Learn the controls.">
+                <Step title={`Open it in ${name}.`}>
+                  <p>{openIn('BlueStep')}</p>
+                </Step>
+                {o.mac && (
+                  <Step title="Let your Mac install its developer tools.">
+                    <p>
+                      Ask {name}: <C>Check whether Git is installed. If it isn't, start Apple's installer for it.</C> When a
+                      window asks to install the command line developer tools, click <strong>Install</strong> and wait for it to
+                      finish (a few minutes).
+                    </p>
+                  </Step>
+                )}
+                <Step title="Install the BlueStep plugin.">{plugin}</Step>
+                <Step title="Recommended: install phi-guard.">
                   <p>
-                    {name} asks before running commands or changing files. Read each request and approve it, or say what to do
-                    instead.{' '}
-                    {agent === 'cursor' ? 'The Stop button halts it mid-task.' : `Esc stops it mid-task; /exit leaves, and running ${agent} again brings you back.`}
+                    If you work with client health information, add this safety net. It stops {name} from ever writing anything
+                    that looks like real client data into your files. {phi}
                   </p>
+                </Step>
+                <Step title={`${quit}.`}>
+                  <p>New plugins only load when the app starts.</p>
                 </Step>
               </Steps>
+              <p>
+                <strong>Done when:</strong> typing <C>{agent === 'codex' ? '$' : '/'}</C> in {name}'s message box lists commands
+                starting with <C>b6p</C>.
+              </p>
+            </Part>
+
+            <Part
+              id="key"
+              n="Part 3 · about 10 minutes"
+              title="Connect your BlueStep key"
+              lead={`${name} needs your BlueStep key in two places. You'll paste it yourself both times, so ${name} never sees it.`}
+            >
               <Callout>
-                <strong>Opening {name} in a folder</strong> comes up throughout this guide: {openIn('<folder>')}
-                {agent === 'codex' && (
+                <strong>Never paste your BlueStep key into the {name} chat</strong>, an email, or a shared document. Anyone who
+                has it can act as you in BlueStep.
+              </Callout>
+              <Steps>
+                {keyKind === 'win-env' ? (
                   <>
-                    {' '}
-                    BlueStep commands start with <C>$</C> in Codex, for example <C>$b6p-setup</C>; you can also just ask it to
-                    run b6p-setup.
+                    <Step title="Let it install BlueStep's sync tool.">
+                      <p>Open {name} in your BlueStep folder and paste:</p>
+                      <Code>{keyPrompt}</Code>
+                      <p>Approve when it asks.</p>
+                    </Step>
+                    <Step title="Save your key in Windows.">
+                      <ol className="list-decimal space-y-1.5 pl-5">
+                        <li>
+                          Press the Windows key, type <strong>environment variables</strong>, and open{' '}
+                          <strong>Edit environment variables for your account</strong>.
+                        </li>
+                        <li>
+                          Under <strong>User variables</strong>, click <strong>New…</strong>
+                        </li>
+                        <li>
+                          Variable name: <C>B6PT_TOKEN</C>. Variable value: paste your key. Click <strong>OK</strong>, then{' '}
+                          <strong>OK</strong> again.
+                        </li>
+                      </ol>
+                    </Step>
+                  </>
+                ) : (
+                  <>
+                    <Step title={`Ask ${name} to prepare a spot for your key.`}>
+                      <p>Open {name} in your BlueStep folder and paste:</p>
+                      <Code>{keyPrompt}</Code>
+                      <p>Approve when it asks. A file opens in {o.editor}.</p>
+                    </Step>
+                    <Step title="Paste your key into that file.">
+                      <p>
+                        Find <C>PASTE-YOUR-KEY-HERE</C>, replace it with your key (keep any quote marks around it), and save.
+                        {keyKind === 'mac-login' && ' Then log out of your Mac and back in, so the key loads.'}
+                      </p>
+                    </Step>
                   </>
                 )}
-              </Callout>
-            </Part>
-
-            <Part
-              id="connect"
-              n="Part 3"
-              title={`Connect ${name} to BlueStep`}
-              lead={`Your access token goes in two places: the b6p tool, and your computer's environment (for the gateway). Run steps 1 to 3 in ${o.terminal}, not inside ${name}.`}
-            >
-              <Callout>
-                <strong>Never paste your token into {name}</strong>, an email or a file you share. It acts as you across your
-                organization.
-              </Callout>
-              <Steps>
-                <Step title="Install b6p.">
-                  <Code>npm i -g @bluestep-systems/b6p-cli</Code>
+                <Step title="Give the key to BlueStep's sync tool.">
                   <p>
-                    Then <C>b6p --version</C>. It must print 0.8.1 or higher.
+                    This is the one command you'll type in this guide. In {name}, {terminal}. Type this and press Enter:
                   </p>
-                </Step>
-                <Step title="Give b6p your token.">
                   <Code>b6p auth set</Code>
-                  <p>
-                    Paste your <C>b6pt_…</C> token when asked. It's stored encrypted on your computer.
-                  </p>
+                  <p>When it asks, paste your key and press Enter. It's stored encrypted on your computer.</p>
                 </Step>
-                <Step title="Give the gateway your token.">
-                  {o.mac ? (
-                    <>
-                      <p>Open your shell settings file in TextEdit:</p>
-                      <Code>{'touch ~/.zshrc && open -e ~/.zshrc'}</Code>
-                      <p>Add this line at the bottom with your real token, save, and close Terminal:</p>
-                      <Code>export B6PT_TOKEN="b6pt_…"</Code>
-                      {agent === 'cursor' ? (
-                        <p>
-                          Cursor opened from the Dock can't see that line. Press Cmd+Shift+P in Cursor, run{' '}
-                          <strong>Shell Command: Install 'cursor' command</strong> once, and from now on start Cursor from
-                          Terminal: <C>cd &lt;folder&gt; &amp;&amp; cursor .</C>
-                        </p>
-                      ) : (
-                        <p>Apps opened from the Dock can't see that line, so use {name} in Terminal, not a desktop app.</p>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <p>Run this with your real token:</p>
-                      <Code>setx B6PT_TOKEN "b6pt_…"</Code>
-                      <p>
-                        Then close every PowerShell window{agent === 'cursor' ? ' and quit Cursor completely' : ''}. Only windows
-                        opened after this see the token.
-                      </p>
-                    </>
-                  )}
-                </Step>
-                <Step title="Install the BlueStep plugin.">{plugin}</Step>
-                <Step title="Optional: install phi-guard.">
-                  <p>Recommended if you store client health data. It blocks the agent from writing anything that looks like real client data into your code.</p>
-                  {phi}
-                </Step>
+                <Step title={`${quit}.`} />
                 <Step title="Check the connection.">
-                  <p>Quit {name} completely, reopen it, and ask:</p>
+                  <p>Open {name} in your BlueStep folder again and ask:</p>
                   <Code>List the BlueStep organizations I can reach.</Code>
-                  <p>You should see your organization's name. If not, see Troubleshooting below.</p>
                 </Step>
               </Steps>
-              <p>Plugins and the gateway load only when {name} starts, so after any change in this part, quit it fully and start it again.</p>
+              <p>
+                <strong>Done when:</strong> {name} answers with your organization's name. If it can't, see Help at the bottom.
+              </p>
             </Part>
 
             <Part
               id="workspace"
-              n="Part 4"
+              n="Part 4 · about 15 minutes"
               title="Set up your BlueStep workspace"
-              lead="A workspace is one folder on your computer that holds local copies of your BlueStep scripts. BlueStep stays the source of truth: you create things there, pull them down, change them, and push them back."
+              lead="Your BlueStep folder becomes a workspace: a local copy of the BlueStep pieces you work on. BlueStep stays the master copy, so you bring pieces down, change them here, and send them back."
             >
               <Steps>
-                <Step title="Make the folder.">
-                  <Code>{o.mkdirWorkspace}</Code>
-                </Step>
-                <Step title={`Open ${name} in it.`}>
-                  <p>{openIn(o.workspace)}</p>
-                </Step>
-                <Step title="Run setup.">
+                <Step title={`Open ${name} in your BlueStep folder.`} />
+                <Step title="Run the BlueStep setup.">
+                  <p>Type this in the message box and press Enter:</p>
                   <Code>{cmd('b6p-setup')}</Code>
                   <p>
-                    {name} checks your tools, token and gateway, then writes the project files: <C>AGENTS.md</C> (the rules all
-                    three agents read), settings and a README. Approve what it asks.
-                    {agent === 'codex' && " It also gives you one copy command for BlueStep's helper agents; run it."} When it
-                    finishes, quit and reopen {name} in the same folder.
+                    {name} checks everything from Parts 1 to 3 and adds a few settings files to the folder. Approve what it asks.
+                    {agent === 'codex' && " It also gives you one copy step for BlueStep's helper agents; follow it."}{' '}
+                    When it's done, quit {name} completely and open it again.
                   </p>
                 </Step>
-                <Step title="Pull an existing script to practice.">
+                <Step title="Bring down something you already have, to practice.">
                   <p>
-                    In BlueStep, open any script or merge report your org already has and copy its <strong>DAV URL</strong>{' '}
-                    from its page. Then:
+                    In BlueStep, open any script or report your organization already uses and copy its <strong>DAV URL</strong>{' '}
+                    (the web address shown on its settings page). Then type:
                   </p>
                   <Code>{`${cmd('b6p-pull')} <paste the DAV URL>`}</Code>
-                  <p>
-                    A folder named after your org's unit number (like <C>U141234</C>) appears with the script inside.
-                  </p>
                 </Step>
                 <Step title={`Ask ${name} to explain it.`}>
-                  <Code>Explain what this script does in plain English.</Code>
-                  <p>It's the fastest way to learn how your org is built.</p>
+                  <Code>Explain what this does, in plain English.</Code>
+                  <p>It's the quickest way to learn how your BlueStep is built.</p>
                 </Step>
               </Steps>
-              <Table
-                head={['Command', 'When']}
-                rows={[
-                  [<C key="p">{`${cmd('b6p-pull')} <DAV URL>`}</C>, 'Bring a script down, or refresh it after someone changed it in BlueStep'],
-                  [<C key="u">{cmd('b6p-push')}</C>, 'Send your changes back to BlueStep and publish them'],
-                ]}
-              />
+              <p>
+                <strong>Done when:</strong> a new folder named like <C>U141234</C> appears inside BlueStep and {name} has
+                explained what's in it.
+              </p>
             </Part>
 
             <Part
               id="gitsite"
-              n="Part 5"
-              title="Build your first GitSite"
-              lead={
-                <>
-                  A GitSite is a BlueStep website whose pages come from a GitHub repository. You push code to GitHub; BlueStep
-                  serves it at <C>https://&lt;your-domain&gt;/spa/</C>.
-                </>
-              }
+              n="Part 5 · about 30 minutes"
+              title="Put your first website live"
+              lead="BlueStep can host a website whose pages are stored on GitHub (a GitSite). Each time the site changes on GitHub, BlueStep updates it, usually within a minute."
             >
               <Callout>
-                Keep the repo <strong>public</strong> (BlueStep deploys public repos with no extra keys), so anyone can read the
-                code. <strong>Never put passwords, tokens or client data in it.</strong> Your data stays in BlueStep and is
-                fetched only when a signed-in user opens the page.
+                The website's code is <strong>public</strong> on GitHub, which keeps setup simple.{' '}
+                <strong>Never put passwords, keys or client information in it.</strong> Client data stays in BlueStep, and the
+                site only shows it to people who are signed in.
               </Callout>
               <Steps>
-                <Step title="Make a new folder, outside your BlueStep workspace.">
-                  <Code>{o.mkdirSite}</Code>
+                <Step title="Make a second folder for the website.">
+                  <p>
+                    In {o.files}, inside <strong>{o.docs}</strong> (not inside BlueStep), create a folder named{' '}
+                    <strong>my-first-site</strong>.
+                  </p>
                 </Step>
-                <Step title={`Open ${name} in it.`}>
-                  <p>{openIn(o.site)}</p>
-                </Step>
-                <Step title="Paste this prompt:">
+                <Step title={`Open it in ${name} and paste:`}>
                   <Code>{`Create a BlueStep GitSite starter in this folder:
 - Vite + React + TypeScript. Source in app/. Vite base must be '/spa/'.
 - \`npm run build\` writes index.html and assets/ to the REPO ROOT (not dist/),
   and the build output is committed - BlueStep serves the repo as-is.
 - Client-side routing that works on deep links.
-- A simple home page that says "Hello from Slate" with our org name.
-Build it, confirm index.html and assets/ are at the root, then create a PUBLIC
-GitHub repo with gh, commit and push to main. Finally generate a strong webhook
-secret and show it to me once.`}</Code>
+- A simple home page that says "Hello from Slate" with our organization's name.
+If I'm not signed in to GitHub, run "gh auth login --web" and show me the
+one-time code to enter. Then create a PUBLIC GitHub repo, commit and push to
+main, and generate a strong webhook secret and show it to me once.`}</Code>
                 </Step>
-                <Step title="Approve the installs, build and GitHub steps.">
-                  <p>Note the repo URL and the webhook secret {name} gives you.</p>
-                </Step>
-                <Step title="Create the site in BlueStep: Admin → Sites → New Git Site.">
-                  <ul className="list-disc space-y-1 pl-5">
-                    <li>Name and domain: as for any BlueStep website (ask BlueStep if you need a new domain).</li>
-                    <li>
-                      Repository URL: your repo's URL. <strong>Git Ref:</strong> <C>main</C> (type it exactly).{' '}
-                      <strong>Index Path:</strong> <C>index.html</C>.
-                    </li>
-                    <li>
-                      GitHub Token: leave blank. <strong>Webhook Secret:</strong> paste the secret.
-                    </li>
-                    <li>Save. The first deploy runs.</li>
-                  </ul>
-                </Step>
-                <Step title="Open it.">
+                <Step title="Approve as it works.">
                   <p>
-                    Go to <C>https://&lt;your-domain&gt;/spa/</C>. You should see "Hello from Slate".
+                    If it shows a GitHub code, open <A href="https://github.com/login/device">github.com/login/device</A>, enter
+                    the code, and approve. Write down the <strong>repository address</strong> and the{' '}
+                    <strong>webhook secret</strong> it gives you.
                   </p>
                 </Step>
-                <Step title="Turn on auto-deploy.">
+                <Step title="Create the site in BlueStep.">
+                  <p>
+                    Go to <strong>Admin → Sites → New Git Site</strong> and fill in:
+                  </p>
+                  <Table
+                    head={['Field', 'What to enter']}
+                    rows={[
+                      ['Name and domain', 'As for any BlueStep website. Ask BlueStep if you need a new domain.'],
+                      ['Repository URL', 'The repository address from the last step.'],
+                      ['Git Ref', <C key="m">main</C>],
+                      ['Index Path', <C key="i">index.html</C>],
+                      ['GitHub Token', 'Leave blank.'],
+                      ['Webhook Secret', 'The webhook secret from the last step.'],
+                    ]}
+                  />
+                  <p>Click Save. BlueStep puts the site up for the first time.</p>
+                </Step>
+                <Step title="Turn on automatic updates.">
+                  <p>Tell {name} (use your domain):</p>
                   <Code>Add a GitHub push webhook to this repo pointing at https://&lt;your-domain&gt;/spa/webhook using the secret you generated.</Code>
                 </Step>
-                <Step title="Prove the loop.">
+                <Step title="Try a change.">
                   <Code>Change the heading to "Our first Slate app", rebuild, commit and push.</Code>
-                  <p>Refresh the page within a minute: the change is live.</p>
                 </Step>
               </Steps>
+              <p>
+                <strong>Done when:</strong> <C>https://&lt;your-domain&gt;/spa/</C> shows "Our first Slate app" a minute after
+                that last step.
+              </p>
             </Part>
 
             <Part
               id="dashboard"
-              n="Part 6"
+              n="Part 6 · about 30 minutes"
               title="Build something real: a live caseload dashboard"
               lead={
                 <>
-                  Two pieces: a BlueStep <strong className="text-ink">endpoint</strong> (a small script at <C>/b/caseload</C>{' '}
-                  that returns your active clients as data) and a dashboard page on your GitSite that shows them. Because both
-                  live on the same domain, the dashboard uses the viewer's own BlueStep login: no keys in the code, and each
-                  person sees only what BlueStep already lets them see.
+                  Now the website shows real BlueStep data. {name} builds two pieces: a small BlueStep script that hands over a
+                  list of your active clients (a <strong className="text-ink">data link</strong>), and a dashboard page that
+                  displays it. Because both live on your BlueStep domain, each person who opens the dashboard sees only what
+                  BlueStep already lets them see.
                 </>
               }
             >
               <DataFlow />
               <Steps>
-                <Step title="Create the endpoint.">
-                  <p>{openIn(o.workspace)} Then paste:</p>
+                <Step title="Build the data link.">
+                  <p>Open {name} in your BlueStep folder and paste:</p>
                   <Code>{`I want an endpoint script at /b/caseload on the same site as my GitSite.
 It requires login and returns JSON for active clients: name, program,
 admit date and days in care. Find the right forms and fields in my org first
 and show me what you'll use before building. Create the script on the
 platform, pull it, write it, and push it.`}</Code>
-                </Step>
-                <Step title="Approve as it goes.">
                   <p>
-                    {name} looks up your forms and fields through the gateway, shows you the plan, asks before creating the
-                    script in BlueStep, then pulls, writes and publishes it with <C>{cmd('b6p-push')}</C>.
+                    {name} looks up your forms, shows you its plan, and asks before it creates anything in BlueStep. Read the plan
+                    and approve it if it looks right.
                   </p>
                 </Step>
-                <Step title="Test it.">
+                <Step title="Check it.">
                   <p>
-                    Sign in to BlueStep in your browser and open <C>https://&lt;your-domain&gt;/b/caseload</C>. You should see
-                    your clients as text. Signed out, it should send you to the login page.
+                    While signed in to BlueStep, open <C>https://&lt;your-domain&gt;/b/caseload</C>. You should see your clients
+                    as plain text. In a private browser window, signed out, you should get the login page instead.
                   </p>
                 </Step>
                 <Step title="Build the dashboard.">
-                  <p>{openIn(o.site)} Then paste:</p>
+                  <p>Open {name} in your my-first-site folder and paste:</p>
                   <Code>{`Add a Caseload page that calls /b/caseload (same origin, send cookies).
 Show a count of active clients, a bar chart by program, and a searchable
 table sorted by days in care. If the call is redirected to login, show a
 "Please sign in to BlueStep" message with a link. Rebuild, commit and push.`}</Code>
                 </Step>
-                <Step title="Open it.">
-                  <p>
-                    Go to <C>https://&lt;your-domain&gt;/spa/caseload</C> while signed in. You now have a live dashboard on your
-                    own data, built without writing code yourself.
-                  </p>
-                </Step>
               </Steps>
               <p>
-                Ideas for your next build: an intake form that writes a new client record, a family portal that shows a parent
-                only their own child, a daily census email, or a staff training tracker. Describe the outcome and who should see
-                what; {name} handles the rest.
+                <strong>Done when:</strong> <C>https://&lt;your-domain&gt;/spa/caseload</C> shows your live caseload while you're
+                signed in.
+              </p>
+              <p>
+                What next? An intake form that creates a new client, a family portal that shows parents only their own child, a
+                daily census email, a staff training tracker. Describe what you want and who should see it; {name} handles the
+                rest.
               </p>
             </Part>
 
-            <Part id="help" n="Every day" title="Workflow, rules and troubleshooting">
+            <Part id="help" n="Everyday use" title="Working day to day, and getting help">
               <p>
-                <strong>Every session:</strong> {openIn('<folder>')} Use your BlueStep workspace for scripts and a GitSite folder
-                for websites, then describe the outcome you want. For anything bigger than a small fix, start with{' '}
-                <C>{cmd('spec-create')}</C> so {name} writes requirements and a design for you to approve before building; for a
-                bug or small change, use <C>{cmd('quick-task')}</C>.
+                <strong>Each time:</strong> open {name} in the right folder (BlueStep for BlueStep work, your site's folder for
+                the website) and describe what you want. For anything bigger than a small fix, start with{' '}
+                <C>{cmd('spec-create')}</C>: {name} writes a plan for you to approve before it builds. For a quick fix, use{' '}
+                <C>{cmd('quick-task')}</C>.
               </p>
-              <p className="font-medium text-ink">Rules that keep you safe:</p>
+              <p className="font-medium text-ink">Good habits:</p>
               <ul className="list-disc space-y-1.5 pl-5">
-                <li>New scripts, forms and fields are created in BlueStep first ({name} does this through the gateway, with your approval), then pulled. Never invent them locally.</li>
-                <li>Test on a sandbox org or test records before touching live clients.</li>
-                <li>Never paste your token, passwords or real client data into the chat or into a GitSite repo.</li>
-                <li>Read approval prompts. If one surprises you, say No and ask {name} why.</li>
-                <li>Keep the plugin current: {update}.</li>
+                <li>Read what {name} asks before you approve. If something surprises you, say no and ask why.</li>
+                <li>Try new builds on a test site or test records before your real clients.</li>
+                <li>Keep your BlueStep key, passwords and client information out of the chat and out of your website's code.</li>
               </ul>
-              <p className="pt-2 font-medium text-ink">Troubleshooting:</p>
+              <p className="pt-2 font-medium text-ink">If something goes wrong:</p>
               <Table
-                head={['Symptom', 'Fix']}
+                head={['What you see', 'What to do']}
                 rows={[
                   [
-                    `"command not found" or "not recognized"`,
-                    `Close and reopen ${o.terminal}. Still missing: re-run that tool's install step.`,
+                    `No b6p commands when you type ${agent === 'codex' ? '$' : '/'}`,
+                    agent === 'codex'
+                      ? 'The plugin isn’t installed or its hooks aren’t trusted, or Codex hasn’t restarted. Redo Part 2.'
+                      : `The plugin isn't installed, or ${name} hasn't restarted. Redo Part 2.`,
                   ],
                   [
-                    `${name} can't list your BlueStep orgs`,
-                    o.mac
-                      ? `The token isn't in your environment, or ${name} started before you set it. Redo Part 3 step 3, quit ${name} fully, and ${agent === 'cursor' ? 'start Cursor from Terminal with cursor .' : 'start it again from a new Terminal window'}. Still failing: your token may be expired; ask BlueStep for a new one.`
-                      : `The token isn't in your environment, or ${name} started before you set it. Redo Part 3 step 3, close every PowerShell window${agent === 'cursor' ? ' and quit Cursor' : ''}, then start again. Still failing: your token may be expired; ask BlueStep for a new one.`,
+                    `${name} can't list your BlueStep organizations`,
+                    keyKind === 'claude'
+                      ? 'Check the settings file from Part 3: your key replaced PASTE-YOUR-KEY-HERE and the file is saved. Quit Claude completely and reopen it. Still stuck? Your key may have expired; ask BlueStep for a new one.'
+                      : keyKind === 'mac-login'
+                        ? `Check the file from Part 3 holds your key, then log out of your Mac and back in. Still stuck? Your key may have expired; ask BlueStep for a new one.`
+                        : `Check the B6PT_TOKEN variable from Part 3, then quit ${name} completely and reopen it. Still stuck? Your key may have expired; ask BlueStep for a new one.`,
                   ],
-                  ['A b6p command asks "Enter your access token"', <>Run <C key="a">b6p auth set</C> in {o.terminal}.</>],
-                  [
-                    'BlueStep commands are missing',
-                    `Plugin not installed or ${name} not restarted. Redo Part 3 step 4.${agent === 'codex' ? ' In Codex, commands start with $, not /.' : ''}`,
-                  ],
-                  ...(agent === 'codex'
-                    ? [['Codex ignores the BlueStep rules', <>Its hooks aren't trusted. Type <C key="h">/hooks</C> and trust them, again after every plugin update.</>]]
-                    : []),
-                  ...(!o.mac
-                    ? [['Scripts are blocked with "running scripts is disabled"', <>Run <C key="e">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</C> once in PowerShell, then try again.</>]]
-                    : []),
-                  ['GitSite deploy says "404 for ref main"', 'Git Ref is mistyped, or the repo is private. Fix the ref or make the repo public.'],
-                  ['GitSite page is blank', <>The build isn't committed at the repo root, or Vite base isn't <C key="b">/spa/</C>. Ask {name} to check both.</>],
-                  ["Pushes to GitHub don't update the site", `Webhook missing or secret mismatch. Ask ${name} to check the webhook's last delivery.`],
-                  ['Dashboard says "Please sign in" while you are signed in', 'The GitSite and the endpoint are on different domains. They must share one.'],
+                  ['It says b6p "isn’t recognized" or "not found"', `Ask ${name} to install it: npm i -g @bluestep-systems/b6p-cli. Then quit and reopen ${name}.`],
+                  ['It asks you for an access token', <>Do Part 3's <C key="a">b6p auth set</C> step again.</>],
+                  ['Website setup says "404 for ref main"', 'In the BlueStep site settings, check Git Ref says exactly main.'],
+                  ['The website page is blank', `Ask ${name}: "Check that the build is committed at the repo root and Vite base is /spa/."`],
+                  ["Your website doesn't update after a change", `Ask ${name} to check the GitHub webhook's last delivery.`],
+                  ['The dashboard says "Please sign in" while you are', 'The website and the data link must be on the same BlueStep domain.'],
                 ]}
               />
               <p>
-                Still stuck: run <C>{cmd('b6p-setup')}</C> to re-check everything, then contact your BlueStep representative with
-                what it reports.
+                Still stuck? Type <C>{cmd('b6p-setup')}</C> to re-check everything, then send what it reports to your BlueStep
+                contact.
               </p>
             </Part>
           </div>
