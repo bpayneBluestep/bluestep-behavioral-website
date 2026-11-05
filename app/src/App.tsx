@@ -9,6 +9,7 @@ import ProductPage from './pages/ProductPage'
 import ConsultantCrm from './pages/ConsultantCrm'
 import RolePage from './pages/RolePage'
 import BlankSlate from './pages/BlankSlate'
+import SlateSetup from './pages/SlateSetup'
 import Pricing from './pages/Pricing'
 import Demo from './pages/Demo'
 import ProgramDirectory from './pages/ProgramDirectory'
@@ -60,6 +61,8 @@ export default function App() {
         <Route path="build" element={<Build />} />
         <Route path="marketplace" element={<Marketplace />} />
         <Route path="slate" element={<BlankSlate />} />
+        {/* Unlisted customer setup guide: shared by link, noindex, not in nav. */}
+        <Route path="slate/setup" element={<SlateSetup />} />
         <Route path="pricing" element={<Pricing />} />
         <Route path="program-directory" element={<ProgramDirectory />} />
         <Route path="demo" element={<Demo />} />
