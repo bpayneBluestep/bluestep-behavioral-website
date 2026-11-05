@@ -1,129 +1,44 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Check, Copy } from '@phosphor-icons/react'
+import { AppleLogo, Check, Copy, WindowsLogo } from '@phosphor-icons/react'
 import { Container, PageHero, useTitle } from '../ui'
 
 // Unlisted customer setup guide for Slate: shared by link, never linked from the
 // nav or footer, and marked noindex so search engines leave it out.
+// The reader picks an agent and an OS; both live in the URL (?agent=&os=) so a
+// shared link opens on the same version, and every step renders for that pair only.
 
 type AgentId = 'claude' | 'codex' | 'cursor'
-
-const AGENTS: Record<
-  AgentId,
-  {
-    name: string
-    maker: string
-    plan: string
-    installMac: ReactNode
-    installWin: ReactNode
-    signIn: ReactNode
-    open: ReactNode
-    prefix: '/' | '$'
-    plugin: ReactNode
-    phi: ReactNode
-    update: ReactNode
-  }
-> = {
-  claude: {
-    name: 'Claude Code',
-    maker: 'Anthropic',
-    plan: 'Claude Pro, Max, Team or Enterprise',
-    installMac: <Code>curl -fsSL https://claude.ai/install.sh | bash</Code>,
-    installWin: <Code>irm https://claude.ai/install.ps1 | iex</Code>,
-    signIn: (
-      <>
-        Run <C>claude</C> and pick your Claude account. A browser window opens to approve it.
-      </>
-    ),
-    open: (
-      <>
-        <C>cd</C> into the folder, then run <C>claude</C>.
-      </>
-    ),
-    prefix: '/',
-    plugin: (
-      <>
-        In a terminal, run:
-        <Code>{'claude plugin marketplace add Bluestep-Systems/bspecs\nclaude plugin install bluestep-tools@bluestep'}</Code>
-      </>
-    ),
-    phi: <Code>claude plugin install phi-guard@bluestep --scope user</Code>,
-    update: <C>claude plugin update bluestep-tools@bluestep</C>,
-  },
-  codex: {
-    name: 'Codex',
-    maker: 'OpenAI',
-    plan: 'ChatGPT Plus, Pro, Business or Enterprise',
-    installMac: <Code>npm i -g @openai/codex</Code>,
-    installWin: <Code>npm i -g @openai/codex</Code>,
-    signIn: (
-      <>
-        Run <C>codex</C> and choose <strong>Sign in with ChatGPT</strong>.
-      </>
-    ),
-    open: (
-      <>
-        <C>cd</C> into the folder, then run <C>codex</C>.
-      </>
-    ),
-    prefix: '$',
-    plugin: (
-      <>
-        Run <C>codex plugin marketplace add Bluestep-Systems/bspecs</C>, then install <strong>bluestep-tools</strong>{' '}
-        from Codex's plugins screen. Then type <C>/hooks</C> in Codex and <strong>trust</strong> the plugin's hooks.
-        Until you do, BlueStep's safety checks silently do nothing.
-      </>
-    ),
-    phi: (
-      <>
-        Install <strong>phi-guard</strong> from the plugins screen, then trust its hook with <C>/hooks</C>.
-      </>
-    ),
-    update: (
-      <>
-        update from the plugins screen, then re-trust the hooks with <C>/hooks</C>
-      </>
-    ),
-  },
-  cursor: {
-    name: 'Cursor',
-    maker: 'Anysphere',
-    plan: 'a paid Cursor plan (recommended)',
-    installMac: (
-      <>
-        Download from{' '}
-        <A href="https://cursor.com">cursor.com</A>.
-      </>
-    ),
-    installWin: (
-      <>
-        Download from{' '}
-        <A href="https://cursor.com">cursor.com</A>.
-      </>
-    ),
-    signIn: <>Open Cursor and sign in on first launch.</>,
-    open: (
-      <>
-        File → Open Folder, then open the Agent panel (Cmd+I on a Mac, Ctrl+I on Windows).
-      </>
-    ),
-    prefix: '/',
-    plugin: (
-      <>
-        Click <strong>Connect GitHub</strong> in Cursor's sidebar. Open Plugins → <strong>Add Marketplace → Import from
-        Repo</strong>, enter <C>https://github.com/Bluestep-Systems/bspecs</C>, and install <strong>bluestep-tools</strong>.
-      </>
-    ),
-    phi: (
-      <>
-        Install <strong>phi-guard</strong> from the plugins screen.
-      </>
-    ),
-    update: <>updates arrive on their own</>,
-  },
-}
+type OsId = 'mac' | 'windows'
 
 const AGENT_IDS: AgentId[] = ['claude', 'codex', 'cursor']
+const OS_IDS: OsId[] = ['mac', 'windows']
+
+const AGENT_NAMES: Record<AgentId, string> = { claude: 'Claude Code', codex: 'Codex', cursor: 'Cursor' }
+const OS_NAMES: Record<OsId, string> = { mac: 'Mac', windows: 'Windows' }
+
+/** Best guess at the reader's OS when the link doesn't say. */
+function detectOs(): OsId {
+  if (typeof navigator === 'undefined') return 'mac'
+  return /Win/i.test(navigator.userAgent) ? 'windows' : 'mac'
+}
+
+/** Everything that differs between Mac and Windows, in one place. */
+function osInfo(os: OsId) {
+  const mac = os === 'mac'
+  return {
+    mac,
+    terminal: mac ? 'Terminal' : 'PowerShell',
+    openTerminal: mac
+      ? 'Press Cmd+Space, type Terminal, and press Enter.'
+      : 'Press the Windows key, type PowerShell, and press Enter.',
+    mod: mac ? 'Cmd' : 'Ctrl',
+    workspace: mac ? '~/BlueStep' : '$HOME\\BlueStep',
+    site: mac ? '~/Sites/my-first-gitsite' : '$HOME\\Sites\\my-first-gitsite',
+    mkdirWorkspace: mac ? 'mkdir -p ~/BlueStep' : 'mkdir $HOME\\BlueStep',
+    mkdirSite: mac ? 'mkdir -p ~/Sites/my-first-gitsite' : 'mkdir $HOME\\Sites\\my-first-gitsite',
+  }
+}
 
 /** Inline code. */
 function C({ children }: { children: ReactNode }) {
@@ -169,7 +84,7 @@ function Code({ children }: { children: string }) {
 
 function Part({ id, n, title, lead, children }: { id: string; n: string; title: string; lead?: ReactNode; children: ReactNode }) {
   return (
-    <section id={id} className="scroll-mt-24 border-t border-line py-12">
+    <section id={id} className="scroll-mt-40 border-t border-line py-12 first:border-t-0">
       <p className="kicker mb-3">{n}</p>
       <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{title}</h2>
       {lead && <p className="mt-4 leading-relaxed text-muted">{lead}</p>}
@@ -224,6 +139,46 @@ function Table({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
           ))}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+/** One segmented radio group: the agent or the OS. */
+function Picker<T extends string>({
+  label,
+  options,
+  names,
+  value,
+  onChange,
+  icon,
+}: {
+  label: string
+  options: readonly T[]
+  names: Record<T, string>
+  value: T
+  onChange: (v: T) => void
+  icon?: (v: T) => ReactNode
+}) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted">{label}</p>
+      <div role="radiogroup" aria-label={label} className="inline-flex flex-wrap rounded-full border border-line bg-surface p-1">
+        {options.map((id) => (
+          <button
+            key={id}
+            type="button"
+            role="radio"
+            aria-checked={value === id}
+            onClick={() => onChange(id)}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm transition ${
+              value === id ? 'bg-bg font-medium text-ink shadow-sm' : 'text-muted hover:text-ink'
+            }`}
+          >
+            {icon?.(id)}
+            {names[id]}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -285,10 +240,13 @@ const TOC = [
 export default function SlateSetup() {
   useTitle('Slate setup guide')
   const [params, setParams] = useSearchParams()
-  const picked = params.get('agent')
-  const agentId: AgentId = AGENT_IDS.includes(picked as AgentId) ? (picked as AgentId) : 'claude'
-  const ag = AGENTS[agentId]
-  const cmd = (name: string) => `${ag.prefix}${name}`
+  const pa = params.get('agent')
+  const po = params.get('os')
+  const agent: AgentId = AGENT_IDS.includes(pa as AgentId) ? (pa as AgentId) : 'claude'
+  const os: OsId = OS_IDS.includes(po as OsId) ? (po as OsId) : detectOs()
+  const o = osInfo(os)
+  const name = AGENT_NAMES[agent]
+  const cmd = (c: string) => `${agent === 'codex' ? '$' : '/'}${c}`
 
   // Unlisted: keep it out of search results.
   useEffect(() => {
@@ -299,11 +257,108 @@ export default function SlateSetup() {
     return () => meta.remove()
   }, [])
 
-  const pick = (id: AgentId) => {
+  const set = (key: 'agent' | 'os', value: string) => {
     const next = new URLSearchParams(params)
-    next.set('agent', id)
+    next.set(key, value)
     setParams(next, { replace: true })
   }
+
+  // ---- Agent × OS specifics -------------------------------------------------
+
+  const plan = {
+    claude: 'Claude Pro, Max, Team or Enterprise',
+    codex: 'ChatGPT Plus, Pro, Business or Enterprise',
+    cursor: 'a paid Cursor plan (recommended)',
+  }[agent]
+
+  const maker = { claude: 'Anthropic', codex: 'OpenAI', cursor: 'Anysphere' }[agent]
+
+  const install: ReactNode = {
+    claude: <Code>{o.mac ? 'curl -fsSL https://claude.ai/install.sh | bash' : 'irm https://claude.ai/install.ps1 | iex'}</Code>,
+    codex: <Code>npm i -g @openai/codex</Code>,
+    cursor: (
+      <p>
+        Download the {o.mac ? 'Mac' : 'Windows'} installer from <A href="https://cursor.com">cursor.com</A>, run it, and open
+        Cursor.
+      </p>
+    ),
+  }[agent]
+
+  const signIn: ReactNode = {
+    claude: (
+      <>
+        Run <C>claude</C> and pick your Claude account. A browser window opens to approve it.
+      </>
+    ),
+    codex: (
+      <>
+        Run <C>codex</C> and choose <strong>Sign in with ChatGPT</strong>.
+      </>
+    ),
+    cursor: <>Sign in when Cursor first opens.</>,
+  }[agent]
+
+  const openIn = (folder: string): ReactNode =>
+    agent === 'cursor' ? (
+      <>
+        In Cursor, File → Open Folder and choose <C>{folder}</C>, then open the Agent panel ({o.mod}+I).
+      </>
+    ) : (
+      <>
+        In {o.terminal}, run <C>{`cd ${folder}`}</C>, then <C>{agent}</C>.
+      </>
+    )
+
+  const plugin: ReactNode = {
+    claude: (
+      <>
+        <p>In {o.terminal}, run:</p>
+        <Code>{'claude plugin marketplace add Bluestep-Systems/bspecs\nclaude plugin install bluestep-tools@bluestep'}</Code>
+      </>
+    ),
+    codex: (
+      <>
+        <p>In {o.terminal}, run:</p>
+        <Code>codex plugin marketplace add Bluestep-Systems/bspecs</Code>
+        <p>
+          Then start <C>codex</C>, open its plugins screen and install <strong>bluestep-tools</strong>. Type <C>/hooks</C>{' '}
+          and <strong>trust</strong> the plugin's hooks. Until you do, BlueStep's safety checks silently do nothing.
+        </p>
+      </>
+    ),
+    cursor: (
+      <p>
+        Click <strong>Connect GitHub</strong> in Cursor's sidebar. Open Plugins → <strong>Add Marketplace → Import from
+        Repo</strong>, enter <C>https://github.com/Bluestep-Systems/bspecs</C>, and install <strong>bluestep-tools</strong>.
+      </p>
+    ),
+  }[agent]
+
+  const phi: ReactNode = {
+    claude: <Code>claude plugin install phi-guard@bluestep --scope user</Code>,
+    codex: (
+      <p>
+        Install <strong>phi-guard</strong> from Codex's plugins screen, then trust its hook with <C>/hooks</C>.
+      </p>
+    ),
+    cursor: (
+      <p>
+        Install <strong>phi-guard</strong> from Cursor's plugins screen.
+      </p>
+    ),
+  }[agent]
+
+  const update: ReactNode = {
+    claude: <C>claude plugin update bluestep-tools@bluestep</C>,
+    codex: (
+      <>
+        update from Codex's plugins screen, then re-trust the hooks with <C>/hooks</C>
+      </>
+    ),
+    cursor: <>Cursor updates it on its own</>,
+  }[agent]
+
+  // ---------------------------------------------------------------------------
 
   return (
     <>
@@ -313,30 +368,60 @@ export default function SlateSetup() {
         sub="Every step to connect your coding agent to BlueStep, publish a website, and build a live dashboard on your own data. About two hours the first time."
       >
         <div className="w-full">
-          <p className="mb-3 text-sm text-muted">Which coding agent are you using? The commands below follow your choice.</p>
-          <div role="radiogroup" aria-label="Coding agent" className="inline-flex rounded-full border border-line bg-surface p-1">
-            {AGENT_IDS.map((id) => (
-              <button
-                key={id}
-                type="button"
-                role="radio"
-                aria-checked={agentId === id}
-                onClick={() => pick(id)}
-                className={`rounded-full px-4 py-2 text-sm transition ${
-                  agentId === id ? 'bg-bg font-medium text-ink shadow-sm' : 'text-muted hover:text-ink'
-                }`}
-              >
-                {AGENTS[id].name}
-              </button>
-            ))}
+          <p className="mb-4 text-sm text-muted">Pick your setup. Every command, shortcut and folder below changes to match.</p>
+          <div className="flex flex-wrap gap-6">
+            <Picker label="Coding agent" options={AGENT_IDS} names={AGENT_NAMES} value={agent} onChange={(v) => set('agent', v)} />
+            <Picker
+              label="Computer"
+              options={OS_IDS}
+              names={OS_NAMES}
+              value={os}
+              onChange={(v) => set('os', v)}
+              icon={(v) => (v === 'mac' ? <AppleLogo size={15} weight="fill" /> : <WindowsLogo size={15} weight="fill" />)}
+            />
           </div>
         </div>
       </PageHero>
 
+      {/* Sticky reminder of the current choice, so a reader deep in the page knows which version they're on. */}
+      <div className="sticky top-16 z-20 border-b border-line bg-bg/90 backdrop-blur">
+        <Container className="flex items-center justify-between gap-3 py-2.5 text-sm">
+          <p className="hidden text-muted md:block">
+            Showing steps for <strong className="font-medium text-ink">{name}</strong> on{' '}
+            <strong className="font-medium text-ink">{OS_NAMES[os]}</strong>
+          </p>
+          <div className="-mx-1 flex min-w-0 gap-1 overflow-x-auto whitespace-nowrap px-1">
+            {AGENT_IDS.map((id) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => set('agent', id)}
+                aria-pressed={agent === id}
+                className={`shrink-0 rounded-full px-2.5 py-1 text-xs sm:px-3 transition ${agent === id ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'}`}
+              >
+                {AGENT_NAMES[id]}
+              </button>
+            ))}
+            <span className="mx-0.5 w-px shrink-0 bg-line" aria-hidden />
+            {OS_IDS.map((id) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => set('os', id)}
+                aria-pressed={os === id}
+                className={`shrink-0 rounded-full px-2.5 py-1 text-xs sm:px-3 transition ${os === id ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'}`}
+              >
+                {OS_NAMES[id]}
+              </button>
+            ))}
+          </div>
+        </Container>
+      </div>
+
       <Container className="pb-24 md:pb-32">
-        <div className="grid gap-12 lg:grid-cols-[200px_minmax(0,1fr)]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-[200px_minmax(0,1fr)]">
           <nav aria-label="On this page" className="hidden lg:block">
-            <ul className="sticky top-24 space-y-2 pt-12 text-sm">
+            <ul className="sticky top-36 space-y-2 pt-12 text-sm">
               {TOC.map(([id, label]) => (
                 <li key={id}>
                   <a href={`#${id}`} className="text-muted hover:text-ink">
@@ -347,25 +432,28 @@ export default function SlateSetup() {
             </ul>
           </nav>
 
-          <div className="max-w-3xl">
+          <div className="min-w-0 max-w-3xl">
             <Part
               id="overview"
               n="Overview"
               title="What you'll have at the end"
               lead={
                 <>
-                  Your coding agent connected to your BlueStep organization, and a live website that shows your own BlueStep
-                  data. Slate is BlueStep plus the agent of your choice running on your computer. You describe what you want
-                  in plain English; the agent reads your BlueStep setup, writes the code and publishes it. You approve
-                  anything that changes your organization.
+                  {name} connected to your BlueStep organization, and a live website that shows your own BlueStep data. Slate is
+                  BlueStep plus the coding agent of your choice, running on your computer. You describe what you want in plain
+                  English; the agent reads your BlueStep setup, writes the code and publishes it. You approve anything that
+                  changes your organization.
                 </>
               }
             >
               <p className="font-medium text-ink">You need before you start:</p>
               <ul className="list-disc space-y-1.5 pl-5">
-                <li>A Mac (Apple Silicon) or a Windows 10/11 PC, and admin rights to install software on it.</li>
                 <li>
-                  A plan for your agent. {ag.name} needs {ag.plan}.
+                  {o.mac ? 'A Mac with an Apple Silicon chip (M1 or newer)' : 'A Windows 10 or 11 PC'}, and admin rights to
+                  install software on it.
+                </li>
+                <li>
+                  A plan for {name}: {plan}.
                 </li>
                 <li>A BlueStep login with admin access to your organization.</li>
                 <li>
@@ -378,7 +466,7 @@ export default function SlateSetup() {
               <Table
                 head={['Piece', 'What it is', 'What it does for you']}
                 rows={[
-                  [ag.name, `Your coding agent, by ${ag.maker}`, 'Reads, writes and runs everything on your behalf'],
+                  [name, `Your coding agent, by ${maker}`, 'Reads, writes and runs everything on your behalf'],
                   ['bluestep-tools plugin', "BlueStep's add-on, built for Claude Code, Codex and Cursor", 'Teaches the agent the BlueStep rules and adds the b6p commands'],
                   ['BlueStep gateway', 'A secure connection from your agent to your org', 'Lets the agent look up forms, fields and records, and set things up with your approval'],
                   ['b6p', "BlueStep's command-line tool", 'Downloads and uploads your scripts and reports'],
@@ -393,26 +481,44 @@ export default function SlateSetup() {
               title="Install the basics"
               lead={
                 <>
-                  You'll type a few commands into a <strong className="text-ink">terminal</strong>, a text window where you
-                  run programs by name. After Part 2, your agent types almost everything for you.
+                  You'll type a few commands into <strong className="text-ink">{o.terminal}</strong>, a text window where you run
+                  programs by name: paste a command, press Enter, and wait for the prompt to come back. After Part 2, your agent
+                  types almost everything for you.
                 </>
               }
             >
               <Steps>
-                <Step title="Open a terminal.">
-                  <p>Mac: press Cmd+Space, type Terminal, press Enter. Windows: press the Windows key, type PowerShell, press Enter.</p>
+                <Step title={`Open ${o.terminal}.`}>
+                  <p>{o.openTerminal}</p>
                 </Step>
                 <Step title="Install Node.js 20 or newer.">
+                  {o.mac ? (
+                    <p>
+                      Download the LTS installer from <A href="https://nodejs.org">nodejs.org</A> and click through it.
+                    </p>
+                  ) : (
+                    <Code>winget install -e --id OpenJS.NodeJS.LTS</Code>
+                  )}
                   <p>
-                    Download the LTS installer from <A href="https://nodejs.org">nodejs.org</A>. Close and reopen the
-                    terminal, then check that <C>node --version</C> prints v20 or higher.
+                    Close and reopen {o.terminal}, then check that <C>node --version</C> prints v20 or higher.
                   </p>
                 </Step>
                 <Step title="Install Git.">
-                  <p>
-                    Mac: run <C>git --version</C>; if it offers the developer tools, click Install. Windows: install from{' '}
-                    <A href="https://git-scm.com/download/win">git-scm.com</A> with the default options.
-                  </p>
+                  {o.mac ? (
+                    <>
+                      <Code>git --version</Code>
+                      <p>If it offers to install the command line developer tools, click Install and wait for it to finish.</p>
+                    </>
+                  ) : (
+                    <>
+                      <Code>winget install -e --id Git.Git</Code>
+                      <p>
+                        {agent === 'claude'
+                          ? 'Claude Code on Windows needs Git for Windows, so don’t skip this.'
+                          : 'Close and reopen PowerShell afterwards.'}
+                      </p>
+                    </>
+                  )}
                 </Step>
                 <Step title="Create a GitHub account">
                   <p>
@@ -420,11 +526,16 @@ export default function SlateSetup() {
                   </p>
                 </Step>
                 <Step title="Install the GitHub command-line tool and sign in.">
-                  <p>
-                    Mac: install from <A href="https://cli.github.com">cli.github.com</A>. Windows:{' '}
-                    <C>winget install --id GitHub.cli</C>. Then run <C>gh auth login</C> and choose GitHub.com, HTTPS, and
-                    Login with a web browser.
-                  </p>
+                  {o.mac ? (
+                    <p>
+                      Download the macOS installer from <A href="https://cli.github.com">cli.github.com</A> and run it.
+                    </p>
+                  ) : (
+                    <Code>winget install -e --id GitHub.cli</Code>
+                  )}
+                  <p>Close and reopen {o.terminal}, then run:</p>
+                  <Code>gh auth login</Code>
+                  <p>Choose GitHub.com, HTTPS, and Login with a web browser, then enter the code it shows.</p>
                 </Step>
                 <Step title="Check everything.">
                   <p>Each line should print a version or "Logged in":</p>
@@ -436,19 +547,16 @@ export default function SlateSetup() {
             <Part
               id="agent"
               n="Part 2"
-              title={`Install ${ag.name}`}
-              lead="Teams can mix agents: the BlueStep plugin and project rules work the same in all three. Switch agents at the top of the page."
+              title={`Install ${name}`}
+              lead="Teams can mix agents: the BlueStep plugin and project rules work the same in all three."
             >
               <Steps>
                 <Step title="Install it.">
-                  <p className="text-sm">Mac:</p>
-                  {ag.installMac}
-                  <p className="text-sm">Windows:</p>
-                  {ag.installWin}
-                  <p>Close and reopen the terminal afterwards.</p>
+                  {install}
+                  {agent !== 'cursor' && <p>Close and reopen {o.terminal} afterwards.</p>}
                 </Step>
                 <Step title="Sign in.">
-                  <p>{ag.signIn} Use the account on your paid plan.</p>
+                  <p>{signIn} Use the account on your paid plan.</p>
                 </Step>
                 <Step title="Say hello.">
                   <p>
@@ -457,14 +565,15 @@ export default function SlateSetup() {
                 </Step>
                 <Step title="Learn the controls.">
                   <p>
-                    The agent asks before running commands or changing files. Read each request and approve it, or say what
-                    to do instead. Esc stops it mid-task{agentId === 'cursor' ? ' (or the Stop button)' : ''}.
+                    {name} asks before running commands or changing files. Read each request and approve it, or say what to do
+                    instead.{' '}
+                    {agent === 'cursor' ? 'The Stop button halts it mid-task.' : `Esc stops it mid-task; /exit leaves, and running ${agent} again brings you back.`}
                   </p>
                 </Step>
               </Steps>
               <Callout>
-                <strong>Opening {ag.name} in a folder</strong>, used throughout this guide: {ag.open}
-                {agentId === 'codex' && (
+                <strong>Opening {name} in a folder</strong> comes up throughout this guide: {openIn('<folder>')}
+                {agent === 'codex' && (
                   <>
                     {' '}
                     BlueStep commands start with <C>$</C> in Codex, for example <C>$b6p-setup</C>; you can also just ask it to
@@ -477,12 +586,12 @@ export default function SlateSetup() {
             <Part
               id="connect"
               n="Part 3"
-              title="Connect your agent to BlueStep"
-              lead="Your access token goes in two places: the b6p tool, and your computer's environment (for the gateway). Run steps 1 to 3 in a plain terminal, not inside your agent."
+              title={`Connect ${name} to BlueStep`}
+              lead={`Your access token goes in two places: the b6p tool, and your computer's environment (for the gateway). Run steps 1 to 3 in ${o.terminal}, not inside ${name}.`}
             >
               <Callout>
-                <strong>Never paste your token into the agent's chat</strong>, an email or a file you share. It acts as you
-                across your organization.
+                <strong>Never paste your token into {name}</strong>, an email or a file you share. It acts as you across your
+                organization.
               </Callout>
               <Steps>
                 <Step title="Install b6p.">
@@ -492,45 +601,51 @@ export default function SlateSetup() {
                   </p>
                 </Step>
                 <Step title="Give b6p your token.">
+                  <Code>b6p auth set</Code>
                   <p>
-                    Run <C>b6p auth set</C> and paste your <C>b6pt_…</C> token when asked. It's stored encrypted on your
-                    computer.
+                    Paste your <C>b6pt_…</C> token when asked. It's stored encrypted on your computer.
                   </p>
                 </Step>
                 <Step title="Give the gateway your token.">
-                  <p>
-                    <strong>Mac:</strong> run <C>open -e ~/.zshrc</C> (if the file doesn't exist, run <C>touch ~/.zshrc</C>{' '}
-                    first). Add this line at the bottom with your real token, save, and close the terminal:
-                  </p>
-                  <Code>export B6PT_TOKEN="b6pt_…"</Code>
-                  <p>
-                    <strong>Windows:</strong> run this with your real token, then close every terminal window:
-                  </p>
-                  <Code>setx B6PT_TOKEN "b6pt_…"</Code>
-                  {agentId === 'cursor' ? (
-                    <p>
-                      <strong>Cursor on a Mac</strong> doesn't read that file when opened from the Dock. Press Cmd+Shift+P, run{' '}
-                      <strong>Shell Command: Install 'cursor' command</strong> once, and from now on start Cursor from the
-                      terminal: <C>cd &lt;folder&gt; &amp;&amp; cursor .</C>
-                    </p>
+                  {o.mac ? (
+                    <>
+                      <p>Open your shell settings file in TextEdit:</p>
+                      <Code>{'touch ~/.zshrc && open -e ~/.zshrc'}</Code>
+                      <p>Add this line at the bottom with your real token, save, and close Terminal:</p>
+                      <Code>export B6PT_TOKEN="b6pt_…"</Code>
+                      {agent === 'cursor' ? (
+                        <p>
+                          Cursor opened from the Dock can't see that line. Press Cmd+Shift+P in Cursor, run{' '}
+                          <strong>Shell Command: Install 'cursor' command</strong> once, and from now on start Cursor from
+                          Terminal: <C>cd &lt;folder&gt; &amp;&amp; cursor .</C>
+                        </p>
+                      ) : (
+                        <p>Apps opened from the Dock can't see that line, so use {name} in Terminal, not a desktop app.</p>
+                      )}
+                    </>
                   ) : (
-                    <p>On a Mac, desktop apps opened from the Dock don't read that file. Use the terminal version of {ag.name}.</p>
+                    <>
+                      <p>Run this with your real token:</p>
+                      <Code>setx B6PT_TOKEN "b6pt_…"</Code>
+                      <p>
+                        Then close every PowerShell window{agent === 'cursor' ? ' and quit Cursor completely' : ''}. Only windows
+                        opened after this see the token.
+                      </p>
+                    </>
                   )}
                 </Step>
-                <Step title="Install the BlueStep plugin.">
-                  <div>{ag.plugin}</div>
-                </Step>
+                <Step title="Install the BlueStep plugin.">{plugin}</Step>
                 <Step title="Optional: install phi-guard.">
                   <p>Recommended if you store client health data. It blocks the agent from writing anything that looks like real client data into your code.</p>
-                  <div>{ag.phi}</div>
+                  {phi}
                 </Step>
                 <Step title="Check the connection.">
-                  <p>Quit {ag.name} completely, reopen it, and ask:</p>
+                  <p>Quit {name} completely, reopen it, and ask:</p>
                   <Code>List the BlueStep organizations I can reach.</Code>
                   <p>You should see your organization's name. If not, see Troubleshooting below.</p>
                 </Step>
               </Steps>
-              <p>Plugins and the gateway load only when the agent starts, so after any change in this part, quit it fully and start it again.</p>
+              <p>Plugins and the gateway load only when {name} starts, so after any change in this part, quit it fully and start it again.</p>
             </Part>
 
             <Part
@@ -541,18 +656,18 @@ export default function SlateSetup() {
             >
               <Steps>
                 <Step title="Make the folder.">
-                  <p>
-                    Mac: <C>mkdir -p ~/BlueStep</C>. Windows: <C>mkdir $HOME\BlueStep</C>.
-                  </p>
+                  <Code>{o.mkdirWorkspace}</Code>
                 </Step>
-                <Step title={`Open ${ag.name} in it.`} />
+                <Step title={`Open ${name} in it.`}>
+                  <p>{openIn(o.workspace)}</p>
+                </Step>
                 <Step title="Run setup.">
                   <Code>{cmd('b6p-setup')}</Code>
                   <p>
-                    The agent checks your tools, token and gateway, then writes the project files: <C>AGENTS.md</C> (the rules
-                    all three agents read), settings and a README. Approve what it asks.
-                    {agentId === 'codex' && ' It also gives you one copy command for BlueStep\'s helper agents; run it.'} When
-                    it finishes, quit and reopen the agent in the same folder.
+                    {name} checks your tools, token and gateway, then writes the project files: <C>AGENTS.md</C> (the rules all
+                    three agents read), settings and a README. Approve what it asks.
+                    {agent === 'codex' && " It also gives you one copy command for BlueStep's helper agents; run it."} When it
+                    finishes, quit and reopen {name} in the same folder.
                   </p>
                 </Step>
                 <Step title="Pull an existing script to practice.">
@@ -562,10 +677,10 @@ export default function SlateSetup() {
                   </p>
                   <Code>{`${cmd('b6p-pull')} <paste the DAV URL>`}</Code>
                   <p>
-                    A folder named after your org's unit number (like <C>U141234/</C>) appears with the script inside.
+                    A folder named after your org's unit number (like <C>U141234</C>) appears with the script inside.
                   </p>
                 </Step>
-                <Step title="Ask the agent to explain it.">
+                <Step title={`Ask ${name} to explain it.`}>
                   <Code>Explain what this script does in plain English.</Code>
                   <p>It's the fastest way to learn how your org is built.</p>
                 </Step>
@@ -596,10 +711,11 @@ export default function SlateSetup() {
                 fetched only when a signed-in user opens the page.
               </Callout>
               <Steps>
-                <Step title="Make a new folder, outside your BlueStep workspace, and open your agent in it.">
-                  <p>
-                    Mac: <C>mkdir -p ~/Sites/my-first-gitsite</C>. Windows: <C>mkdir $HOME\Sites\my-first-gitsite</C>.
-                  </p>
+                <Step title="Make a new folder, outside your BlueStep workspace.">
+                  <Code>{o.mkdirSite}</Code>
+                </Step>
+                <Step title={`Open ${name} in it.`}>
+                  <p>{openIn(o.site)}</p>
                 </Step>
                 <Step title="Paste this prompt:">
                   <Code>{`Create a BlueStep GitSite starter in this folder:
@@ -613,7 +729,7 @@ GitHub repo with gh, commit and push to main. Finally generate a strong webhook
 secret and show it to me once.`}</Code>
                 </Step>
                 <Step title="Approve the installs, build and GitHub steps.">
-                  <p>Note the repo URL and the webhook secret the agent gives you.</p>
+                  <p>Note the repo URL and the webhook secret {name} gives you.</p>
                 </Step>
                 <Step title="Create the site in BlueStep: Admin → Sites → New Git Site.">
                   <ul className="list-disc space-y-1 pl-5">
@@ -659,7 +775,7 @@ secret and show it to me once.`}</Code>
               <DataFlow />
               <Steps>
                 <Step title="Create the endpoint.">
-                  <p>Open your agent in your BlueStep workspace and paste:</p>
+                  <p>{openIn(o.workspace)} Then paste:</p>
                   <Code>{`I want an endpoint script at /b/caseload on the same site as my GitSite.
 It requires login and returns JSON for active clients: name, program,
 admit date and days in care. Find the right forms and fields in my org first
@@ -668,7 +784,7 @@ platform, pull it, write it, and push it.`}</Code>
                 </Step>
                 <Step title="Approve as it goes.">
                   <p>
-                    The agent looks up your forms and fields through the gateway, shows you the plan, asks before creating the
+                    {name} looks up your forms and fields through the gateway, shows you the plan, asks before creating the
                     script in BlueStep, then pulls, writes and publishes it with <C>{cmd('b6p-push')}</C>.
                   </p>
                 </Step>
@@ -679,7 +795,7 @@ platform, pull it, write it, and push it.`}</Code>
                   </p>
                 </Step>
                 <Step title="Build the dashboard.">
-                  <p>Open your agent in your GitSite folder and paste:</p>
+                  <p>{openIn(o.site)} Then paste:</p>
                   <Code>{`Add a Caseload page that calls /b/caseload (same origin, send cookies).
 Show a count of active clients, a bar chart by program, and a searchable
 table sorted by days in care. If the call is redirected to login, show a
@@ -695,41 +811,53 @@ table sorted by days in care. If the call is redirected to login, show a
               <p>
                 Ideas for your next build: an intake form that writes a new client record, a family portal that shows a parent
                 only their own child, a daily census email, or a staff training tracker. Describe the outcome and who should see
-                what; your agent handles the rest.
+                what; {name} handles the rest.
               </p>
             </Part>
 
             <Part id="help" n="Every day" title="Workflow, rules and troubleshooting">
               <p>
-                <strong>Every session:</strong> open your agent in the right folder (your BlueStep workspace or a GitSite folder)
-                and describe the outcome you want. For anything bigger than a small fix, start with <C>{cmd('spec-create')}</C>{' '}
-                so the agent writes requirements and a design for you to approve before building; for a bug or small change,
-                use <C>{cmd('quick-task')}</C>.
+                <strong>Every session:</strong> {openIn('<folder>')} Use your BlueStep workspace for scripts and a GitSite folder
+                for websites, then describe the outcome you want. For anything bigger than a small fix, start with{' '}
+                <C>{cmd('spec-create')}</C> so {name} writes requirements and a design for you to approve before building; for a
+                bug or small change, use <C>{cmd('quick-task')}</C>.
               </p>
               <p className="font-medium text-ink">Rules that keep you safe:</p>
               <ul className="list-disc space-y-1.5 pl-5">
-                <li>New scripts, forms and fields are created in BlueStep first (the agent does this through the gateway, with your approval), then pulled. Never invent them locally.</li>
+                <li>New scripts, forms and fields are created in BlueStep first ({name} does this through the gateway, with your approval), then pulled. Never invent them locally.</li>
                 <li>Test on a sandbox org or test records before touching live clients.</li>
                 <li>Never paste your token, passwords or real client data into the chat or into a GitSite repo.</li>
-                <li>Read approval prompts. If one surprises you, say No and ask the agent why.</li>
-                <li>
-                  Keep the plugin current: {ag.update}.
-                </li>
+                <li>Read approval prompts. If one surprises you, say No and ask {name} why.</li>
+                <li>Keep the plugin current: {update}.</li>
               </ul>
               <p className="pt-2 font-medium text-ink">Troubleshooting:</p>
               <Table
                 head={['Symptom', 'Fix']}
                 rows={[
-                  ['"command not found"', 'Close and reopen the terminal. Still missing: re-run that tool\'s install step.'],
-                  ["The agent can't list your BlueStep orgs", 'Token not in the environment, or the agent started before you set it. Redo Part 3 step 3, quit the agent fully, start again. Still failing: your token may be expired; ask BlueStep for a new one.'],
-                  ['A b6p command asks "Enter your access token"', <>Run <C key="a">b6p auth set</C> in a plain terminal.</>],
-                  ['BlueStep commands are missing', `Plugin not installed or agent not restarted. Redo Part 3 step 4.${agentId === 'codex' ? ' In Codex, type $ instead of /.' : ''}`],
-                  ...(agentId === 'codex'
-                    ? [["Codex ignores the BlueStep rules", <>Its hooks aren't trusted. Type <C key="h">/hooks</C> and trust them, again after every plugin update.</>]]
+                  [
+                    `"command not found" or "not recognized"`,
+                    `Close and reopen ${o.terminal}. Still missing: re-run that tool's install step.`,
+                  ],
+                  [
+                    `${name} can't list your BlueStep orgs`,
+                    o.mac
+                      ? `The token isn't in your environment, or ${name} started before you set it. Redo Part 3 step 3, quit ${name} fully, and ${agent === 'cursor' ? 'start Cursor from Terminal with cursor .' : 'start it again from a new Terminal window'}. Still failing: your token may be expired; ask BlueStep for a new one.`
+                      : `The token isn't in your environment, or ${name} started before you set it. Redo Part 3 step 3, close every PowerShell window${agent === 'cursor' ? ' and quit Cursor' : ''}, then start again. Still failing: your token may be expired; ask BlueStep for a new one.`,
+                  ],
+                  ['A b6p command asks "Enter your access token"', <>Run <C key="a">b6p auth set</C> in {o.terminal}.</>],
+                  [
+                    'BlueStep commands are missing',
+                    `Plugin not installed or ${name} not restarted. Redo Part 3 step 4.${agent === 'codex' ? ' In Codex, commands start with $, not /.' : ''}`,
+                  ],
+                  ...(agent === 'codex'
+                    ? [['Codex ignores the BlueStep rules', <>Its hooks aren't trusted. Type <C key="h">/hooks</C> and trust them, again after every plugin update.</>]]
+                    : []),
+                  ...(!o.mac
+                    ? [['Scripts are blocked with "running scripts is disabled"', <>Run <C key="e">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</C> once in PowerShell, then try again.</>]]
                     : []),
                   ['GitSite deploy says "404 for ref main"', 'Git Ref is mistyped, or the repo is private. Fix the ref or make the repo public.'],
-                  ['GitSite page is blank', <>The build isn't committed at the repo root, or Vite base isn't <C key="b">/spa/</C>. Ask the agent to check both.</>],
-                  ["Pushes to GitHub don't update the site", "Webhook missing or secret mismatch. Ask the agent to check the webhook's last delivery."],
+                  ['GitSite page is blank', <>The build isn't committed at the repo root, or Vite base isn't <C key="b">/spa/</C>. Ask {name} to check both.</>],
+                  ["Pushes to GitHub don't update the site", `Webhook missing or secret mismatch. Ask ${name} to check the webhook's last delivery.`],
                   ['Dashboard says "Please sign in" while you are signed in', 'The GitSite and the endpoint are on different domains. They must share one.'],
                 ]}
               />
