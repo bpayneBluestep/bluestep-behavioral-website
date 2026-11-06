@@ -6,7 +6,7 @@ import { A, C, Callout, Done, GET_STARTED, GuideBody, Part, REPO, Step, Steps, T
 // Unlisted customer setup sheet for Slate: shared by link, never in the nav or
 // footer, noindex. Scope is deliberately small (matches the onboarding team's
 // "Getting Set Up with BlueStep AI" sheet): connect Claude to the customer's own
-// sandbox org, done when /b6p-setup reports the gateway answers. Staff do the
+// BlueStep org (production, not a sandbox), done when /b6p-setup reports the gateway answers. Staff do the
 // org, user, endorsements and token on their side; the repo's Get started prompt
 // does the installing. Building things lives on /slate/first-builds.
 
@@ -19,7 +19,7 @@ const TOC = [
 ] as const
 
 const GETS = [
-  ['Your sandbox org', <>Its web address, like <C>yourname.bluestep.net</C>. It's your own copy to build in, separate from your live data.</>],
+  ['Your BlueStep org', <>The web address your team signs in at, like <C>yourname.bluestep.net</C>.</>],
   ['Your sign-in', 'A username and a temporary password. You reset the password the first time you sign in.'],
   ['An access token', 'A long code starting with b6pt_. We make it live on the call and send it to you in Teams.'],
 ] as const
@@ -33,7 +33,7 @@ export default function SlateSetup() {
       <PageHero
         kicker="Slate setup"
         title="Get set up with Slate."
-        sub="On a short setup call we connect Claude to your own BlueStep sandbox org. Finish the checklist below before the call and it goes quickly."
+        sub="On a short setup call we connect Claude to your BlueStep org. Finish the checklist below before the call and it goes quickly."
       />
 
       <GuideBody toc={TOC}>
@@ -122,7 +122,7 @@ export default function SlateSetup() {
 
         <Part id="after" n="After the call" title="After the call">
           <p>
-            Sign in to your sandbox org and reset your temporary password. Treat the token like a password. If you don't keep a
+            Sign in to BlueStep and reset your temporary password. Treat the token like a password. If you don't keep a
             copy, that's fine: it's already saved in your Claude setup, and if you ever lose it we can make you a new one.
           </p>
           <Link

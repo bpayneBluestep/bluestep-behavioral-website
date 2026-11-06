@@ -4,8 +4,8 @@ import { A, C, Callout, Code, Done, GuideBody, Part, Step, Steps, Table, useNoIn
 
 // Unlisted follow-on to /slate/setup: what to build once Claude is connected.
 // Shared by link, never in the nav or footer, noindex. Assumes /slate/setup is
-// done (/b6p-setup reports the gateway answers) and the work happens in the
-// customer's sandbox org.
+// done (/b6p-setup reports the gateway answers). Slate customers build in their
+// production org, so no sandbox language here.
 
 const TOC = [
   ['explore', '1. Explore your org'],
@@ -73,7 +73,7 @@ export default function SlateFirstBuilds() {
         <Callout>
           <strong>Start here only after setup is done</strong>: <C>/b6p-setup</C> reports that the BlueStep gateway answers. Not
           there yet? Go back to <Link to="/slate/setup" className="text-accent underline underline-offset-2">Slate setup</Link>.
-          Build in your sandbox org first; nothing changes in BlueStep until you approve it.
+          Nothing changes in BlueStep until you approve it.
         </Callout>
 
         <Part
@@ -86,7 +86,7 @@ export default function SlateFirstBuilds() {
             <Step title="Open Claude in your BlueStep folder." />
             <Step title="Bring down something that already exists.">
               <p>
-                In BlueStep, open any script or report in your sandbox and copy its <strong>DAV URL</strong> (the web address shown
+                In BlueStep, open any script or report your organization already uses and copy its <strong>DAV URL</strong> (the web address shown
                 on its settings page). Then type:
               </p>
               <Code>{'/b6p-pull <paste the DAV URL>'}</Code>
@@ -149,7 +149,7 @@ main, and generate a strong webhook secret and show it to me once.`}</Code>
             </Step>
             <Step title="Create the site in BlueStep.">
               <p>
-                In your sandbox org, go to <strong>Admin → Sites → New Git Site</strong> and fill in:
+                In BlueStep, go to <strong>Admin → Sites → New Git Site</strong> and fill in:
               </p>
               <Table
                 head={['Field', 'What to enter']}
@@ -236,7 +236,7 @@ table sorted by days in care. If the call is redirected to login, show a
           <p className="font-medium text-ink">Good habits:</p>
           <ul className="list-disc space-y-1.5 pl-5">
             <li>Read what Claude asks before you approve. If something surprises you, say no and ask why.</li>
-            <li>Try new builds in your sandbox or on test records before your real clients.</li>
+            <li>Try new builds on test records before your real clients.</li>
             <li>Keep your token, passwords and client information out of the chat and out of your website's code.</li>
           </ul>
           <p className="pt-2 font-medium text-ink">If something goes wrong:</p>
