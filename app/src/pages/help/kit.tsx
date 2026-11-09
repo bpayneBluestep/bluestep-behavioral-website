@@ -34,6 +34,15 @@ export function U({ children }: { children: ReactNode }) {
   return <span className="font-semibold text-ink">{children}</span>
 }
 
+/** A key or typed character. */
+export function K({ children }: { children: ReactNode }) {
+  return (
+    <kbd className="whitespace-nowrap rounded-md border border-b-2 border-line bg-raised px-1.5 font-sans text-[0.9em] font-medium text-ink">
+      {children}
+    </kbd>
+  )
+}
+
 export function NSteps({ children }: { children: ReactNode }) {
   return <ol className="my-4 grid gap-3">{children}</ol>
 }
