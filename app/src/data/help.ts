@@ -2,7 +2,7 @@
 // build its guide page, add its route in App.tsx under help/<slug>, then set
 // status to 'live' and fill in its topics (each anchor is a section id on that page).
 // Planned areas list the topics we expect to cover; they render as "Coming soon".
-import { Brain, ChartLineUp, Funnel, GearSix, GraduationCap, Pill, Stethoscope, type Icon } from '@phosphor-icons/react'
+import { Brain, ChartLineUp, Funnel, GraduationCap, Pill, Stethoscope, UsersThree, type Icon } from '@phosphor-icons/react'
 
 export interface HelpTopic {
   label: string
@@ -42,6 +42,27 @@ export const HELP_AREAS: HelpArea[] = [
       { label: 'When a student leaves', anchor: 'wrapup', audience: 'Registrar' },
       { label: 'Report cards and transcripts', anchor: 'documents', audience: 'Registrar' },
       { label: 'Who can do what', anchor: 'permissions', audience: 'BlueStep administrator' },
+      { label: 'Common questions', anchor: 'faq' },
+    ],
+  },
+  {
+    slug: 'users',
+    name: 'Managing users',
+    icon: UsersThree,
+    blurb: 'Add staff, set up roles and permissions, reset passwords, and handle staff who leave.',
+    status: 'live',
+    topics: [
+      { label: 'Where user management lives', anchor: 'start' },
+      { label: 'Set up roles and permissions', anchor: 'roles', audience: 'BlueStep administrator' },
+      { label: 'Add a new user', anchor: 'add', audience: 'BlueStep administrator' },
+      { label: 'Give a new user their sign-in', anchor: 'handoff', audience: 'BlueStep administrator' },
+      { label: 'First sign-in and changing your password', anchor: 'first-login' },
+      { label: 'Find a staff record', anchor: 'record' },
+      { label: 'The Employment Info form', anchor: 'employment' },
+      { label: "Change someone's permissions", anchor: 'permissions', audience: 'BlueStep administrator' },
+      { label: 'Reset a password', anchor: 'reset', audience: 'BlueStep administrator' },
+      { label: 'When someone leaves', anchor: 'leaving', audience: 'BlueStep administrator' },
+      { label: 'Who can do what', anchor: 'who' },
       { label: 'Common questions', anchor: 'faq' },
     ],
   },
@@ -93,13 +114,5 @@ export const HELP_AREAS: HelpArea[] = [
     blurb: 'AI drafts from the record. Your staff reviews and signs.',
     status: 'soon',
     topics: [{ label: 'Draft a document with BlueIQ' }, { label: 'Dictation' }, { label: 'Usage and limits' }],
-  },
-  {
-    slug: 'admin',
-    name: 'Administration',
-    icon: GearSix,
-    blurb: 'Staff accounts, roles and permissions across BlueStep.',
-    status: 'soon',
-    topics: [{ label: 'Add a staff member' }, { label: 'Set up roles and permissions' }, { label: 'Switch between sites' }],
   },
 ]
