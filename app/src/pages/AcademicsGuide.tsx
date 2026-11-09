@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
-import { X } from '@phosphor-icons/react'
+import { Link } from 'react-router-dom'
+import { CaretLeft, X } from '@phosphor-icons/react'
 import { Container, asset, useTitle } from '../ui'
 import { useNoIndex } from './slate/guide'
 
-// Unlisted Academics user guide: shared by link, never in the nav or footer,
+// Academics area of the help center (/help/academics). Unlisted: shared by link, never in the nav or footer,
 // noindex. Content mirrors the "BlueStep Academics Guide" artifact; screenshots
 // are from the Summit Ridge Academy demo school (configbehmodular).
 // Orange is reserved for the numbered callouts, so a "2" in the text always
@@ -387,6 +388,13 @@ export default function AcademicsGuide() {
       <section className="border-b border-line">
         <Container className="pb-14 pt-14 md:pb-20 md:pt-20">
           <div className="rise max-w-3xl">
+            <Link
+              to="/help"
+              className="mb-6 inline-flex items-center gap-1 text-sm text-muted transition hover:text-ink"
+            >
+              <CaretLeft size={14} weight="bold" />
+              Help center
+            </Link>
             <p className="kicker mb-5">BlueStep Academics</p>
             <h1 className="text-4xl font-semibold leading-[1.05] tracking-tightest md:text-6xl">Academics user guide</h1>
             <p className="prose-body mt-6 max-w-[62ch]">

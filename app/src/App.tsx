@@ -12,6 +12,7 @@ import BlankSlate from './pages/BlankSlate'
 import SlateSetup from './pages/SlateSetup'
 import SlateFirstBuilds from './pages/SlateFirstBuilds'
 import AcademicsGuide from './pages/AcademicsGuide'
+import Help from './pages/Help'
 import Pricing from './pages/Pricing'
 import Demo from './pages/Demo'
 import ProgramDirectory from './pages/ProgramDirectory'
@@ -45,6 +46,8 @@ const REDIRECTS: Record<string, string> = {
   '/cookies': '/privacy',
   '/for-referral-partners': '/for-referring-professionals',
   '/directory': '/program-directory',
+  '/academics/guide': '/help/academics',
+  '/support': '/help',
 }
 
 export default function App() {
@@ -66,8 +69,9 @@ export default function App() {
         {/* Unlisted customer setup guide: shared by link, noindex, not in nav. */}
         <Route path="slate/setup" element={<SlateSetup />} />
         <Route path="slate/first-builds" element={<SlateFirstBuilds />} />
-        {/* Unlisted Academics user guide: shared by link, noindex, not in nav. */}
-        <Route path="academics/guide" element={<AcademicsGuide />} />
+        {/* Unlisted help center: shared by link, noindex, not in nav. Areas live in data/help.ts. */}
+        <Route path="help" element={<Help />} />
+        <Route path="help/academics" element={<AcademicsGuide />} />
         <Route path="pricing" element={<Pricing />} />
         <Route path="program-directory" element={<ProgramDirectory />} />
         <Route path="demo" element={<Demo />} />
