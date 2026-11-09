@@ -13,6 +13,7 @@ import SlateSetup from './pages/SlateSetup'
 import SlateFirstBuilds from './pages/SlateFirstBuilds'
 import AcademicsGuide from './pages/AcademicsGuide'
 import UsersGuide from './pages/UsersGuide'
+import MedicalGuide from './pages/MedicalGuide'
 import Help from './pages/Help'
 import Pricing from './pages/Pricing'
 import Demo from './pages/Demo'
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="help" element={<Help />} />
         <Route path="help/academics" element={<AcademicsGuide />} />
         <Route path="help/users" element={<UsersGuide />} />
+        <Route path="help/medical" element={<MedicalGuide />} />
         <Route path="pricing" element={<Pricing />} />
         <Route path="program-directory" element={<ProgramDirectory />} />
         <Route path="demo" element={<Demo />} />
